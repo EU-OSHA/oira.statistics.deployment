@@ -30,27 +30,41 @@ Create a `secrets.cfg` like this:
     [metabase-fr]
     statistics-user-password = ********
 
-# Usage
-
-As usual, run:
+Then, as usual, run:
 
     # bin/buildout
 
-Then, to set up the metabase instances:
+# Usage
+
+## Getting started
+
+To set up the metabase instances:
 
     # bin/init-metabase
 
+This calls `bin/init-metabase-instance` (see below) for all instances with the parameters specified in the corresponding buildout sections.
+
 After that you can log in to the metabase instances with the credentials you provided.
 
-To make changes to the metabase content, use metabase-instance (not metabase_global or one of the country specific ones).
+## Making changes
 
-Check the database dump in the `dumps/` directory. Ideally you should use the same version of postgresql and pg_dump as specified at the top.
+To make changes to the metabase content, use metabase-instance (not metabase-global or one of the country specific ones).
 
-To dump the database, run:
+Ideally you should have the same version of postgresql and pg_dump installed as specified at the top of the database dump file in the `dumps/` directory. 
+
+To get a clean start, restore the database from the checked-in dump:
+
+    # bin/restore-metabase
+
+Then make your changes throught the metabase UI. To dump the database, run:
 
     # bin/dump-metabase
 
 Then inspect and, if satisfied, commit the changes to the database dump in the `dumps/` directory.
+
+To apply the changes to the global and country instances, again run
+
+    # bin/init-metabase
 
 ## init-metabase-instance
 
