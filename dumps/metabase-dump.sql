@@ -689,10 +689,6 @@ ALTER TABLE IF EXISTS ONLY "public"."metabase_field"
 DROP CONSTRAINT IF EXISTS "metabase_field_pkey";
 
 
-ALTER TABLE IF EXISTS ONLY "public"."metabase_database"
-DROP CONSTRAINT IF EXISTS "metabase_database_pkey";
-
-
 ALTER TABLE IF EXISTS ONLY "public"."label"
 DROP CONSTRAINT IF EXISTS "label_slug_key";
 
@@ -883,11 +879,6 @@ DROP DEFAULT;
 
 
 ALTER TABLE IF EXISTS "public"."metabase_field"
-ALTER COLUMN "id"
-DROP DEFAULT;
-
-
-ALTER TABLE IF EXISTS "public"."metabase_database"
 ALTER COLUMN "id"
 DROP DEFAULT;
 
@@ -1127,9 +1118,6 @@ DROP TABLE IF EXISTS "public"."metabase_field";
 
 
 DROP SEQUENCE IF EXISTS "public"."metabase_database_id_seq";
-
-
-DROP TABLE IF EXISTS "public"."metabase_database";
 
 
 DROP SEQUENCE IF EXISTS "public"."label_id_seq";
@@ -1810,61 +1798,6 @@ ALTER TABLE "public"."label_id_seq" OWNER TO "metabase";
 ALTER SEQUENCE "public"."label_id_seq" owned BY "public"."label"."id";
 
 --
--- Name: metabase_database; Type: TABLE; Schema: public; Owner: metabase
---
-
-CREATE TABLE "public"."metabase_database" ("id" integer NOT NULL,
-                                                        "created_at" TIMESTAMP WITH TIME ZONE NOT NULL,
-                                                                                              "updated_at" TIMESTAMP WITH TIME ZONE NOT NULL,
-                                                                                                                                    "name" CHARACTER varying(254) NOT NULL,
-                                                                                                                                                                  "description" "text",
-                                                                                                                                                                  "details" "text",
-                                                                                                                                                                  "engine" CHARACTER varying(254) NOT NULL,
-                                                                                                                                                                                                  "is_sample" boolean DEFAULT FALSE NOT NULL,
-                                                                                                                                                                                                                                    "is_full_sync" boolean DEFAULT TRUE NOT NULL,
-                                                                                                                                                                                                                                                                        "points_of_interest" "text",
-                                                                                                                                                                                                                                                                        "caveats" "text",
-                                                                                                                                                                                                                                                                        "metadata_sync_schedule" CHARACTER varying(254) DEFAULT '0 50 * * * ? *'::CHARACTER varying NOT NULL,
-                                                                                                                                                                                                                                                                                                                                                                    "cache_field_values_schedule" CHARACTER varying(254) DEFAULT '0 50 0 * * ? *'::CHARACTER varying NOT NULL,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                     "timezone" CHARACTER varying(254),
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          "is_on_demand" boolean DEFAULT FALSE NOT NULL,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               "options" "text",
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               "auto_run_queries" boolean DEFAULT TRUE NOT NULL);
-
-
-ALTER TABLE "public"."metabase_database" OWNER TO "metabase";
-
---
--- Name: COLUMN "metabase_database"."metadata_sync_schedule"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."metadata_sync_schedule" IS 'The cron schedule string for when this database should undergo the metadata sync process (and analysis for new fields).';
-
---
--- Name: COLUMN "metabase_database"."cache_field_values_schedule"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."cache_field_values_schedule" IS 'The cron schedule string for when FieldValues for eligible Fields should be updated.';
-
---
--- Name: COLUMN "metabase_database"."timezone"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."timezone" IS 'Timezone identifier for the database, set by the sync process';
-
---
--- Name: COLUMN "metabase_database"."is_on_demand"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."is_on_demand" IS 'Whether we should do On-Demand caching of FieldValues for this DB. This means FieldValues are updated when their Field is used in a Dashboard or Card param.';
-
---
--- Name: COLUMN "metabase_database"."options"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."options" IS 'Serialized JSON containing various options like QB behavior.';
-
---
--- Name: COLUMN "metabase_database"."auto_run_queries"; Type: COMMENT; Schema: public; Owner: metabase
---
- COMMENT ON COLUMN "public"."metabase_database"."auto_run_queries" IS 'Whether to automatically run queries when doing simple filtering and summarizing in the Query Builder.';
-
---
 -- Name: metabase_database_id_seq; Type: SEQUENCE; Schema: public; Owner: metabase
 --
 
@@ -1873,12 +1806,6 @@ START WITH 1 INCREMENT BY 1 NO MINVALUE NO MAXVALUE CACHE 1;
 
 
 ALTER TABLE "public"."metabase_database_id_seq" OWNER TO "metabase";
-
---
--- Name: metabase_database_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: metabase
---
-
-ALTER SEQUENCE "public"."metabase_database_id_seq" owned BY "public"."metabase_database"."id";
 
 --
 -- Name: metabase_field; Type: TABLE; Schema: public; Owner: metabase
@@ -3242,14 +3169,6 @@ SET DEFAULT "nextval"('"public"."dimension_id_seq"'::"regclass");
 ALTER TABLE ONLY "public"."label"
 ALTER COLUMN "id"
 SET DEFAULT "nextval"('"public"."label_id_seq"'::"regclass");
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: metabase
---
-
-ALTER TABLE ONLY "public"."metabase_database"
-ALTER COLUMN "id"
-SET DEFAULT "nextval"('"public"."metabase_database_id_seq"'::"regclass");
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: metabase
@@ -7631,29 +7550,6 @@ SELECT pg_catalog.setval('"public"."dimension_id_seq"', 1, TRUE);
 --
 
 SELECT pg_catalog.setval('"public"."label_id_seq"', 1, FALSE);
-
---
--- Data for Name: metabase_database; Type: TABLE DATA; Schema: public; Owner: metabase
---
-
-INSERT INTO "public"."metabase_database" ("id",
-                                          "created_at",
-                                          "updated_at",
-                                          "name",
-                                          "description",
-                                          "details",
-                                          "engine",
-                                          "is_sample",
-                                          "is_full_sync",
-                                          "points_of_interest",
-                                          "caveats",
-                                          "metadata_sync_schedule",
-                                          "cache_field_values_schedule",
-                                          "timezone",
-                                          "is_on_demand",
-                                          "options",
-                                          "auto_run_queries")
-VALUES (34, '2020-03-19 11:35:45.611+01', '2020-03-25 15:01:09.191267+01', 'OiRA test', NULL, '{"host":"localhost","port":5432,"dbname":"statistics_global","user":"euphorie2","password":"secret","ssl":false,"tunnel-port":22,"let-user-control-scheduling":false}', 'postgres', FALSE, TRUE, NULL, NULL, '0 0 * * * ? *', '0 0 0 * * ? *', 'Europe/Berlin', FALSE, NULL, TRUE);
 
 --
 -- Name: metabase_database_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -63643,12 +63539,6 @@ ALTER TABLE ONLY "public"."label" ADD CONSTRAINT "label_pkey" PRIMARY KEY ("id")
 --
 
 ALTER TABLE ONLY "public"."label" ADD CONSTRAINT "label_slug_key" UNIQUE ("slug");
-
---
--- Name: metabase_database_pkey; Type: CONSTRAINT; Schema: public; Owner: metabase
---
-
-ALTER TABLE ONLY "public"."metabase_database" ADD CONSTRAINT "metabase_database_pkey" PRIMARY KEY ("id");
 
 --
 -- Name: metabase_field_pkey; Type: CONSTRAINT; Schema: public; Owner: metabase
