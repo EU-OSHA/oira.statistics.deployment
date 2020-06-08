@@ -159,6 +159,8 @@ def init_metabase_instance():
                 status_code=result.status_code, errors=result.json().get("errors")
             )
         )
+    else:
+        log.info("Set up database {}".format(args.database_name_statistics))
 
     for email, password, first_name, last_name in args.statistics_user:
         result = mb.post(
@@ -171,9 +173,12 @@ def init_metabase_instance():
                 "group_ids": [1],
             },
         )
-    if not result.ok:
-        log.error(
-            "Could not create user! ({status_code}: {errors})".format(
-                status_code=result.status_code, errors=result.json().get("errors")
+        if not result.ok:
+            log.error(
+                "Could not create user! ({status_code}: {errors})".format(
+                    status_code=result.status_code, errors=result.json().get("errors")
+                )
             )
-        )
+        else:
+            log.info("Created user {}".format(email))
+    log.info("Done initializing metabase instance")
