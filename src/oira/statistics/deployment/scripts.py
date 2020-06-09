@@ -162,7 +162,7 @@ def init_metabase_instance():
     else:
         log.info("Set up database {}".format(args.database_name_statistics))
 
-    for email, password, first_name, last_name in args.statistics_user:
+    for email, password, first_name, last_name in args.statistics_user or []:
         result = mb.post(
             "/api/user",
             json={
