@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 {% def escape(password) %}${password.replace('\\'', '\'\\\\\'\'')}{% end %}
 echo '# Restoring database dump'
-echo 'Shutting down metabase instances'
+echo 'Shutting down supervisor'
 ${parts.buildout['bin-directory']}/supervisorctl shutdown
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
@@ -9,13 +9,14 @@ echo '${instance}'
 psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
 {% end %}
 echo ''
-echo 'Starting metabase instances'
-${parts.buildout['bin-directory']}/supervisord
-echo ''
 echo '# Applying instance specific settings'
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
 echo '${instance}'
+echo 'Starting metabase instance'
+${parts.buildout['bin-directory']}/${instance} > /dev/null &
+PID=$!
+echo 'PID '$${PID}
 echo 'Waiting for ${instance} to come up...'
 while ! lsof -i:${parts[instance]['metabase-port']}; do
     sleep 5s;
@@ -37,4 +38,9 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --statistics-user '${email}' '${escape(password)}' '${first_name}' '${last_name}' \\
     {% end %}{% end %} \\
     {% end %} || exit $?
+echo 'Stopping metabase instance'
+kill $${PID}
 {% end %}
+echo ''
+echo 'Starting supervisor'
+${parts.buildout['bin-directory']}/supervisord

@@ -1,9 +1,2 @@
 #!/usr/bin/env bash
-echo 'Shutting down metabase instance'
-${parts.buildout['bin-directory']}/supervisorctl stop metabase
-
-echo 'Restoring database dump'
 psql postgresql://${parts['metabase-instance']['database-user']}:${parts['metabase-instance']['database-password']}@${parts['metabase-instance']['database-host']}:${parts['metabase-instance']['database-port']}/${parts['metabase-instance']['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
-
-echo 'Starting metabase instance'
-${parts.buildout['bin-directory']}/supervisorctl start metabase

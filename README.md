@@ -48,9 +48,7 @@ After that you can log in to the metabase instances with the credentials you pro
 
 ## Making changes
 
-To make changes to the metabase content, use metabase-instance (not metabase-global or one of the country specific ones).
-
-Ideally you should have the same version of postgresql and pg_dump installed as specified at the top of the database dump file in the `dumps/` directory. 
+To make changes to the metabase content, use metabase-instance (not metabase-global or one of the country specific ones). Ideally you should have the same version of postgresql and pg_dump installed as specified at the top of the database dump file in the `dumps/` directory. It's recommended to use the master instance on our test server.
 
 To get a clean start, restore the database from the checked-in dump:
 
