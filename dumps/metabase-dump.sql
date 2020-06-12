@@ -4649,11 +4649,24 @@ INSERT INTO "public"."activity" ("id",
                                  "details")
 VALUES (135, 'card-update', '2020-06-10 16:14:56.457411+02', 2, 'card', 17, 34, NULL, NULL, '{"name":"Tools by Assessment Completion","description":"Shows the number of assessments in each of the completion ranges (top, average, low) for each tool"}');
 
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (136, 'card-update', '2020-06-12 09:45:53.780142+02', 2, 'card', 17, 34, NULL, NULL, '{"name":"Tools by Assessment Completion","description":"Shows the number of assessments in each of the completion ranges (top, average, low) for each tool"}');
+
 --
 -- Name: activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."activity_id_seq"', 135, TRUE);
+SELECT pg_catalog.setval('"public"."activity_id_seq"', 136, TRUE);
 
 --
 -- Data for Name: card_label; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -4977,6 +4990,23 @@ VALUES ('add-migrated-collections', '2020-02-27 12:43:40.66');
 --
 -- Data for Name: databasechangelog; Type: TABLE DATA; Schema: public; Owner: metabase
 --
+
+INSERT INTO "public"."databasechangelog" ("id",
+                                          "author",
+                                          "filename",
+                                          "dateexecuted",
+                                          "orderexecuted",
+                                          "exectype",
+                                          "md5sum",
+                                          "description",
+                                          "comments",
+                                          "tag",
+                                          "liquibase",
+                                          "contexts",
+                                          "labels",
+                                          "deployment_id")
+VALUES ('149', 'camsaul', 'migrations/000_migrations.yaml', '2020-03-19 15:12:45.086925', 140, 'MARK_RAN', '8:dd45bfc4af5e05701a064a5f2a046d7f', 'sql', 'Added 0.34.2', NULL, '3.6.3', NULL, NULL, '4627163000');
+
 
 INSERT INTO "public"."databasechangelog" ("id",
                                           "author",
@@ -5316,23 +5346,6 @@ INSERT INTO "public"."databasechangelog" ("id",
                                           "labels",
                                           "deployment_id")
 VALUES ('148', 'camsaul', 'migrations/000_migrations.yaml', '2020-03-19 15:12:45.084812', 139, 'MARK_RAN', '8:12b42e87d40cd7b6399c1fb0c6704fa7', 'sql', 'Added 0.34.2', NULL, '3.6.3', NULL, NULL, '4627163000');
-
-
-INSERT INTO "public"."databasechangelog" ("id",
-                                          "author",
-                                          "filename",
-                                          "dateexecuted",
-                                          "orderexecuted",
-                                          "exectype",
-                                          "md5sum",
-                                          "description",
-                                          "comments",
-                                          "tag",
-                                          "liquibase",
-                                          "contexts",
-                                          "labels",
-                                          "deployment_id")
-VALUES ('149', 'camsaul', 'migrations/000_migrations.yaml', '2020-03-19 15:12:45.086925', 140, 'MARK_RAN', '8:dd45bfc4af5e05701a064a5f2a046d7f', 'sql', 'Added 0.34.2', NULL, '3.6.3', NULL, NULL, '4627163000');
 
 
 INSERT INTO "public"."databasechangelog" ("id",
@@ -12688,7 +12701,7 @@ INSERT INTO "public"."qrtz_scheduler_state" ("sched_name",
                                              "instance_name",
                                              "last_checkin_time",
                                              "checkin_interval")
-VALUES ('MetabaseScheduler', 'osha1591798436660', 1591798504288, 7500);
+VALUES ('MetabaseScheduler', 'osha1591947882966', 1591947958101, 7500);
 
 --
 -- Data for Name: qrtz_simple_triggers; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -12716,7 +12729,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', 'metabase.task.sync-and-analyze.job', 'DEFAULT', 'sync-and-analyze Database 34', 1591801200000, -1, 5, 'WAITING', 'CRON', 1591798436000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
+VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', 'metabase.task.sync-and-analyze.job', 'DEFAULT', 'sync-and-analyze Database 34', 1591948800000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12735,7 +12748,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.update-field-values.trigger.34', 'DEFAULT', 'metabase.task.update-field-values.job', 'DEFAULT', 'update-field-values Database 34', 1591826400000, -1, 5, 'WAITING', 'CRON', 1591798436000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
+VALUES ('MetabaseScheduler', 'metabase.task.update-field-values.trigger.34', 'DEFAULT', 'metabase.task.update-field-values.job', 'DEFAULT', 'update-field-values Database 34', 1591999200000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12754,7 +12767,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.upgrade-checks.trigger', 'DEFAULT', 'metabase.task.upgrade-checks.job', 'DEFAULT', NULL, 1591805700000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.upgrade-checks.trigger', 'DEFAULT', 'metabase.task.upgrade-checks.job', 'DEFAULT', NULL, 1591978500000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 0, '\x');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12773,7 +12786,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.anonymous-stats.trigger', 'DEFAULT', 'metabase.task.anonymous-stats.job', 'DEFAULT', NULL, 1591852500000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.anonymous-stats.trigger', 'DEFAULT', 'metabase.task.anonymous-stats.job', 'DEFAULT', NULL, 1592025300000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 0, '\x');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12792,7 +12805,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.abandonment-emails.trigger', 'DEFAULT', 'metabase.task.abandonment-emails.job', 'DEFAULT', NULL, 1591869600000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.abandonment-emails.trigger', 'DEFAULT', 'metabase.task.abandonment-emails.job', 'DEFAULT', NULL, 1591956000000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 0, '\x');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12811,7 +12824,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', 'metabase.task.send-pulses.job', 'DEFAULT', NULL, 1591801200000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 1, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', 'metabase.task.send-pulses.job', 'DEFAULT', NULL, 1591948800000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 1, '\x');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12830,7 +12843,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.follow-up-emails.trigger', 'DEFAULT', 'metabase.task.follow-up-emails.job', 'DEFAULT', NULL, 1591869600000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.follow-up-emails.trigger', 'DEFAULT', 'metabase.task.follow-up-emails.job', 'DEFAULT', NULL, 1591956000000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 0, '\x');
 
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
@@ -12849,7 +12862,7 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.task-history-cleanup.trigger', 'DEFAULT', 'metabase.task.task-history-cleanup.job', 'DEFAULT', NULL, 1591801200000, -1, 5, 'WAITING', 'CRON', 1591798437000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.task-history-cleanup.trigger', 'DEFAULT', 'metabase.task.task-history-cleanup.job', 'DEFAULT', NULL, 1591948800000, -1, 5, 'WAITING', 'CRON', 1591947883000, 0, NULL, 0, '\x');
 
 --
 -- Data for Name: query; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -13338,12 +13351,6 @@ VALUES ('\x969cfe022957f9a5ba8262f4791e73f9364471910aed37a0a922afe8b92aacb4', 24
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', 1296, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
 VALUES ('\x50dc448477c252620c7dd444c8c41fda265d41eed2d7d7e39982e89bff00dc71', 211, '{"type":"query","query":{"source-table":61,"filter":[">",["field-id",299],70],"order-by":[["desc",["field-id",299]]],"fields":[["field-id",300],["field-id",303],["field-id",299],["field-id",301],["field-id",305],["field-id",302],["datetime-field",["field-id",304],"default"]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
@@ -13776,37 +13783,49 @@ VALUES ('\x59adf6b487cb8a23ef2f2c4181702a278a76274858b9cffde51b9579e98e77f0', 48
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', 1313, '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
 VALUES ('\xf1f54fab66adb327ed7d3dfbf150d667540a578695d7ac057c1f8d69ec38c87a', 46, '{"type":"native","native":{"query":"select substring(sector from 0 for 20) || ''/'' || substring(tool from 0 for 20) as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;  ","template-tags":{}},"database":34,"middleware":{"add-default-userland-constraints?":true}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', 366, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+VALUES ('\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', 784, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":{"userland-query?":true},"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"database":34,"parameters":[],"async?":true,"cache-ttl":null}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', 807, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":{"userland-query?":true},"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"database":34,"parameters":[],"async?":true,"cache-ttl":null}');
+VALUES ('\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', 389, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\xe957ea6e8011439aacb5d6c582e17617baa5bdd13f3821f72fa206ecd7e7f437', 619, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["field-id",301]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+VALUES ('\xe957ea6e8011439aacb5d6c582e17617baa5bdd13f3821f72fa206ecd7e7f437', 620, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["field-id",301]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x1d9827f3e01458be1df8be670009763ff4901f02b26fdb0368723ca54a487d8e', 103, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":null,"native":{"query":"select substring(sector from 0 for 20) || ''/'' || substring(tool from 0 for 20) as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34,"async?":true,"cache-ttl":null}');
+VALUES ('\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', 1274, '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', 1254, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x1d9827f3e01458be1df8be670009763ff4901f02b26fdb0368723ca54a487d8e', 146, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":null,"native":{"query":"select substring(sector from 0 for 20) || ''/'' || substring(tool from 0 for 20) as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34,"async?":true,"cache-ttl":null}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\xc82bb01710be52fb581fecebb254fbfcaf0c0ba8ddf14868f672cd07ea061cce', 107, '{"type":"native","native":{"query":"select sector || ''/'' || tool as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34,"middleware":{"add-default-userland-constraints?":true}}');
 
 --
 -- Data for Name: query_cache; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -35550,11 +35569,139 @@ INSERT INTO "public"."query_execution" ("id",
                                         "database_id")
 VALUES (1355, '\x1d9827f3e01458be1df8be670009763ff4901f02b26fdb0368723ca54a487d8e', '2020-06-10 16:14:12.765', 367, 170, TRUE, 'question', NULL, 2, 17, NULL, NULL, 34);
 
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1356, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-12 09:44:49.755', 596, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1357, '\xe957ea6e8011439aacb5d6c582e17617baa5bdd13f3821f72fa206ecd7e7f437', '2020-06-12 09:44:49.76', 626, 23, FALSE, 'question', NULL, 2, 15, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1358, '\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', '2020-06-12 09:44:49.728', 573, 3, TRUE, 'question', NULL, 2, 11, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1359, '\x1d9827f3e01458be1df8be670009763ff4901f02b26fdb0368723ca54a487d8e', '2020-06-12 09:44:49.934', 553, 170, TRUE, 'question', NULL, 2, 17, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1360, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-12 09:44:49.73', 922, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1361, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-12 09:44:49.785', 875, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1362, '\x1d9827f3e01458be1df8be670009763ff4901f02b26fdb0368723ca54a487d8e', '2020-06-12 09:44:55.397', 124, 170, TRUE, 'question', NULL, 2, 17, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1363, '\xc82bb01710be52fb581fecebb254fbfcaf0c0ba8ddf14868f672cd07ea061cce', '2020-06-12 09:45:28.094', 107, 170, TRUE, 'ad-hoc', NULL, 2, NULL, NULL, NULL, 34);
+
 --
 -- Name: query_execution_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."query_execution_id_seq"', 1355, TRUE);
+SELECT pg_catalog.setval('"public"."query_execution_id_seq"', 1363, TRUE);
 
 --
 -- Data for Name: report_card; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -35757,7 +35904,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (4, '2020-03-19 13:09:16.601+01', '2020-06-10 14:01:56.271384+02', 'Accumulated Assessments per Month', 'Accumulated number of assessments per month (started before end of the given month)', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accumulated Assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"column_settings":{"[\"ref\",[\"field-id\",238]]":{"date_abbreviate":false}},"series_settings":{"count":{"display":"bar","title":"Number of Assessments"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":49,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":21.75,"q3":114.25,"max":138.0,"sd":45.73034502146592,"avg":73.16326530612245}}}}]', NULL, NULL);
+VALUES (3, '2020-03-19 12:54:44.188+01', '2020-06-12 09:44:50.302296+02', 'Accumulated Assessments', 'Total number of assessments that have been started until now', 'scalar', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query"}', '{}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":590.0,"q1":590.0,"q3":590.0,"max":590.0,"sd":null,"avg":590.0}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -35782,7 +35929,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (3, '2020-03-19 12:54:44.188+01', '2020-06-10 14:01:56.030321+02', 'Accumulated Assessments', 'Total number of assessments that have been started until now', 'scalar', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query"}', '{}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":138.0,"q1":138.0,"q3":138.0,"max":138.0,"sd":null,"avg":138.0}}}}]', NULL, NULL);
+VALUES (15, '2020-03-25 15:05:54.942889+01', '2020-06-12 09:44:50.371068+02', 'Accumulated Assessments per Country', 'Accumulated number of assessments per country', 'map', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["field-id",301]]},"type":"query"}', '{"table.columns":[{"name":"id","fieldRef":["field-id",246],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"created","fieldRef":["datetime-field",["field-id",238],"default"],"enabled":true},{"name":"country","fieldRef":["field-id",295],"enabled":true},{"name":"sector","fieldRef":["field-id",297],"enabled":true},{"name":"tool","fieldRef":["field-id",296],"enabled":true},{"name":"country","field_ref":["field-id",301],"enabled":true}],"map.type":"region","map.region":"world_countries"}', 2, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Country","name":"country","special_type":"type/Country","fingerprint":{"global":{"distinct-count":24,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":2.0}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":19,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":5.25,"q3":27.75,"max":138.0,"sd":32.70475180327522,"avg":25.652173913043477}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -35807,7 +35954,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (15, '2020-03-25 15:05:54.942889+01', '2020-06-10 14:01:56.166678+02', 'Accumulated Assessments per Country', 'Accumulated number of assessments per country', 'map', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["field-id",301]]},"type":"query"}', '{"table.columns":[{"name":"id","fieldRef":["field-id",246],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"created","fieldRef":["datetime-field",["field-id",238],"default"],"enabled":true},{"name":"country","fieldRef":["field-id",295],"enabled":true},{"name":"sector","fieldRef":["field-id",297],"enabled":true},{"name":"tool","fieldRef":["field-id",296],"enabled":true},{"name":"country","field_ref":["field-id",301],"enabled":true}],"map.type":"region","map.region":"world_countries"}', 2, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Country","name":"country","special_type":"type/Country","fingerprint":{"global":{"distinct-count":24,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":2.0}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":138.0,"q1":138.0,"q3":138.0,"max":138.0,"sd":null,"avg":138.0}}}}]', NULL, NULL);
+VALUES (4, '2020-03-19 13:09:16.601+01', '2020-06-12 09:44:50.63646+02', 'Accumulated Assessments per Month', 'Accumulated number of assessments per month (started before end of the given month)', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accumulated Assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"column_settings":{"[\"ref\",[\"field-id\",238]]":{"date_abbreviate":false}},"series_settings":{"count":{"display":"bar","title":"Number of Assessments"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":88,"nil%":0.0},"type":{"type/Number":{"min":4.0,"q1":186.95213548685035,"q3":504.5502525316942,"max":590.0,"sd":177.67839199096386,"avg":327.5113636363636}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -35832,7 +35979,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (2, '2020-03-19 11:38:23.149+01', '2020-06-10 14:01:56.218558+02', 'Assessments per Month', 'Number of assessments started per month', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of started assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"series_settings":{"count":{"display":"bar"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":8,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.08487707279466,"q3":3.036086349899739,"max":20.0,"sd":3.4136580415281492,"avg":2.816326530612245}}}}]', NULL, NULL);
+VALUES (11, '2020-03-19 14:31:36.198+01', '2020-06-12 09:44:50.274694+02', 'Completion of Assessments', 'Number of assessments grouped by completion: top (more than 70% of risks answered), average (more than 10%) and low (less than 10%)', 'bar', '{"database":34,"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"type":"native"}', '{"graph.y_axis.title_text":"Number of Assessments","graph.show_values":true,"table.cell_column":"count","stackable.stack_display":"bar","graph.x_axis.title_text":"Completion Percentage","graph.y_axis.scale":"pow","graph.metrics":["count"],"graph.label_value_formatting":"auto","table.pivot_column":"completion","series_settings":{"2":{"color":"#88BF4D"},"22":{"color":"#F9D45C"},"86":{"color":"#EF8C8C"},"count":{"color":"#98D9D9","display":"bar"}},"graph.dimensions":["completion","count"],"stackable.stack_type":null}', 1, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"completion","name":"completion","special_type":null,"fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":38.333333333333336}}}},{"base_type":"type/BigInteger","display_name":"count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":2.0,"q1":6.25,"q3":431.5,"max":569.0,"sd":322.5621387164547,"avg":196.66666666666666}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -35857,7 +36004,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (11, '2020-03-19 14:31:36.198+01', '2020-06-10 14:01:56.092357+02', 'Completion of Assessments', 'Number of assessments grouped by completion: top (more than 70% of risks answered), average (more than 10%) and low (less than 10%)', 'bar', '{"database":34,"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"type":"native"}', '{"graph.y_axis.title_text":"Number of Assessments","graph.show_values":true,"table.cell_column":"count","stackable.stack_display":"bar","graph.x_axis.title_text":"Completion Percentage","graph.y_axis.scale":"pow","graph.metrics":["count"],"graph.label_value_formatting":"auto","table.pivot_column":"completion","series_settings":{"2":{"color":"#88BF4D"},"22":{"color":"#F9D45C"},"86":{"color":"#EF8C8C"},"count":{"color":"#98D9D9","display":"bar"}},"graph.dimensions":["completion","count"],"stackable.stack_type":null}', 1, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"completion","name":"completion","special_type":null,"fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":38.333333333333336}}}},{"base_type":"type/BigInteger","display_name":"count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":2.25,"q3":99.75,"max":131.0,"sd":73.65459931328118,"avg":46.0}}}}]', NULL, NULL);
+VALUES (2, '2020-03-19 11:38:23.149+01', '2020-06-12 09:44:50.640685+02', 'Assessments per Month', 'Number of assessments started per month', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of started assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"series_settings":{"count":{"display":"bar"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":19,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":2.0,"q3":7.366025403784438,"max":51.0,"sd":8.574432846642878,"avg":6.704545454545454}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -35882,7 +36029,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (17, '2020-06-10 14:01:49.50989+02', '2020-06-10 16:14:56.386048+02', 'Tools by Assessment Completion', 'Shows the number of assessments in each of the completion ranges (top, average, low) for each tool', 'bar', '{"type":"native","native":{"query":"select substring(sector from 0 for 20) || ''/'' || substring(tool from 0 for 20) as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34}', '{"series_settings":{"top_assessments":{"color":"#88BF4D","title":"Top Assessments"},"low_assessments":{"color":"#EF8C8C","title":"Low Assessments"},"avg_assessments":{"title":"Average Assessments"}},"stackable.stack_type":null,"graph.dimensions":["tool"],"graph.metrics":["top_assessments","avg_assessments","low_assessments"],"graph.show_values":false,"graph.x_axis.axis_enabled":"rotate-45"}', 2, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"tool","name":"tool","special_type":null,"fingerprint":{"global":{"distinct-count":160,"nil%":0},"type":{"type/Text":{"percent-json":0,"percent-url":0,"percent-email":0,"average-length":26.78235294117647}}}},{"base_type":"type/BigInteger","display_name":"top_assessments","name":"top_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":2,"nil%":0},"type":{"type/Number":{"min":0,"q1":0,"q3":0.3048387761559991,"max":1,"sd":0.10814384974689345,"avg":0.011764705882352941}}}},{"base_type":"type/BigInteger","display_name":"avg_assessments","name":"avg_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":5,"nil%":0},"type":{"type/Number":{"min":0,"q1":0,"q3":0.35823330891726757,"max":6,"sd":0.6001798083051864,"avg":0.11176470588235295}}}},{"base_type":"type/BigInteger","display_name":"low_assessments","name":"low_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":18,"nil%":0},"type":{"type/Number":{"min":0,"q1":0.9815432222006585,"q3":3.5672700343359414,"max":47,"sd":5.1810553455411705,"avg":3.347058823529412}}}}]', NULL, NULL);
+VALUES (17, '2020-06-10 14:01:49.50989+02', '2020-06-12 09:45:53.726677+02', 'Tools by Assessment Completion', 'Shows the number of assessments in each of the completion ranges (top, average, low) for each tool', 'bar', '{"type":"native","native":{"query":"select sector || ''/'' || tool as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34}', '{"series_settings":{"top_assessments":{"color":"#88BF4D","title":"Top Assessments"},"low_assessments":{"color":"#EF8C8C","title":"Low Assessments"},"avg_assessments":{"title":"Average Assessments"}},"stackable.stack_type":null,"graph.dimensions":["tool"],"graph.metrics":["top_assessments","avg_assessments","low_assessments"],"graph.show_values":false,"graph.x_axis.axis_enabled":false}', 2, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"tool","name":"tool","special_type":null,"fingerprint":{"global":{"distinct-count":164,"nil%":0},"type":{"type/Text":{"percent-json":0,"percent-url":0,"percent-email":0,"average-length":32.44705882352941}}}},{"base_type":"type/BigInteger","display_name":"top_assessments","name":"top_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":2,"nil%":0},"type":{"type/Number":{"min":0,"q1":0,"q3":0.3048387761559991,"max":1,"sd":0.10814384974689345,"avg":0.011764705882352941}}}},{"base_type":"type/BigInteger","display_name":"avg_assessments","name":"avg_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":5,"nil%":0},"type":{"type/Number":{"min":0,"q1":0,"q3":0.35823330891726757,"max":6,"sd":0.6001798083051864,"avg":0.11176470588235295}}}},{"base_type":"type/BigInteger","display_name":"low_assessments","name":"low_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":18,"nil%":0},"type":{"type/Number":{"min":0,"q1":0.9815432222006585,"q3":3.5672700343359414,"max":47,"sd":5.1810553455411705,"avg":3.347058823529412}}}}]', NULL, NULL);
 
 --
 -- Name: report_card_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -37595,11 +37742,23 @@ INSERT INTO "public"."revision" ("id",
                                  "message")
 VALUES (167, 'Card', 17, 2, '2020-06-10 16:14:56.44143+02', '{"description":"Shows the number of assessments in each of the completion ranges (top, average, low) for each tool","archived":false,"collection_position":null,"table_id":null,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"native","name":"Tools by Assessment Completion","read_permissions":null,"creator_id":2,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"native","native":{"query":"select substring(sector from 0 for 20) || ''/'' || substring(tool from 0 for 20) as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34},"id":17,"display":"bar","visualization_settings":{"series_settings":{"top_assessments":{"color":"#88BF4D","title":"Top Assessments"},"low_assessments":{"color":"#EF8C8C","title":"Low Assessments"},"avg_assessments":{"title":"Average Assessments"}},"stackable.stack_type":null,"graph.dimensions":["tool"],"graph.metrics":["top_assessments","avg_assessments","low_assessments"],"graph.show_values":false,"graph.x_axis.axis_enabled":"rotate-45"},"public_uuid":null}', FALSE, FALSE, NULL);
 
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (168, 'Card', 17, 2, '2020-06-12 09:45:53.756106+02', '{"description":"Shows the number of assessments in each of the completion ranges (top, average, low) for each tool","archived":false,"collection_position":null,"table_id":null,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"native","name":"Tools by Assessment Completion","read_permissions":null,"creator_id":2,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"native","native":{"query":"select sector || ''/'' || tool as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34},"id":17,"display":"bar","visualization_settings":{"series_settings":{"top_assessments":{"color":"#88BF4D","title":"Top Assessments"},"low_assessments":{"color":"#EF8C8C","title":"Low Assessments"},"avg_assessments":{"title":"Average Assessments"}},"stackable.stack_type":null,"graph.dimensions":["tool"],"graph.metrics":["top_assessments","avg_assessments","low_assessments"],"graph.show_values":false,"graph.x_axis.axis_enabled":false},"public_uuid":null}', FALSE, FALSE, NULL);
+
 --
 -- Name: revision_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."revision_id_seq"', 167, TRUE);
+SELECT pg_catalog.setval('"public"."revision_id_seq"', 168, TRUE);
 
 --
 -- Data for Name: segment; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -37656,7 +37815,7 @@ VALUES ('version-info', '{"latest":{"version":"v0.35.4","released":"2020-05-29T1
 
 INSERT INTO "public"."setting" ("key",
                                 "value")
-VALUES ('settings-last-updated', '2020-06-10 13:57:59.788115+02');
+VALUES ('settings-last-updated', '2020-06-12 09:44:43.968849+02');
 
 --
 -- Data for Name: task_history; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -60661,11 +60820,31 @@ INSERT INTO "public"."task_history" ("id",
                                      "task_details")
 VALUES (2300, 'task-history-cleanup', NULL, '2020-06-10 16:13:56.967', '2020-06-10 16:13:56.972', 5, NULL);
 
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2301, 'send-pulses', NULL, '2020-06-12 09:44:43.305', '2020-06-12 09:44:43.331', 26, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2302, 'task-history-cleanup', NULL, '2020-06-12 09:44:43.36', '2020-06-12 09:44:43.369', 9, NULL);
+
 --
 -- Name: task_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."task_history_id_seq"', 2300, TRUE);
+SELECT pg_catalog.setval('"public"."task_history_id_seq"', 2302, TRUE);
 
 --
 -- Data for Name: view_log; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -63998,11 +64177,27 @@ INSERT INTO "public"."view_log" ("id",
                                  "timestamp")
 VALUES (416, 2, 'card', 17, '2020-06-10 16:14:12.291889+02');
 
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (417, 2, 'dashboard', 1, '2020-06-12 09:44:49.554476+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (418, 2, 'card', 17, '2020-06-12 09:44:54.575134+02');
+
 --
 -- Name: view_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."view_log_id_seq"', 416, TRUE);
+SELECT pg_catalog.setval('"public"."view_log_id_seq"', 418, TRUE);
 
 --
 -- Name: activity_pkey; Type: CONSTRAINT; Schema: public; Owner: metabase
