@@ -33,11 +33,20 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --database-user='${parts[instance]['database-user']}' \\
     --database-password='${escape(parts[instance]['database-password'])}' \\
     --database-name-statistics='${parts[instance]['database-name-statistics']}' \\
-    {% if parts[instance].get('statistics-user') %}{% for user in parts[instance].get('statistics-user').split('\n') %} \\
-    {% with email, password, first_name, last_name = user.split(' ') %} \\
+    {% if parts[instance].get('statistics-user') %} \\
+        {% for user in parts[instance].get('statistics-user').split('\n') %} \\
+            {% with email, password, first_name, last_name = user.split(' ') %} \\
     --statistics-user '${email}' '${escape(password)}' '${first_name}' '${last_name}' \\
-    {% end %}{% end %} \\
-    {% end %} || exit $?
+            {% end %} \\
+        {% end %} \\
+    {% end %} \\
+    {% if parts[instance].get('global-statistics') == 'true' %} \\
+    --global-statistics \\
+    {% end %} \\
+    {% if parts[instance].get('country-statistics') == 'true' %} \\
+    --country-statistics \\
+    {% end %} \\
+    || exit $?
 echo 'Stopping metabase instance'
 kill $${PID}
 {% end %}

@@ -128,6 +128,16 @@ def get_metabase_args():
             "for a non-superuser account to create for viewing the statistics"
         ),
     )
+    parser.add_argument(
+        "--global-statistics",
+        action="store_true",
+        help=("If passed, global-only dashboard cards will be added."),
+    )
+    parser.add_argument(
+        "--country-statistics",
+        action="store_true",
+        help=("If passed, country-only dashboard cards will be added."),
+    )
     return parser.parse_args()
 
 
@@ -181,4 +191,32 @@ def init_metabase_instance():
             )
         else:
             log.info("Created user {}".format(email))
+
+    if args.global_statistics:
+        result = mb.post(
+            "/api/dashboard/1/cards",
+            json={"cardId": 15, "col": 0, "row": 4, "sizeX": 4, "sizeY": 4},
+        )
+        if not result.ok:
+            log.error(
+                "Could not add dashboard card! ({status_code}: {errors})".format(
+                    status_code=result.status_code, errors=result.json().get("errors")
+                )
+            )
+        else:
+            log.info("Added dashboard card 15")
+    if args.country_statistics:
+        result = mb.post(
+            "/api/dashboard/1/cards",
+            json={"cardId": 17, "col": 10, "row": 4, "sizeX": 4, "sizeY": 4},
+        )
+        if not result.ok:
+            log.error(
+                "Could not add dashboard card! ({status_code}: {errors})".format(
+                    status_code=result.status_code, errors=result.json().get("errors")
+                )
+            )
+        else:
+            log.info("Added dashboard card 17")
+
     log.info("Done initializing metabase instance")
