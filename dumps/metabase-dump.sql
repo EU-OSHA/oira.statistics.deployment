@@ -4727,11 +4727,141 @@ INSERT INTO "public"."activity" ("id",
                                  "details")
 VALUES (141, 'dashboard-remove-cards', '2020-06-15 14:17:08.62187+02', 2, 'dashboard', 1, NULL, NULL, NULL, '{"description":"Statistics about assessments","name":"Assessments Dashboard","dashcards":[{"name":"Accumulated Assessments per Country","description":"Accumulated number of assessments per country","id":13,"card_id":15}]}');
 
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (142, 'card-update', '2020-06-15 15:51:22.087831+02', 2, 'card', 8, 34, 43, NULL, '{"name":"Accumulated Users per Type","description":"Total number of full, guest and converted user accounts"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (143, 'card-update', '2020-06-15 15:52:09.796973+02', 2, 'card', 6, 34, 43, NULL, '{"name":"New Users per Month","description":"Number of user accounts created in the given month, grouped by account type"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (144, 'card-update', '2020-06-15 15:53:08.022488+02', 2, 'card', 9, 34, 43, NULL, '{"name":"User Conversions per Month","description":"Number of users that were converted from guest users to registered users in the given month"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (145, 'card-update', '2020-06-15 15:53:40.189904+02', 2, 'card', 9, 34, 43, NULL, '{"name":"User Conversions per Month","description":"Number of users that were converted from guest users to registered users in the given month"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (146, 'card-update', '2020-06-15 15:54:34.373868+02', 2, 'card', 6, 34, 43, NULL, '{"name":"New Users per Month","description":"Number of user accounts created in the given month, grouped by account type"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (147, 'card-update', '2020-06-15 15:56:43.681194+02', 2, 'card', 7, 34, 43, NULL, '{"name":"Accumulated Number of Users","description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (148, 'card-update', '2020-06-15 15:57:18.623049+02', 2, 'card', 7, 34, 43, NULL, '{"name":"Accumulated Number of Users","description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (149, 'card-update', '2020-06-15 15:58:18.359584+02', 2, 'card', 7, 34, 43, NULL, '{"name":"Accumulated Number Of Users Over Time","description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (150, 'card-update', '2020-06-15 15:59:35.221287+02', 2, 'card', 4, 34, 61, NULL, '{"name":"Accumulated Assessments Over Time","description":"Accumulated number of assessments per month (started before end of the given month)"}');
+
+
+INSERT INTO "public"."activity" ("id",
+                                 "topic",
+                                 "timestamp",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "database_id",
+                                 "table_id",
+                                 "custom_id",
+                                 "details")
+VALUES (151, 'card-update', '2020-06-15 16:00:35.043345+02', 2, 'card', 2, 34, 61, NULL, '{"name":"New Assessments per Month","description":"Number of assessments started per month"}');
+
 --
 -- Name: activity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."activity_id_seq"', 141, TRUE);
+SELECT pg_catalog.setval('"public"."activity_id_seq"', 151, TRUE);
 
 --
 -- Data for Name: card_label; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -4892,6 +5022,12 @@ INSERT INTO "public"."core_session" ("id",
                                      "created_at")
 VALUES ('e0854224-d45d-4648-afb8-5898d772eeb3', 2, '2020-06-10 16:13:59.063825+02');
 
+
+INSERT INTO "public"."core_session" ("id",
+                                     "user_id",
+                                     "created_at")
+VALUES ('22321818-25b4-414d-b74f-5d3ac1be3087', 2, '2020-06-15 15:35:55.064746+02');
+
 --
 -- Data for Name: core_user; Type: TABLE DATA; Schema: public; Owner: metabase
 --
@@ -4953,7 +5089,7 @@ INSERT INTO "public"."core_user" ("id",
                                   "ldap_auth",
                                   "login_attributes",
                                   "updated_at")
-VALUES (2, 'admin@syslab.com', 'Admin', 'Syslab', '$2a$10$8FH3AZkTBn2PAqDWo12VMePDSkPguSjs0LLxPeS/7awsfE71VAS.u', '6826d496-50a4-403c-a572-3af560545b83', '2020-03-23 06:49:50.992574+01', '2020-06-10 16:13:59.190096+02', TRUE, TRUE, NULL, NULL, FALSE, FALSE, FALSE, NULL, '2020-06-10 16:13:59.190096');
+VALUES (2, 'admin@syslab.com', 'Admin', 'Syslab', '$2a$10$8FH3AZkTBn2PAqDWo12VMePDSkPguSjs0LLxPeS/7awsfE71VAS.u', '6826d496-50a4-403c-a572-3af560545b83', '2020-03-23 06:49:50.992574+01', '2020-06-15 15:35:55.132585+02', TRUE, TRUE, NULL, NULL, FALSE, FALSE, FALSE, NULL, '2020-06-15 15:35:55.132585');
 
 --
 -- Name: core_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -12574,14 +12710,6 @@ INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
                                            "trigger_group",
                                            "cron_expression",
                                            "time_zone_id")
-VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', '0 0 * * * ? *', 'Europe/Berlin');
-
-
-INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
-                                           "trigger_name",
-                                           "trigger_group",
-                                           "cron_expression",
-                                           "time_zone_id")
 VALUES ('MetabaseScheduler', 'metabase.task.update-field-values.trigger.34', 'DEFAULT', '0 0 0 * * ? *', 'Europe/Berlin');
 
 
@@ -12614,7 +12742,7 @@ INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
                                            "trigger_group",
                                            "cron_expression",
                                            "time_zone_id")
-VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', '0 0 * * * ? *', 'Europe/Berlin');
+VALUES ('MetabaseScheduler', 'metabase.task.follow-up-emails.trigger', 'DEFAULT', '0 0 12 * * ? *', 'Europe/Berlin');
 
 
 INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
@@ -12622,7 +12750,15 @@ INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
                                            "trigger_group",
                                            "cron_expression",
                                            "time_zone_id")
-VALUES ('MetabaseScheduler', 'metabase.task.follow-up-emails.trigger', 'DEFAULT', '0 0 12 * * ? *', 'Europe/Berlin');
+VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', '0 0 * * * ? *', 'Europe/Berlin');
+
+
+INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
+                                           "trigger_name",
+                                           "trigger_group",
+                                           "cron_expression",
+                                           "time_zone_id")
+VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', '0 0 * * * ? *', 'Europe/Berlin');
 
 
 INSERT INTO "public"."qrtz_cron_triggers" ("sched_name",
@@ -12766,7 +12902,7 @@ INSERT INTO "public"."qrtz_scheduler_state" ("sched_name",
                                              "instance_name",
                                              "last_checkin_time",
                                              "checkin_interval")
-VALUES ('MetabaseScheduler', 'osha1592223348262', 1592223453408, 7500);
+VALUES ('MetabaseScheduler', 'osha1592227929174', 1592229917496, 7500);
 
 --
 -- Data for Name: qrtz_simple_triggers; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -12777,25 +12913,6 @@ VALUES ('MetabaseScheduler', 'osha1592223348262', 1592223453408, 7500);
  --
 -- Data for Name: qrtz_triggers; Type: TABLE DATA; Schema: public; Owner: metabase
 --
-
-INSERT INTO "public"."qrtz_triggers" ("sched_name",
-                                      "trigger_name",
-                                      "trigger_group",
-                                      "job_name",
-                                      "job_group",
-                                      "description",
-                                      "next_fire_time",
-                                      "prev_fire_time",
-                                      "priority",
-                                      "trigger_state",
-                                      "trigger_type",
-                                      "start_time",
-                                      "end_time",
-                                      "calendar_name",
-                                      "misfire_instr",
-                                      "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', 'metabase.task.sync-and-analyze.job', 'DEFAULT', 'sync-and-analyze Database 34', 1592226000000, -1, 5, 'WAITING', 'CRON', 1592223348000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
-
 
 INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "trigger_name",
@@ -12889,25 +13006,6 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', 'metabase.task.send-pulses.job', 'DEFAULT', NULL, 1592226000000, -1, 5, 'WAITING', 'CRON', 1592223349000, 0, NULL, 1, '\x');
-
-
-INSERT INTO "public"."qrtz_triggers" ("sched_name",
-                                      "trigger_name",
-                                      "trigger_group",
-                                      "job_name",
-                                      "job_group",
-                                      "description",
-                                      "next_fire_time",
-                                      "prev_fire_time",
-                                      "priority",
-                                      "trigger_state",
-                                      "trigger_type",
-                                      "start_time",
-                                      "end_time",
-                                      "calendar_name",
-                                      "misfire_instr",
-                                      "job_data")
 VALUES ('MetabaseScheduler', 'metabase.task.follow-up-emails.trigger', 'DEFAULT', 'metabase.task.follow-up-emails.job', 'DEFAULT', NULL, 1592301600000, -1, 5, 'WAITING', 'CRON', 1592223349000, 0, NULL, 0, '\x');
 
 
@@ -12927,7 +13025,45 @@ INSERT INTO "public"."qrtz_triggers" ("sched_name",
                                       "calendar_name",
                                       "misfire_instr",
                                       "job_data")
-VALUES ('MetabaseScheduler', 'metabase.task.task-history-cleanup.trigger', 'DEFAULT', 'metabase.task.task-history-cleanup.job', 'DEFAULT', NULL, 1592226000000, -1, 5, 'WAITING', 'CRON', 1592223349000, 0, NULL, 0, '\x');
+VALUES ('MetabaseScheduler', 'metabase.task.send-pulses.trigger', 'DEFAULT', 'metabase.task.send-pulses.job', 'DEFAULT', NULL, 1592233200000, 1592229600000, 5, 'WAITING', 'CRON', 1592223349000, 0, NULL, 1, '\x');
+
+
+INSERT INTO "public"."qrtz_triggers" ("sched_name",
+                                      "trigger_name",
+                                      "trigger_group",
+                                      "job_name",
+                                      "job_group",
+                                      "description",
+                                      "next_fire_time",
+                                      "prev_fire_time",
+                                      "priority",
+                                      "trigger_state",
+                                      "trigger_type",
+                                      "start_time",
+                                      "end_time",
+                                      "calendar_name",
+                                      "misfire_instr",
+                                      "job_data")
+VALUES ('MetabaseScheduler', 'metabase.task.task-history-cleanup.trigger', 'DEFAULT', 'metabase.task.task-history-cleanup.job', 'DEFAULT', NULL, 1592233200000, 1592229600000, 5, 'WAITING', 'CRON', 1592223349000, 0, NULL, 0, '\x');
+
+
+INSERT INTO "public"."qrtz_triggers" ("sched_name",
+                                      "trigger_name",
+                                      "trigger_group",
+                                      "job_name",
+                                      "job_group",
+                                      "description",
+                                      "next_fire_time",
+                                      "prev_fire_time",
+                                      "priority",
+                                      "trigger_state",
+                                      "trigger_type",
+                                      "start_time",
+                                      "end_time",
+                                      "calendar_name",
+                                      "misfire_instr",
+                                      "job_data")
+VALUES ('MetabaseScheduler', 'metabase.task.sync-and-analyze.trigger.34', 'DEFAULT', 'metabase.task.sync-and-analyze.job', 'DEFAULT', 'sync-and-analyze Database 34', 1592233200000, 1592229600000, 5, 'WAITING', 'CRON', 1592223348000, 0, NULL, 2, '\xaced0005737200156f72672e71756172747a2e4a6f62446174614d61709fb083e8bfa9b0cb020000787200266f72672e71756172747a2e7574696c732e537472696e674b65794469727479466c61674d61708208e8c3fbc55d280200015a0013616c6c6f77735472616e7369656e74446174617872001d6f72672e71756172747a2e7574696c732e4469727479466c61674d617013e62ead28760ace0200025a000564697274794c00036d617074000f4c6a6176612f7574696c2f4d61703b787001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000c7708000000100000000174000564622d6964737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b0200007870000000227800');
 
 --
 -- Data for Name: query; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -13033,12 +13169,6 @@ INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
 VALUES ('\x383086962dac0a9cc34d84086e643d6b7b2a5623693af06db43f2b28535dd1f7', 26, '{"database":34,"query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",153],"week"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
-VALUES ('\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', 306, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"query","middleware":{"userland-query?":true},"database":34,"query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]]},"parameters":[],"async?":true,"cache-ttl":null}');
 
 
 INSERT INTO "public"."query" ("query_hash",
@@ -13836,37 +13966,7 @@ VALUES ('\xc82bb01710be52fb581fecebb254fbfcaf0c0ba8ddf14868f672cd07ea061cce', 10
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', 275, '{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
-VALUES ('\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', 466, '{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
-VALUES ('\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', 221, '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]],"filter":["!=",["field-id",157],"guest"]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
-VALUES ('\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', 421, '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
 VALUES ('\x0be6ff49c89f727601d401410d362b8a2a6ba3e773bd167be9a62e750758ed2b', 112, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"query","middleware":{"userland-query?":true},"database":34,"query":{"source-table":43,"aggregation":[["count"]],"filter":["!=",["field-id",157],"guest"],"breakout":[["datetime-field",["field-id",153],"month"]]},"parameters":[],"async?":true,"cache-ttl":null}');
-
-
-INSERT INTO "public"."query" ("query_hash",
-                              "average_execution_time",
-                              "query")
-VALUES ('\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', 302, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
@@ -13884,19 +13984,61 @@ VALUES ('\x0a3dca27a92c7120ee0a951684ecff8981cc83b2d31d9716f7b54cef93c85799', 19
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', 983, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+VALUES ('\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', 200, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', 992, '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+VALUES ('\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', 650, '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
 
 
 INSERT INTO "public"."query" ("query_hash",
                               "average_execution_time",
                               "query")
-VALUES ('\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', 584, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":{"userland-query?":true},"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"database":34,"parameters":[],"async?":true,"cache-ttl":null}');
+VALUES ('\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', 643, '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query","parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', 402, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"native","middleware":{"userland-query?":true},"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"database":34,"parameters":[],"async?":true,"cache-ttl":null}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', 155, '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]],"filter":["!=",["field-id",157],"guest"]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', 237, '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', 193, '{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', 247, '{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34,"parameters":[],"async?":true,"middleware":{"add-default-userland-constraints?":true,"userland-query?":true},"constraints":{"max-results":10000,"max-results-bare-rows":2000}}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', 175, '{"constraints":{"max-results":10000,"max-results-bare-rows":2000},"type":"query","middleware":{"userland-query?":true},"database":34,"query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]]},"parameters":[],"async?":true,"cache-ttl":null}');
+
+
+INSERT INTO "public"."query" ("query_hash",
+                              "average_execution_time",
+                              "query")
+VALUES ('\x4e8cab4c39592b560360e1a8a54ac566992896fac8b5eadb04ae5d390ea03e0f', 78, '{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34,"middleware":{"add-default-userland-constraints?":true}}');
 
 --
 -- Data for Name: query_cache; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -36698,11 +36840,1275 @@ INSERT INTO "public"."query_execution" ("id",
                                         "database_id")
 VALUES (1421, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 14:16:22.579', 960, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
 
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1422, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:50:31.753', 1554, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1423, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:50:31.732', 1575, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1424, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:50:31.75', 1219, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1425, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:50:31.705', 1604, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1426, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:50:31.716', 1595, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1427, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:51:01.881', 93, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1428, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:51:29.044', 118, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1429, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:51:29.016', 148, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1430, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:51:28.995', 169, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1431, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:51:29.028', 134, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1434, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:52:15.1', 86, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1444, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:53:50.341', 93, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1458, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:57:29.083', 32, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1463, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:57:43.041', 102, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1464, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:57:50.026', 100, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1468, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:58:25.833', 47, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1483, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 16:00:38.25', 73, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1487, '\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', '2020-06-15 16:00:47.039', 23, 3, TRUE, 'question', NULL, 2, 11, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1488, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-15 16:00:47.003', 155, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1498, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 16:01:15.574', 91, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1500, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 16:01:28.745', 46, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1432, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:51:29.061', 115, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1433, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:51:37.514', 78, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1435, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:52:15.123', 71, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1446, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:54:51.729', 54, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1448, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:54:51.762', 63, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1449, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:54:51.771', 71, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1456, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:57:25.032', 148, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1460, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:57:43.06', 67, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1436, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:52:15.143', 59, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1437, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:52:15.12', 92, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1438, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:52:15.115', 106, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1439, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:52:33.905', 45, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1440, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:53:50.295', 94, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1442, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:53:50.287', 117, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1443, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:53:50.301', 108, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1445, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:53:58.945', 58, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1454, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:57:25.044', 111, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1457, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:57:25.097', 89, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1469, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:58:25.833', 55, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1474, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-15 15:58:55.647', 237, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1475, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 15:59:15.3', 132, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1441, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:53:50.344', 62, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1447, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:54:51.702', 100, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1450, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:54:51.797', 63, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1451, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:54:58.404', 82, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1452, '\x4e8cab4c39592b560360e1a8a54ac566992896fac8b5eadb04ae5d390ea03e0f', '2020-06-15 15:57:11.357', 78, 22, FALSE, 'ad-hoc', NULL, 2, NULL, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1453, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:57:25.031', 116, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1455, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:57:25.046', 125, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1459, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:57:43.068', 50, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1465, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 15:58:25.802', 37, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1470, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 15:58:47.073', 79, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1476, '\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', '2020-06-15 15:59:45.334', 47, 3, TRUE, 'question', NULL, 2, 11, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1482, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 16:00:38.238', 76, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1484, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 16:00:38.239', 93, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1485, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 16:00:38.275', 80, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1486, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-15 16:00:47.005', 58, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1489, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 16:00:47.018', 176, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1491, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-15 16:00:56.682', 103, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1492, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 16:00:56.683', 143, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1493, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-15 16:00:56.671', 157, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1496, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 16:01:15.592', 65, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1497, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 16:01:15.577', 80, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1461, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:57:43.032', 104, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1462, '\xd7f0785b4f08e65587fc8c907a40dee4aaec4d2a78259b8bb627e04173f17888', '2020-06-15 15:57:43.038', 97, 1, FALSE, 'question', NULL, 2, 9, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1466, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 15:58:25.766', 81, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1467, '\xd22ad4f980c7d0dbc5a59d7331f02d8ea7c2954a89e3f58cfd4ee62c234ca379', '2020-06-15 15:58:25.783', 100, 22, FALSE, 'question', NULL, 2, 7, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1471, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-15 15:58:55.639', 33, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1472, '\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', '2020-06-15 15:58:55.642', 71, 3, TRUE, 'question', NULL, 2, 11, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1473, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 15:58:55.66', 216, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1477, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-15 15:59:45.35', 39, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1478, '\x8c6210b387bffac973bdde3e702ff56b91c503b3329d42f423870d9ddb5e474a', '2020-06-15 15:59:45.321', 126, 88, FALSE, 'question', NULL, 2, 4, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1479, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-15 15:59:45.323', 146, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1480, '\x482572747a0a7177aa8e7b305a0a49d148f07ffab23f1e696b2fa5780e6adcad', '2020-06-15 15:59:54.407', 85, 88, FALSE, 'question', NULL, 2, 2, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1481, '\x59ed3bf858039b9a34cc91b6d320a449f59f75634e02a1f13deb15b130a34e82', '2020-06-15 16:00:38.227', 80, 22, FALSE, 'question', NULL, 2, 6, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1490, '\x8d8f80b808f3b335ca881d4526c93813a40bcc29830b2736aebe8df78fe9a6d7', '2020-06-15 16:00:56.688', 80, 3, TRUE, 'question', NULL, 2, 11, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1494, '\x254a7b97fdf08f37e15bb9c039a5102dab013865920552197e7695a4f8698c61', '2020-06-15 16:01:15.594', 54, 2, FALSE, 'question', NULL, 2, 16, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1495, '\x5390498e8f8f76da7e849a96b3fd51b39573584a6e97bb4e366a7098563b941b', '2020-06-15 16:01:15.6', 58, 3, FALSE, 'question', NULL, 2, 8, NULL, NULL, 34);
+
+
+INSERT INTO "public"."query_execution" ("id",
+                                        "hash",
+                                        "started_at",
+                                        "running_time",
+                                        "result_rows",
+                                        "native",
+                                        "context",
+                                        "error",
+                                        "executor_id",
+                                        "card_id",
+                                        "dashboard_id",
+                                        "pulse_id",
+                                        "database_id")
+VALUES (1499, '\x902b1e36dd7197133330a791cab0a2eaa643a78c8a02435a82989cdb3f18c851', '2020-06-15 16:01:28.752', 30, 1, FALSE, 'question', NULL, 2, 3, NULL, NULL, 34);
+
 --
 -- Name: query_execution_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."query_execution_id_seq"', 1421, TRUE);
+SELECT pg_catalog.setval('"public"."query_execution_id_seq"', 1500, TRUE);
 
 --
 -- Data for Name: report_card; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -36755,157 +38161,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (9, '2020-03-19 14:01:46.397+01', '2020-06-12 13:31:35.093595+02', 'Accounts Converted per Month', 'Number of users that were converted from guest users to registered users in the given month', 'line', '{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34}', '{"graph.x_axis.title_text":"Date","graph.dimensions":["creation_date"],"graph.metrics":["count"],"graph.show_values":true,"series_settings":{"count":{"title":"Number of Accounts Converted","color":"#98D9D9"}}}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":1.0,"max":1.0,"sd":null,"avg":1.0}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
-VALUES (8, '2020-03-19 13:58:29.321+01', '2020-06-12 13:31:35.154837+02', 'Accumulated Accounts per Type', 'Total number of full, guest and converted user accounts', 'pie', '{"database":34,"query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]]},"type":"query"}', '{"pie.show_legend":true,"pie.show_legend_perecent":true,"pie.colors":{"converted":"#98D9D9","full":"#7172AD","guest":"#F9D45C"}}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":5.0,"q3":41.75,"max":50.0,"sd":24.986663109213552,"avg":22.666666666666668}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
 VALUES (12, '2020-03-20 09:26:09.250361+01', '2020-06-10 14:01:56.194609+02', 'Top Assessments', 'All assessments which have more than 70% of risks answered', 'table', '{"database":34,"query":{"source-table":61,"filter":[">",["field-id",299],70],"order-by":[["desc",["field-id",299]],["desc",["field-id",304]],["asc",["field-id",301]],["asc",["field-id",305]],["asc",["field-id",302]],["asc",["field-id",303]]],"fields":[["field-id",299],["field-id",304],["field-id",301],["field-id",305],["field-id",302],["field-id",303]]},"type":"query"}', '{"table.columns":[{"name":"completion_percentage","fieldRef":["field-id",299],"enabled":true},{"name":"start_date","field_ref":["field-id",304],"enabled":true},{"name":"country","fieldRef":["field-id",301],"enabled":true},{"name":"sector","fieldRef":["field-id",305],"enabled":true},{"name":"tool","fieldRef":["field-id",302],"enabled":true},{"name":"account_type","fieldRef":["field-id",303],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Integer","display_name":"Completion Percentage","name":"completion_percentage","special_type":"type/Category","fingerprint":{"global":{"distinct-count":25,"nil%":0.0},"type":{"type/Number":{"min":0.0,"max":100.0,"avg":0.1271,"sd":3.0219958365099693,"q1":0.0,"q3":0.2963002072931224}}}},{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/Text","display_name":"Country","name":"country","special_type":"type/Country","fingerprint":{"global":{"distinct-count":24,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":2.0}}}},{"base_type":"type/Text","display_name":"Sector","name":"sector","fingerprint":{"global":{"distinct-count":197,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":15.2237}}},"special_type":null},{"base_type":"type/Text","display_name":"Tool","name":"tool","fingerprint":{"global":{"distinct-count":258,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":23.2125}}},"special_type":null},{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":2,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.0001}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
-VALUES (16, '2020-03-26 13:04:39.934131+01', '2020-06-12 13:31:35.114644+02', 'Accumulated Registered Users per Type', 'Total number of registered (full and converted) user accounts', 'pie', '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]],"filter":["!=",["field-id",157],"guest"]},"database":34}', '{"pie.show_legend":true,"pie.show_legend_perecent":true,"pie.colors":{"converted":"#98D9D9","full":"#7172AD","guest":"#F9D45C"}}', 2, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":2,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":17.0,"max":17.0,"sd":11.313708498984761,"avg":9.0}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
-VALUES (6, '2020-03-19 13:48:13.545+01', '2020-06-12 13:31:35.150486+02', 'Accounts Created per Month', 'Number of accounts created in the given month, grouped by account type', 'bar', '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34}', '{"graph.show_goal":false,"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accounts Created","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":7,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":3.0,"max":22.0,"sd":4.6281652325639175,"avg":3.090909090909091}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
-VALUES (7, '2020-03-19 13:55:15.346+01', '2020-06-12 13:31:35.127107+02', 'Accumulated Accounts per Month', 'Accumulated number of accounts per month (created in or before the given month), grouped by account type', 'line', '{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Accumulated Number of Accounts","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":22,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":9.0,"q3":51.0,"max":68.0,"sd":22.992046432064267,"avg":27.40909090909091}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
-VALUES (3, '2020-03-19 12:54:44.188+01', '2020-06-15 14:16:23.131719+02', 'Accumulated Assessments', 'Total number of assessments that have been started until now', 'scalar', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query"}', '{}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":590.0,"q1":590.0,"q3":590.0,"max":590.0,"sd":null,"avg":590.0}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -36955,31 +38211,6 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (11, '2020-03-19 14:31:36.198+01', '2020-06-15 14:16:23.074249+02', 'Completion of Assessments', 'Number of assessments grouped by completion: top (more than 70% of risks answered), average (more than 10%) and low (less than 10%)', 'bar', '{"database":34,"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"type":"native"}', '{"graph.y_axis.title_text":"Number of Assessments","graph.show_values":true,"table.cell_column":"count","stackable.stack_display":"bar","graph.x_axis.title_text":"Completion Percentage","graph.y_axis.scale":"pow","graph.metrics":["count"],"graph.label_value_formatting":"auto","table.pivot_column":"completion","series_settings":{"2":{"color":"#88BF4D"},"22":{"color":"#F9D45C"},"86":{"color":"#EF8C8C"},"count":{"color":"#98D9D9","display":"bar"}},"graph.dimensions":["completion","count"],"stackable.stack_type":null}', 1, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"completion","name":"completion","special_type":null,"fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":38.333333333333336}}}},{"base_type":"type/BigInteger","display_name":"count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":2.0,"q1":6.25,"q3":431.5,"max":569.0,"sd":322.5621387164547,"avg":196.66666666666666}}}}]', NULL, NULL);
-
-
-INSERT INTO "public"."report_card" ("id",
-                                    "created_at",
-                                    "updated_at",
-                                    "name",
-                                    "description",
-                                    "display",
-                                    "dataset_query",
-                                    "visualization_settings",
-                                    "creator_id",
-                                    "database_id",
-                                    "table_id",
-                                    "query_type",
-                                    "archived",
-                                    "collection_id",
-                                    "public_uuid",
-                                    "made_public_by_id",
-                                    "enable_embedding",
-                                    "embedding_params",
-                                    "cache_ttl",
-                                    "result_metadata",
-                                    "read_permissions",
-                                    "collection_position")
 VALUES (17, '2020-06-10 14:01:49.50989+02', '2020-06-15 14:16:23.350822+02', 'Tools by Assessment Completion', 'Shows the number of assessments in each of the completion ranges (top, average, low) for each tool', 'bar', '{"type":"native","native":{"query":"select sector || ''/'' || tool as tool,\n    count(case when completion_percentage > 70 then ''top'' end) as top_assessments,\n    count(case when completion_percentage >= 10 and completion_percentage <= 70 then ''avg'' end) as avg_assessments,\n    count(case when completion_percentage < 10 then ''low'' end) as low_assessments\nfrom assessment\ngroup by country, sector, tool\norder by top_assessments desc, avg_assessments desc, low_assessments desc;","template-tags":{}},"database":34}', '{"series_settings":{"top_assessments":{"color":"#88BF4D","title":"Top Assessments"},"low_assessments":{"color":"#EF8C8C","title":"Low Assessments"},"avg_assessments":{"title":"Average Assessments"}},"stackable.stack_type":null,"graph.dimensions":["tool"],"graph.metrics":["top_assessments","avg_assessments","low_assessments"],"graph.show_values":false,"graph.x_axis.axis_enabled":false}', 2, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"tool","name":"tool","special_type":null,"fingerprint":{"global":{"distinct-count":164,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":32.44705882352941}}}},{"base_type":"type/BigInteger","display_name":"top_assessments","name":"top_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":2,"nil%":0.0},"type":{"type/Number":{"min":0.0,"q1":0.0,"q3":0.3048387761559991,"max":1.0,"sd":0.10814384974689345,"avg":0.011764705882352941}}}},{"base_type":"type/BigInteger","display_name":"avg_assessments","name":"avg_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":5,"nil%":0.0},"type":{"type/Number":{"min":0.0,"q1":0.0,"q3":0.35823330891726757,"max":6.0,"sd":0.6001798083051864,"avg":0.11176470588235295}}}},{"base_type":"type/BigInteger","display_name":"low_assessments","name":"low_assessments","special_type":null,"fingerprint":{"global":{"distinct-count":18,"nil%":0.0},"type":{"type/Number":{"min":0.0,"q1":0.9815432222006585,"q3":3.5672700343359414,"max":47.0,"sd":5.1810553455411705,"avg":3.347058823529412}}}}]', NULL, NULL);
 
 
@@ -37005,7 +38236,7 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (2, '2020-03-19 11:38:23.149+01', '2020-06-15 14:16:23.514693+02', 'Assessments per Month', 'Number of assessments started per month', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of started assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"series_settings":{"count":{"display":"bar"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":19,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":2.0,"q3":7.366025403784438,"max":51.0,"sd":8.574432846642878,"avg":6.704545454545454}}}}]', NULL, NULL);
+VALUES (3, '2020-03-19 12:54:44.188+01', '2020-06-15 16:01:28.770826+02', 'Accumulated Assessments', 'Total number of assessments that have been started until now', 'scalar', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]]},"type":"query"}', '{}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":590.0,"q1":590.0,"q3":590.0,"max":590.0,"sd":null,"avg":590.0}}}}]', NULL, NULL);
 
 
 INSERT INTO "public"."report_card" ("id",
@@ -37030,7 +38261,182 @@ INSERT INTO "public"."report_card" ("id",
                                     "result_metadata",
                                     "read_permissions",
                                     "collection_position")
-VALUES (4, '2020-03-19 13:09:16.601+01', '2020-06-15 14:16:23.52245+02', 'Accumulated Assessments per Month', 'Accumulated number of assessments per month (started before end of the given month)', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accumulated Assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"column_settings":{"[\"ref\",[\"field-id\",238]]":{"date_abbreviate":false}},"series_settings":{"count":{"display":"bar","title":"Number of Assessments"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":88,"nil%":0.0},"type":{"type/Number":{"min":4.0,"q1":186.95213548685035,"q3":504.5502525316942,"max":590.0,"sd":177.67839199096386,"avg":327.5113636363636}}}}]', NULL, NULL);
+VALUES (11, '2020-03-19 14:31:36.198+01', '2020-06-15 16:00:56.698424+02', 'Completion of Assessments', 'Number of assessments grouped by completion: top (more than 70% of risks answered), average (more than 10%) and low (less than 10%)', 'bar', '{"database":34,"native":{"query":"select (\n    case when completion_percentage > 70 then ''top (more than 70% of risks answered)''\n         when completion_percentage >= 10 and completion_percentage <= 70 then ''average (more than 10% of risks answered)''\n         when completion_percentage < 10 then ''low (less than 10% of risks answered)''\n         when completion_percentage is null then ''unknown (no data)''\n         else ''unknown (unusable data)''\nend) as completion,\ncount(*) from assessment\nwhere completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"},"type":"native"}', '{"graph.y_axis.title_text":"Number of Assessments","graph.show_values":true,"table.cell_column":"count","stackable.stack_display":"bar","graph.x_axis.title_text":"Completion Percentage","graph.y_axis.scale":"pow","graph.metrics":["count"],"graph.label_value_formatting":"auto","table.pivot_column":"completion","series_settings":{"2":{"color":"#88BF4D"},"22":{"color":"#F9D45C"},"86":{"color":"#EF8C8C"},"count":{"color":"#98D9D9","display":"bar"}},"graph.dimensions":["completion","count"],"stackable.stack_type":null}', 1, 34, NULL, 'native', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"completion","name":"completion","special_type":null,"fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":38.333333333333336}}}},{"base_type":"type/BigInteger","display_name":"count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":2.0,"q1":6.25,"q3":431.5,"max":569.0,"sd":322.5621387164547,"avg":196.66666666666666}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (4, '2020-03-19 13:09:16.601+01', '2020-06-15 16:00:56.814245+02', 'Accumulated Assessments Over Time', 'Accumulated number of assessments per month (started before end of the given month)', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accumulated Assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"column_settings":{"[\"ref\",[\"field-id\",238]]":{"date_abbreviate":false}},"series_settings":{"count":{"display":"bar","title":"Number of Assessments"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":88,"nil%":0.0},"type":{"type/Number":{"min":4.0,"q1":186.95213548685035,"q3":504.5502525316942,"max":590.0,"sd":177.67839199096386,"avg":327.5113636363636}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (8, '2020-03-19 13:58:29.321+01', '2020-06-15 16:01:28.775979+02', 'Accumulated Users per Type', 'Total number of full, guest and converted user accounts', 'pie', '{"database":34,"query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]]},"type":"query"}', '{"pie.show_legend":true,"pie.show_legend_perecent":true,"pie.colors":{"converted":"#98D9D9","full":"#7172AD","guest":"#F9D45C"}}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":5.0,"q3":41.75,"max":50.0,"sd":24.986663109213552,"avg":22.666666666666668}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (9, '2020-03-19 14:01:46.397+01', '2020-06-15 16:01:15.634027+02', 'User Conversions per Month', 'Number of users that were converted from guest users to registered users in the given month', 'line', '{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34}', '{"graph.x_axis.title_text":"Date","graph.dimensions":["creation_date"],"graph.metrics":["count"],"graph.show_values":true,"series_settings":{"count":{"title":"Number of User Accounts Converted","color":"#98D9D9"}}}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":1.0,"max":1.0,"sd":null,"avg":1.0}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (16, '2020-03-26 13:04:39.934131+01', '2020-06-15 16:01:15.633423+02', 'Accumulated Registered Users per Type', 'Total number of registered (full and converted) user accounts', 'pie', '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]],"filter":["!=",["field-id",157],"guest"]},"database":34}', '{"pie.show_legend":true,"pie.show_legend_perecent":true,"pie.colors":{"converted":"#98D9D9","full":"#7172AD","guest":"#F9D45C"}}', 2, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":2,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":17.0,"max":17.0,"sd":11.313708498984761,"avg":9.0}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (6, '2020-03-19 13:48:13.545+01', '2020-06-15 16:01:15.644049+02', 'New Users per Month', 'Number of user accounts created in the given month, grouped by account type', 'bar', '{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34}', '{"graph.show_goal":false,"graph.show_trendline":true,"graph.y_axis.title_text":"Number of New Users","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":7,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":1.0,"q3":3.0,"max":22.0,"sd":4.6281652325639175,"avg":3.090909090909091}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (7, '2020-03-19 13:55:15.346+01', '2020-06-15 16:01:15.64803+02', 'Accumulated Number Of Users Over Time', 'Accumulated number of user accounts per month (created in or before the given month), grouped by account type', 'line', '{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Accumulated Number of Users","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null}', 1, 34, 43, 'query', FALSE, 4, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/Text","display_name":"Account Type","name":"account_type","special_type":"type/Category","fingerprint":{"global":{"distinct-count":3,"nil%":0.0},"type":{"type/Text":{"percent-json":0.0,"percent-url":0.0,"percent-email":0.0,"average-length":4.796875}}}},{"base_type":"type/DateTime","display_name":"Creation Date","name":"creation_date","unit":"month","fingerprint":{"global":{"distinct-count":1,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2020-03-26T15:01:02.542508","latest":"2020-03-26T15:01:02.542508"}}},"special_type":null},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":22,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":9.0,"q3":51.0,"max":68.0,"sd":22.992046432064267,"avg":27.40909090909091}}}}]', NULL, NULL);
+
+
+INSERT INTO "public"."report_card" ("id",
+                                    "created_at",
+                                    "updated_at",
+                                    "name",
+                                    "description",
+                                    "display",
+                                    "dataset_query",
+                                    "visualization_settings",
+                                    "creator_id",
+                                    "database_id",
+                                    "table_id",
+                                    "query_type",
+                                    "archived",
+                                    "collection_id",
+                                    "public_uuid",
+                                    "made_public_by_id",
+                                    "enable_embedding",
+                                    "embedding_params",
+                                    "cache_ttl",
+                                    "result_metadata",
+                                    "read_permissions",
+                                    "collection_position")
+VALUES (2, '2020-03-19 11:38:23.149+01', '2020-06-15 16:00:56.813796+02', 'New Assessments per Month', 'Number of assessments started per month', 'line', '{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"}', '{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of started assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"series_settings":{"count":{"display":"bar"}},"graph.dimensions":["start_date"],"stackable.stack_type":null}', 1, 34, 61, 'query', FALSE, 3, NULL, NULL, FALSE, NULL, NULL, '[{"base_type":"type/DateTime","display_name":"Start Date","name":"start_date","special_type":"type/CreationTimestamp","unit":"month","fingerprint":{"global":{"distinct-count":10000,"nil%":0.0},"type":{"type/DateTime":{"earliest":"2010-07-01T11:09:51.420288","latest":"2020-03-26T09:08:10.275014"}}}},{"base_type":"type/BigInteger","display_name":"Count","name":"count","special_type":"type/Quantity","fingerprint":{"global":{"distinct-count":19,"nil%":0.0},"type":{"type/Number":{"min":1.0,"q1":2.0,"q3":7.366025403784438,"max":51.0,"sd":8.574432846642878,"avg":6.704545454545454}}}}]', NULL, NULL);
 
 --
 -- Name: report_card_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -37069,49 +38475,49 @@ INSERT INTO "public"."report_dashboard" ("id",
                                          "position",
                                          "collection_id",
                                          "collection_position")
-VALUES (2, '2020-03-19 13:13:51.962+01', '2020-03-26 13:04:56.712059+01', 'Accounts Dashboard', 'Statistics concerning OiRA user accounts', 1, '[]', NULL, NULL, FALSE, NULL, NULL, FALSE, NULL, FALSE, NULL, NULL, 2);
-
-
-INSERT INTO "public"."report_dashboard" ("id",
-                                         "created_at",
-                                         "updated_at",
-                                         "name",
-                                         "description",
-                                         "creator_id",
-                                         "parameters",
-                                         "points_of_interest",
-                                         "caveats",
-                                         "show_in_getting_started",
-                                         "public_uuid",
-                                         "made_public_by_id",
-                                         "enable_embedding",
-                                         "embedding_params",
-                                         "archived",
-                                         "position",
-                                         "collection_id",
-                                         "collection_position")
-VALUES (3, '2020-03-24 11:43:27.685601+01', '2020-06-12 12:19:05.017611+02', '-> Start here', 'Introduction to the statistics', 2, '[]', NULL, NULL, FALSE, NULL, NULL, FALSE, NULL, FALSE, NULL, NULL, 1);
-
-
-INSERT INTO "public"."report_dashboard" ("id",
-                                         "created_at",
-                                         "updated_at",
-                                         "name",
-                                         "description",
-                                         "creator_id",
-                                         "parameters",
-                                         "points_of_interest",
-                                         "caveats",
-                                         "show_in_getting_started",
-                                         "public_uuid",
-                                         "made_public_by_id",
-                                         "enable_embedding",
-                                         "embedding_params",
-                                         "archived",
-                                         "position",
-                                         "collection_id",
-                                         "collection_position")
 VALUES (1, '2020-02-27 14:29:16.239+01', '2020-06-15 14:17:08.777829+02', 'Assessments Dashboard', 'Statistics about assessments', 1, '[]', NULL, NULL, FALSE, NULL, NULL, FALSE, NULL, FALSE, NULL, NULL, 3);
+
+
+INSERT INTO "public"."report_dashboard" ("id",
+                                         "created_at",
+                                         "updated_at",
+                                         "name",
+                                         "description",
+                                         "creator_id",
+                                         "parameters",
+                                         "points_of_interest",
+                                         "caveats",
+                                         "show_in_getting_started",
+                                         "public_uuid",
+                                         "made_public_by_id",
+                                         "enable_embedding",
+                                         "embedding_params",
+                                         "archived",
+                                         "position",
+                                         "collection_id",
+                                         "collection_position")
+VALUES (2, '2020-03-19 13:13:51.962+01', '2020-06-15 15:50:55.326074+02', 'Users Dashboard', 'Statistics concerning OiRA user accounts', 1, '[]', NULL, NULL, FALSE, NULL, NULL, FALSE, NULL, FALSE, NULL, NULL, 2);
+
+
+INSERT INTO "public"."report_dashboard" ("id",
+                                         "created_at",
+                                         "updated_at",
+                                         "name",
+                                         "description",
+                                         "creator_id",
+                                         "parameters",
+                                         "points_of_interest",
+                                         "caveats",
+                                         "show_in_getting_started",
+                                         "public_uuid",
+                                         "made_public_by_id",
+                                         "enable_embedding",
+                                         "embedding_params",
+                                         "archived",
+                                         "position",
+                                         "collection_id",
+                                         "collection_position")
+VALUES (3, '2020-03-24 11:43:27.685601+01', '2020-06-15 16:04:29.138011+02', '-> Start here', 'Introduction to the statistics', 2, '[]', NULL, NULL, FALSE, NULL, NULL, FALSE, NULL, FALSE, NULL, NULL, 1);
 
 --
 -- Name: report_dashboard_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -37260,7 +38666,7 @@ INSERT INTO "public"."report_dashboardcard" ("id",
                                              "dashboard_id",
                                              "parameter_mappings",
                                              "visualization_settings")
-VALUES (11, '2020-03-24 11:44:13.031318+01', '2020-06-12 12:19:04.894621+02', 7, 8, 0, 0, NULL, 3, '[]', '{"virtual_card":{"name":null,"display":"text","visualization_settings":{},"dataset_query":{},"archived":false},"text":"# OiRA Statistics\n\nWelcome to the OiRA statistics!\n\nHere are a few hints and explanations to help you find what you''re looking for.\n\n## Terminology\n\n* *Accumulated* - Whenever this term is used, we have summed up numbers from the beginning of our records to the given date. E.g. \"Number of assessments\" for March 2020 is the number of assessments that have been started in March 2020, while \"Accumulated assessments\" for March 2020 is the number of assessments that have been started between the beginning of records and the end of March 2020.\n* *Assessment* - A set of answers, actions and other items related to one particular use of a certain OiRA tool.\n* *Converted User* or *Converted Account* - A user who started as a guest and subsequently registered an account from within a guest assessment.\n* *Guest User* - A temporary user who has started an assessment without first registering a full user account.\n* *Registered User* - A non-guest user. This includes *converted users* (see there) and users who registered without first starting an assessment as a guest.\n* *Top Assessment* - An assessment in which more than 70% of risks have been answered.\n* *(to be continued)*"}');
+VALUES (11, '2020-03-24 11:44:13.031318+01', '2020-06-15 16:04:28.834534+02', 8, 9, 0, 0, NULL, 3, '[]', '{"virtual_card":{"name":null,"display":"text","visualization_settings":{},"dataset_query":{},"archived":false},"text":"# OiRA Statistics\n\nWelcome to the OiRA statistics!\n\nHere are a few hints and explanations to help you find what you''re looking for.\n\n## Terminology\n\n* *Accumulated* - Whenever this term is used, we have summed up numbers from the beginning of our records to the given date. E.g. \"Number of assessments\" for March 2020 is the number of assessments that have been started in March 2020, while \"Accumulated assessments\" for March 2020 is the number of assessments that have been started between the beginning of records and the end of March 2020.\n* *Assessment* - A set of answers, actions and other items related to one particular use of a certain OiRA tool.\n* *Converted User* or *Converted Account* - A user who started as a guest and subsequently registered an account from within a guest assessment.\n* *Guest User* - A temporary user who has started an assessment without first registering a full user account.\n* *Registered User* - A non-guest user. This includes *converted users* (see there) and users who registered without first starting an assessment as a guest.\n* *Top Assessment* - An assessment in which more than 70% of risks have been answered.\n* *(to be continued)*"}');
 
 
 INSERT INTO "public"."report_dashboardcard" ("id",
@@ -37274,7 +38680,7 @@ INSERT INTO "public"."report_dashboardcard" ("id",
                                              "dashboard_id",
                                              "parameter_mappings",
                                              "visualization_settings")
-VALUES (14, '2020-03-26 12:39:47.278732+01', '2020-06-12 12:19:04.923138+02', 5, 5, 3, 7, 8, 3, '[]', '{}');
+VALUES (14, '2020-03-26 12:39:47.278732+01', '2020-06-15 16:04:28.879398+02', 5, 5, 4, 8, 8, 3, '[]', '{}');
 
 
 INSERT INTO "public"."report_dashboardcard" ("id",
@@ -37288,7 +38694,7 @@ INSERT INTO "public"."report_dashboardcard" ("id",
                                              "dashboard_id",
                                              "parameter_mappings",
                                              "visualization_settings")
-VALUES (15, '2020-03-26 12:39:47.28397+01', '2020-06-12 12:19:04.937813+02', 5, 3, 0, 7, 3, 3, '[]', '{}');
+VALUES (15, '2020-03-26 12:39:47.28397+01', '2020-06-15 16:04:28.90052+02', 5, 4, 0, 8, 3, 3, '[]', '{}');
 
 --
 -- Name: report_dashboardcard_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
@@ -37441,6 +38847,18 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
+VALUES (145, 'Dashboard', 3, 2, '2020-03-26 13:12:13.099538+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":4,"sizeY":4,"row":3,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":4,"sizeY":3,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
 VALUES (83, 'Card', 12, 2, '2020-03-25 15:04:29.252194+01', '{"description":"All sessions with more than 70% of risks answered","archived":false,"collection_position":null,"table_id":58,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Top Sessions","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":58,"filter":[">",["field-id",237],70],"fields":[["field-id",237],["field-id",238]],"order-by":[["desc",["field-id",237]]]},"type":"query"},"id":12,"display":"table","visualization_settings":{"table.columns":[{"name":"title","fieldRef":["field-id",245],"enabled":true},{"name":"zodb_path","fieldRef":["field-id",243],"enabled":true},{"name":"report_comment","fieldRef":["field-id",241],"enabled":true},{"name":"archived","fieldRef":["field-id",248],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"brand","fieldRef":["field-id",247],"enabled":true},{"name":"created","fieldRef":["field-id",238],"enabled":true},{"name":"modified","fieldRef":["field-id",244],"enabled":true},{"name":"published","fieldRef":["field-id",252],"enabled":true},{"name":"refreshed","fieldRef":["field-id",249],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"},"public_uuid":null}', FALSE, FALSE, NULL);
 
 
@@ -37490,30 +38908,6 @@ INSERT INTO "public"."revision" ("id",
                                  "is_creation",
                                  "message")
 VALUES (41, 'Card', 9, 1, '2020-03-19 14:01:46.401+01', '{"description":"Number of accounts that were converted from guest accounts to persisted accounts in the given month","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"Converted guest accounts per month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",153],"month"]]},"database":34},"id":9,"display":"bar","visualization_settings":{"graph.x_axis.title_text":"Date","graph.dimensions":["created"],"graph.metrics":["count"],"graph.show_values":true},"public_uuid":null}', FALSE, TRUE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (43, 'Dashboard', 2, 1, '2020-03-19 14:02:39.339+01', '{"description":"Statistics concerning OiRA users","name":"Users Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":5,"card_id":6,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":6,"card_id":7,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":7,"card_id":8,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":8,"card_id":9,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (44, 'Dashboard', 2, 1, '2020-03-19 14:02:39.343+01', '{"description":"Statistics concerning OiRA users","name":"Users Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":5,"card_id":6,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":6,"card_id":7,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":7,"card_id":8,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":8,"card_id":9,"series":[]}]}', FALSE, FALSE, NULL);
 
 
 INSERT INTO "public"."revision" ("id",
@@ -37645,7 +39039,7 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
-VALUES (127, 'Dashboard', 3, 2, '2020-03-26 12:39:47.393165+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":14,"card_id":8,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+VALUES (57, 'Card', 12, 1, '2020-03-20 09:26:09.407477+01', '{"description":"All sessions with more than 70% of risks answered","archived":false,"collection_position":null,"table_id":58,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Top Sessions","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":58,"filter":[">",["field-id",237],70],"fields":[["field-id",245],["field-id",243],["field-id",241],["field-id",248],["field-id",237],["field-id",247],["field-id",238],["field-id",244],["field-id",252],["field-id",249]]},"type":"query"},"id":12,"display":"table","visualization_settings":{"table.columns":[{"name":"title","fieldRef":["field-id",245],"enabled":true},{"name":"zodb_path","fieldRef":["field-id",243],"enabled":true},{"name":"report_comment","fieldRef":["field-id",241],"enabled":true},{"name":"archived","fieldRef":["field-id",248],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"brand","fieldRef":["field-id",247],"enabled":true},{"name":"created","fieldRef":["field-id",238],"enabled":true},{"name":"modified","fieldRef":["field-id",244],"enabled":true},{"name":"published","fieldRef":["field-id",252],"enabled":true},{"name":"refreshed","fieldRef":["field-id",249],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"},"public_uuid":null}', FALSE, TRUE, NULL);
 
 
 INSERT INTO "public"."revision" ("id",
@@ -37657,7 +39051,7 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
-VALUES (57, 'Card', 12, 1, '2020-03-20 09:26:09.407477+01', '{"description":"All sessions with more than 70% of risks answered","archived":false,"collection_position":null,"table_id":58,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Top Sessions","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":58,"filter":[">",["field-id",237],70],"fields":[["field-id",245],["field-id",243],["field-id",241],["field-id",248],["field-id",237],["field-id",247],["field-id",238],["field-id",244],["field-id",252],["field-id",249]]},"type":"query"},"id":12,"display":"table","visualization_settings":{"table.columns":[{"name":"title","fieldRef":["field-id",245],"enabled":true},{"name":"zodb_path","fieldRef":["field-id",243],"enabled":true},{"name":"report_comment","fieldRef":["field-id",241],"enabled":true},{"name":"archived","fieldRef":["field-id",248],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"brand","fieldRef":["field-id",247],"enabled":true},{"name":"created","fieldRef":["field-id",238],"enabled":true},{"name":"modified","fieldRef":["field-id",244],"enabled":true},{"name":"published","fieldRef":["field-id",252],"enabled":true},{"name":"refreshed","fieldRef":["field-id",249],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"},"public_uuid":null}', FALSE, TRUE, NULL);
+VALUES (97, 'Dashboard', 1, 2, '2020-03-26 11:04:32.96966+01', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":10,"card_id":12,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":13,"card_id":15,"series":[]}]}', FALSE, FALSE, NULL);
 
 
 INSERT INTO "public"."revision" ("id",
@@ -37789,18 +39183,6 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
-VALUES (145, 'Dashboard', 3, 2, '2020-03-26 13:12:13.099538+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":4,"sizeY":4,"row":3,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":4,"sizeY":3,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
 VALUES (88, 'Card', 12, 2, '2020-03-25 15:06:31.2138+01', '{"description":"All sessions with more than 70% of risks answered","archived":false,"collection_position":null,"table_id":58,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Top Sessions","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":58,"filter":[">",["field-id",237],70],"fields":[["field-id",237],["field-id",295],["field-id",238],["field-id",297],["field-id",296]],"order-by":[["desc",["field-id",237]]]},"database":34},"id":12,"display":"table","visualization_settings":{"table.columns":[{"name":"title","fieldRef":["field-id",245],"enabled":true},{"name":"zodb_path","fieldRef":["field-id",243],"enabled":true},{"name":"report_comment","fieldRef":["field-id",241],"enabled":true},{"name":"archived","fieldRef":["field-id",248],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",237],"enabled":true},{"name":"brand","fieldRef":["field-id",247],"enabled":true},{"name":"created","fieldRef":["field-id",238],"enabled":true},{"name":"modified","fieldRef":["field-id",244],"enabled":true},{"name":"published","fieldRef":["field-id",252],"enabled":true},{"name":"refreshed","fieldRef":["field-id",249],"enabled":true},{"name":"tool","field_ref":["field-id",296],"enabled":true},{"name":"sector","field_ref":["field-id",297],"enabled":true},{"name":"country","field_ref":["field-id",295],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"},"public_uuid":null}', FALSE, FALSE, NULL);
 
 
@@ -37886,18 +39268,6 @@ INSERT INTO "public"."revision" ("id",
                                  "is_creation",
                                  "message")
 VALUES (112, 'Dashboard', 2, 2, '2020-03-26 11:18:31.476917+01', '{"description":"Statistics concerning OiRA user accounts","name":"Accounts Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":5,"card_id":6,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":6,"card_id":7,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":7,"card_id":8,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":8,"card_id":9,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (97, 'Dashboard', 1, 2, '2020-03-26 11:04:32.96966+01', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":10,"card_id":12,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":13,"card_id":15,"series":[]}]}', FALSE, FALSE, NULL);
 
 
 INSERT INTO "public"."revision" ("id",
@@ -38293,42 +39663,6 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
-VALUES (126, 'Dashboard', 3, 2, '2020-03-26 12:39:47.366053+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":14,"card_id":8,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (128, 'Dashboard', 3, 2, '2020-03-26 12:39:47.60429+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":4,"sizeY":4,"row":3,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":4,"sizeY":3,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (129, 'Dashboard', 3, 2, '2020-03-26 12:39:47.996021+01', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":7,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":4,"sizeY":4,"row":3,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":4,"sizeY":3,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
 VALUES (135, 'Card', 3, 2, '2020-03-26 12:49:08.296242+01', '{"description":"Total number of assessments that have been started until now","archived":false,"collection_position":null,"table_id":58,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Accumulated Assessments","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":58,"aggregation":[["count"]]},"type":"query"},"id":3,"display":"scalar","visualization_settings":{},"public_uuid":null}', FALSE, FALSE, NULL);
 
 
@@ -38521,6 +39855,18 @@ INSERT INTO "public"."revision" ("id",
                                  "is_reversion",
                                  "is_creation",
                                  "message")
+VALUES (165, 'Dashboard', 1, 2, '2020-06-10 14:02:46.279342+02', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":13,"card_id":15,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":17,"card_id":17,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
 VALUES (156, 'Card', 12, 2, '2020-03-27 06:31:54.116348+01', '{"description":"All assessments which have more than 70% of risks answered","archived":false,"collection_position":null,"table_id":61,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Top Assessments","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":61,"filter":[">",["field-id",299],70],"order-by":[["desc",["field-id",299]],["desc",["field-id",304]],["asc",["field-id",301]],["asc",["field-id",305]],["asc",["field-id",302]],["asc",["field-id",303]]],"fields":[["field-id",303],["field-id",299],["field-id",301],["field-id",305],["field-id",302]]},"type":"query"},"id":12,"display":"table","visualization_settings":{"table.columns":[{"name":"id","fieldRef":["field-id",300],"enabled":true},{"name":"completion_percentage","fieldRef":["field-id",299],"enabled":true},{"name":"start_date","fieldRef":["datetime-field",["field-id",304],"default"],"enabled":true},{"name":"country","fieldRef":["field-id",301],"enabled":true},{"name":"sector","fieldRef":["field-id",305],"enabled":true},{"name":"tool","fieldRef":["field-id",302],"enabled":true},{"name":"account_type","fieldRef":["field-id",303],"enabled":true}],"table.pivot_column":"archived","table.cell_column":"completion_percentage"},"public_uuid":null}', FALSE, FALSE, NULL);
 
 
@@ -38594,18 +39940,6 @@ INSERT INTO "public"."revision" ("id",
                                  "is_creation",
                                  "message")
 VALUES (164, 'Dashboard', 1, 2, '2020-06-10 14:02:46.037639+02', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":13,"card_id":15,"series":[]},{"sizeX":2,"sizeY":2,"row":0,"col":0,"id":17,"card_id":17,"series":[]}]}', FALSE, FALSE, NULL);
-
-
-INSERT INTO "public"."revision" ("id",
-                                 "model",
-                                 "model_id",
-                                 "user_id",
-                                 "timestamp",
-                                 "object",
-                                 "is_reversion",
-                                 "is_creation",
-                                 "message")
-VALUES (165, 'Dashboard', 1, 2, '2020-06-10 14:02:46.279342+02', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":13,"card_id":15,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":10,"id":17,"card_id":17,"series":[]}]}', FALSE, FALSE, NULL);
 
 
 INSERT INTO "public"."revision" ("id",
@@ -38763,11 +40097,203 @@ INSERT INTO "public"."revision" ("id",
                                  "message")
 VALUES (178, 'Dashboard', 1, 2, '2020-06-15 14:17:08.805502+02', '{"description":"Statistics about assessments","name":"Assessments Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":1,"card_id":2,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":2,"card_id":3,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":3,"card_id":4,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":9,"card_id":11,"series":[]}]}', FALSE, FALSE, NULL);
 
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (179, 'Dashboard', 2, 2, '2020-06-15 15:50:55.184019+02', '{"description":"Statistics concerning OiRA user accounts","name":"Users Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":5,"card_id":6,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":6,"card_id":7,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":7,"card_id":8,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":8,"card_id":9,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":16,"card_id":16,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (180, 'Dashboard', 2, 2, '2020-06-15 15:50:55.356448+02', '{"description":"Statistics concerning OiRA user accounts","name":"Users Dashboard","cards":[{"sizeX":4,"sizeY":4,"row":0,"col":5,"id":5,"card_id":6,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":5,"id":6,"card_id":7,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":0,"id":7,"card_id":8,"series":[]},{"sizeX":4,"sizeY":4,"row":0,"col":10,"id":8,"card_id":9,"series":[]},{"sizeX":4,"sizeY":4,"row":4,"col":0,"id":16,"card_id":16,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (181, 'Card', 8, 2, '2020-06-15 15:51:22.075968+02', '{"description":"Total number of full, guest and converted user accounts","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"Accumulated Users per Type","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":43,"aggregation":[["count"]],"breakout":[["field-id",157]]},"type":"query"},"id":8,"display":"pie","visualization_settings":{"pie.show_legend":true,"pie.show_legend_perecent":true,"pie.colors":{"converted":"#98D9D9","full":"#7172AD","guest":"#F9D45C"}},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (182, 'Card', 6, 2, '2020-06-15 15:52:09.783839+02', '{"description":"Number of user accounts created in the given month, grouped by account type","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"New Users per Month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34},"id":6,"display":"bar","visualization_settings":{"graph.show_goal":false,"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accounts Created","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (183, 'Card', 9, 2, '2020-06-15 15:53:08.008779+02', '{"description":"Number of users that were converted from guest users to registered users in the given month","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"User Conversions per Month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34},"id":9,"display":"line","visualization_settings":{"graph.x_axis.title_text":"Date","graph.dimensions":["creation_date"],"graph.metrics":["count"],"graph.show_values":true,"series_settings":{"count":{"title":"Number of Accounts Converted","color":"#98D9D9"}}},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (184, 'Card', 9, 2, '2020-06-15 15:53:40.167985+02', '{"description":"Number of users that were converted from guest users to registered users in the given month","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"User Conversions per Month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"filter":["=",["field-id",157],"converted"],"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"]]},"database":34},"id":9,"display":"line","visualization_settings":{"graph.x_axis.title_text":"Date","graph.dimensions":["creation_date"],"graph.metrics":["count"],"graph.show_values":true,"series_settings":{"count":{"title":"Number of User Accounts Converted","color":"#98D9D9"}}},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (185, 'Card', 6, 2, '2020-06-15 15:54:34.363977+02', '{"description":"Number of user accounts created in the given month, grouped by account type","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"New Users per Month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",298],"month"],["field-id",157]]},"database":34},"id":6,"display":"bar","visualization_settings":{"graph.show_goal":false,"graph.show_trendline":true,"graph.y_axis.title_text":"Number of New Users","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (190, 'Card', 2, 2, '2020-06-15 16:00:35.040011+02', '{"description":"Number of assessments started per month","archived":false,"collection_position":null,"table_id":61,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"New Assessments per Month","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":61,"aggregation":[["count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"},"id":2,"display":"line","visualization_settings":{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of started assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"series_settings":{"count":{"display":"bar"}},"graph.dimensions":["start_date"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (186, 'Card', 7, 2, '2020-06-15 15:56:43.666857+02', '{"description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"Accumulated Number of Users","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34},"id":7,"display":"line","visualization_settings":{"graph.show_trendline":true,"graph.y_axis.title_text":"Accumulated Number of Accounts","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (189, 'Card', 4, 2, '2020-06-15 15:59:35.212446+02', '{"description":"Accumulated number of assessments per month (started before end of the given month)","archived":false,"collection_position":null,"table_id":61,"database_id":34,"enable_embedding":false,"collection_id":3,"query_type":"query","name":"Accumulated Assessments Over Time","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"database":34,"query":{"source-table":61,"aggregation":[["cum-count"]],"breakout":[["datetime-field",["field-id",304],"month"]]},"type":"query"},"id":4,"display":"line","visualization_settings":{"graph.show_trendline":true,"graph.y_axis.title_text":"Number of Accumulated Assessments","graph.show_values":false,"graph.x_axis.title_text":"Date","graph.label_value_frequency":"fit","graph.metrics":["count"],"column_settings":{"[\"ref\",[\"field-id\",238]]":{"date_abbreviate":false}},"series_settings":{"count":{"display":"bar","title":"Number of Assessments"}},"graph.dimensions":["start_date"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (187, 'Card', 7, 2, '2020-06-15 15:57:18.61521+02', '{"description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"Accumulated Number of Users","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34},"id":7,"display":"line","visualization_settings":{"graph.show_trendline":true,"graph.y_axis.title_text":"Accumulated Number of Users","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (188, 'Card', 7, 2, '2020-06-15 15:58:18.337979+02', '{"description":"Accumulated number of user accounts per month (created in or before the given month), grouped by account type","archived":false,"collection_position":null,"table_id":43,"database_id":34,"enable_embedding":false,"collection_id":4,"query_type":"query","name":"Accumulated Number Of Users Over Time","read_permissions":null,"creator_id":1,"made_public_by_id":null,"embedding_params":null,"cache_ttl":null,"dataset_query":{"type":"query","query":{"source-table":43,"aggregation":[["cum-count"]],"breakout":[["field-id",157],["datetime-field",["field-id",298],"month"]]},"database":34},"id":7,"display":"line","visualization_settings":{"graph.show_trendline":true,"graph.y_axis.title_text":"Accumulated Number of Users","graph.show_values":true,"stackable.stack_display":"bar","graph.x_axis.title_text":"Creation Date","graph.metrics":["count"],"graph.label_value_formatting":"auto","series_settings":{"guest":{"color":"#F9D45C"}},"graph.dimensions":["creation_date","account_type"],"stackable.stack_type":null},"public_uuid":null}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (191, 'Dashboard', 3, 2, '2020-06-15 16:03:20.689281+02', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":9,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":5,"sizeY":5,"row":4,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":5,"sizeY":4,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (192, 'Dashboard', 3, 2, '2020-06-15 16:03:20.828437+02', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":7,"sizeY":9,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":5,"sizeY":5,"row":4,"col":7,"id":14,"card_id":8,"series":[]},{"sizeX":5,"sizeY":4,"row":0,"col":7,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (193, 'Dashboard', 3, 2, '2020-06-15 16:04:28.943414+02', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":8,"sizeY":9,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":5,"sizeY":5,"row":4,"col":8,"id":14,"card_id":8,"series":[]},{"sizeX":5,"sizeY":4,"row":0,"col":8,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+
+
+INSERT INTO "public"."revision" ("id",
+                                 "model",
+                                 "model_id",
+                                 "user_id",
+                                 "timestamp",
+                                 "object",
+                                 "is_reversion",
+                                 "is_creation",
+                                 "message")
+VALUES (194, 'Dashboard', 3, 2, '2020-06-15 16:04:29.166956+02', '{"description":"Introduction to the statistics","name":"-> Start here","cards":[{"sizeX":8,"sizeY":9,"row":0,"col":0,"id":11,"card_id":null,"series":[]},{"sizeX":5,"sizeY":5,"row":4,"col":8,"id":14,"card_id":8,"series":[]},{"sizeX":5,"sizeY":4,"row":0,"col":8,"id":15,"card_id":3,"series":[]}]}', FALSE, FALSE, NULL);
+
 --
 -- Name: revision_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."revision_id_seq"', 178, TRUE);
+SELECT pg_catalog.setval('"public"."revision_id_seq"', 194, TRUE);
 
 --
 -- Data for Name: segment; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -62009,11 +63535,151 @@ INSERT INTO "public"."task_history" ("id",
                                      "task_details")
 VALUES (2318, 'send-pulses', NULL, '2020-06-15 14:15:48.639', '2020-06-15 14:15:48.669', 30, NULL);
 
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2319, 'task-history-cleanup', NULL, '2020-06-15 15:47:09.568', '2020-06-15 15:47:09.578', 10, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2320, 'send-pulses', NULL, '2020-06-15 15:47:09.539', '2020-06-15 15:47:09.559', 20, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2321, 'send-pulses', NULL, '2020-06-15 16:00:00.138', '2020-06-15 16:00:00.14', 2, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2322, 'task-history-cleanup', NULL, '2020-06-15 16:00:00.264', '2020-06-15 16:00:00.269', 5, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2323, 'sync', 34, '2020-06-15 16:00:00.075', '2020-06-15 16:00:00.624', 549, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2324, 'sync-timezone', 34, '2020-06-15 16:00:00.076', '2020-06-15 16:00:00.176', 100, '{"timezone-id":"Europe/Berlin"}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2326, 'sync-fields', 34, '2020-06-15 16:00:00.302', '2020-06-15 16:00:00.524', 222, '{"total-fields":10,"updated-fields":0}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2328, 'sync-metabase-metadata', 34, '2020-06-15 16:00:00.612', '2020-06-15 16:00:00.622', 10, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2329, 'analyze', 34, '2020-06-15 16:00:00.959', '2020-06-15 16:00:01', 41, NULL);
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2330, 'fingerprint-fields', 34, '2020-06-15 16:00:00.959', '2020-06-15 16:00:00.982', 23, '{"no-data-fingerprints":0,"failed-fingerprints":0,"updated-fingerprints":0,"fingerprints-attempted":0}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2332, 'classify-tables', 34, '2020-06-15 16:00:00.993', '2020-06-15 16:00:01', 7, '{"total-tables":2,"tables-classified":0}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2325, 'sync-tables', 34, '2020-06-15 16:00:00.177', '2020-06-15 16:00:00.302', 125, '{"updated-tables":0,"total-tables":2}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2327, 'sync-fks', 34, '2020-06-15 16:00:00.524', '2020-06-15 16:00:00.612', 88, '{"total-fks":0,"updated-fks":0,"total-failed":0}');
+
+
+INSERT INTO "public"."task_history" ("id",
+                                     "task",
+                                     "db_id",
+                                     "started_at",
+                                     "ended_at",
+                                     "duration",
+                                     "task_details")
+VALUES (2331, 'classify-fields', 34, '2020-06-15 16:00:00.982', '2020-06-15 16:00:00.993', 11, '{"fields-classified":0,"fields-failed":0}');
+
 --
 -- Name: task_history_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."task_history_id_seq"', 2318, TRUE);
+SELECT pg_catalog.setval('"public"."task_history_id_seq"', 2332, TRUE);
 
 --
 -- Data for Name: view_log; Type: TABLE DATA; Schema: public; Owner: metabase
@@ -65554,11 +67220,235 @@ INSERT INTO "public"."view_log" ("id",
                                  "timestamp")
 VALUES (442, 2, 'dashboard', 1, '2020-06-15 14:17:08.90368+02');
 
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (443, 2, 'dashboard', 2, '2020-06-15 15:50:31.501169+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (444, 2, 'dashboard', 2, '2020-06-15 15:50:55.452394+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (445, 2, 'card', 8, '2020-06-15 15:51:01.457006+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (446, 2, 'dashboard', 2, '2020-06-15 15:51:28.920494+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (447, 2, 'card', 6, '2020-06-15 15:51:37.287645+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (448, 2, 'dashboard', 2, '2020-06-15 15:52:14.996736+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (449, 2, 'card', 9, '2020-06-15 15:52:33.661545+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (450, 2, 'dashboard', 2, '2020-06-15 15:53:50.199314+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (451, 2, 'card', 6, '2020-06-15 15:53:58.719709+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (452, 2, 'dashboard', 2, '2020-06-15 15:54:51.620794+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (453, 2, 'card', 7, '2020-06-15 15:54:58.200854+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (454, 2, 'dashboard', 2, '2020-06-15 15:57:24.628987+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (455, 2, 'card', 16, '2020-06-15 15:57:28.8424+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (456, 2, 'dashboard', 2, '2020-06-15 15:57:42.939471+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (457, 2, 'card', 7, '2020-06-15 15:57:49.807505+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (458, 2, 'dashboard', 2, '2020-06-15 15:58:25.689807+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (459, 2, 'card', 8, '2020-06-15 15:58:46.837771+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (460, 2, 'dashboard', 1, '2020-06-15 15:58:55.531117+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (461, 2, 'card', 4, '2020-06-15 15:59:14.925751+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (462, 2, 'dashboard', 1, '2020-06-15 15:59:45.238648+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (463, 2, 'card', 2, '2020-06-15 15:59:53.968558+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (464, 2, 'dashboard', 2, '2020-06-15 16:00:38.131134+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (465, 2, 'dashboard', 1, '2020-06-15 16:00:46.805132+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (466, 2, 'dashboard', 1, '2020-06-15 16:00:56.556057+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (467, 2, 'dashboard', 2, '2020-06-15 16:01:15.461484+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (468, 2, 'dashboard', 3, '2020-06-15 16:01:28.673115+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (469, 2, 'dashboard', 3, '2020-06-15 16:03:20.91471+02');
+
+
+INSERT INTO "public"."view_log" ("id",
+                                 "user_id",
+                                 "model",
+                                 "model_id",
+                                 "timestamp")
+VALUES (470, 2, 'dashboard', 3, '2020-06-15 16:04:29.249238+02');
+
 --
 -- Name: view_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: metabase
 --
 
-SELECT pg_catalog.setval('"public"."view_log_id_seq"', 442, TRUE);
+SELECT pg_catalog.setval('"public"."view_log_id_seq"', 470, TRUE);
 
 --
 -- Name: activity_pkey; Type: CONSTRAINT; Schema: public; Owner: metabase
