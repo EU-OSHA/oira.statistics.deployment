@@ -30,23 +30,43 @@ class OiraMetabase_API(Metabase_API):
 
     def get(self, endpoint, **kwargs):
         self.validate_session()
-        res = requests.get(self.domain + endpoint, headers=self.header, **kwargs)
-        return res
+        result = requests.get(self.domain + endpoint, headers=self.header, **kwargs)
+        self.check_error(result)
+        return result
 
     def post(self, endpoint, **kwargs):
         self.validate_session()
-        res = requests.post(self.domain + endpoint, headers=self.header, **kwargs)
-        return res
+        result = requests.post(self.domain + endpoint, headers=self.header, **kwargs)
+        self.check_error(result)
+        return result
 
     def put(self, endpoint, **kwargs):
         self.validate_session()
-        res = requests.put(self.domain + endpoint, headers=self.header, **kwargs)
-        return res
+        result = requests.put(self.domain + endpoint, headers=self.header, **kwargs)
+        self.check_error(result)
+        return result
 
     def delete(self, endpoint, **kwargs):
         self.validate_session()
-        res = requests.delete(self.domain + endpoint, headers=self.header, **kwargs)
-        return res
+        result = requests.delete(self.domain + endpoint, headers=self.header, **kwargs)
+        self.check_error(result)
+        return result
+
+    def check_error(self, result):
+        if not result.ok:
+            if result.status_code not in [404]:
+                errors = result.json().get("errors")
+            else:
+                errors = result.reason
+            log.error(
+                "Error {status_code} during {method} request to {url}! ({errors})"
+                "".format(
+                    method=result.request.method,
+                    url=result.url,
+                    status_code=result.status_code,
+                    errors=errors,
+                )
+            )
 
 
 def get_metabase_args():
@@ -149,7 +169,8 @@ def init_metabase_instance():
     api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
     mb = OiraMetabase_API(api_url, args.metabase_user, args.metabase_password)
 
-    result = mb.put(
+    log.info("Setting up database {}".format(args.database_name_statistics))
+    mb.put(
         "/api/database/34",
         json={
             "name": args.database_name_statistics,
@@ -163,17 +184,10 @@ def init_metabase_instance():
             },
         },
     )
-    if not result.ok:
-        log.error(
-            "Could not update database connection! ({status_code}: {errors})".format(
-                status_code=result.status_code, errors=result.json().get("errors")
-            )
-        )
-    else:
-        log.info("Set up database {}".format(args.database_name_statistics))
 
     for email, password, first_name, last_name in args.statistics_user or []:
-        result = mb.post(
+        log.info("Creating user {}".format(email))
+        mb.post(
             "/api/user",
             json={
                 "first_name": first_name,
@@ -183,40 +197,18 @@ def init_metabase_instance():
                 "group_ids": [1],
             },
         )
-        if not result.ok:
-            log.error(
-                "Could not create user! ({status_code}: {errors})".format(
-                    status_code=result.status_code, errors=result.json().get("errors")
-                )
-            )
-        else:
-            log.info("Created user {}".format(email))
 
     if args.global_statistics:
-        result = mb.post(
+        log.info("Adding global dashboard cards")
+        mb.post(
             "/api/dashboard/1/cards",
             json={"cardId": 15, "col": 0, "row": 4, "sizeX": 4, "sizeY": 4},
         )
-        if not result.ok:
-            log.error(
-                "Could not add dashboard card! ({status_code}: {errors})".format(
-                    status_code=result.status_code, errors=result.json().get("errors")
-                )
-            )
-        else:
-            log.info("Added dashboard card 15")
     if args.country_statistics:
-        result = mb.post(
+        log.info("Adding country dashboard cards")
+        mb.post(
             "/api/dashboard/1/cards",
             json={"cardId": 17, "col": 10, "row": 4, "sizeX": 4, "sizeY": 4},
         )
-        if not result.ok:
-            log.error(
-                "Could not add dashboard card! ({status_code}: {errors})".format(
-                    status_code=result.status_code, errors=result.json().get("errors")
-                )
-            )
-        else:
-            log.info("Added dashboard card 17")
 
     log.info("Done initializing metabase instance")
