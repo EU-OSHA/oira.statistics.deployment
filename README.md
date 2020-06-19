@@ -16,7 +16,11 @@ Create a `buildout.cfg` like this:
 
 Adapt `metabase-host` to the address you want to bind to or leave empty to use the default (`localhost`).
 
-Create a `secrets.cfg` like this:
+Decrypt the secrets with:
+
+    # gpg -d secrets.cfg.gpg > secrets.cfg
+
+or create your own `secrets.cfg` like this:
 
     [metabase-instance]
     metabase-password = ********
