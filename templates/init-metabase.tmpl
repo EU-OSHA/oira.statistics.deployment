@@ -20,6 +20,10 @@ echo 'PID '$${PID}
 echo 'Waiting for ${instance} to come up...'
 while ! lsof -i:${parts[instance]['metabase-port']}; do
     sleep 5s;
+    if ! ps -p $${PID} > /dev/null; then
+        echo 'ERROR: ${instance} process has died'
+        exit $?
+    fi
 done
 sleep 2s;  # just to be sure
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
