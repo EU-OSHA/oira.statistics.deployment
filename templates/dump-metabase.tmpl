@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-pg_dump --clean --if-exists --column-inserts --quote-all-identifiers --exclude-table=metabase_database \
+pg_dump --clean --if-exists --column-inserts --quote-all-identifiers \
     postgresql://${database-user}:${database-password}@${database-host}:${database-port}/${database-name} \
     > /tmp/metabase-dump.sql;
 ${buildout:bin-directory}/sqlformat --reindent --keywords upper --identifiers lower \
