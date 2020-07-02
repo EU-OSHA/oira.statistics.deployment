@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 {% def escape(password) %}${password.replace('\\'', '\'\\\\\'\'')}{% end %}
+set -e
 echo '# Restoring database dump'
 echo 'Shutting down supervisor'
 ${parts.buildout['bin-directory']}/supervisorctl shutdown
@@ -14,18 +15,19 @@ echo '# Applying instance specific settings'
 echo ''
 echo '${instance}'
 echo 'Starting metabase instance'
-${parts.buildout['bin-directory']}/${instance} > /dev/null &
+${parts.buildout['bin-directory']}/${instance} > /tmp/init-metabase-${instance}.log &
 PID=$!
 echo 'PID '$${PID}
 echo 'Waiting for ${instance} to come up...'
 while ! lsof -i:${parts[instance]['metabase-port']}; do
     sleep 5s;
     if ! ps -p $${PID} > /dev/null; then
-        echo 'ERROR: ${instance} process has died'
+        echo 'ERROR: ${instance} process has died! See /tmp/init-metabase-${instance}.log for details'
         exit $?
     fi
 done
 sleep 2s;  # just to be sure
+rm /tmp/init-metabase-${instance}.log;
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-host='${parts[instance]['metabase-host']}' \\
     --metabase-port='${parts[instance]['metabase-port']}' \\
