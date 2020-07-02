@@ -3,31 +3,29 @@
 set -e
 echo '# Restoring database dump'
 echo 'Shutting down supervisor'
-${parts.buildout['bin-directory']}/supervisorctl shutdown
+${parts.buildout['bin-directory']}/supervisorctl shutdown || true
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
 echo '${instance}'
 psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
 {% end %}
 echo ''
+echo 'Starting supervisor'
+${parts.buildout['bin-directory']}/supervisord
+echo ''
 echo '# Applying instance specific settings'
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
 echo '${instance}'
-echo 'Starting metabase instance'
-${parts.buildout['bin-directory']}/${instance} > /tmp/init-metabase-${instance}.log &
-PID=$!
-echo 'PID '$${PID}
 echo 'Waiting for ${instance} to come up...'
-while ! lsof -i:${parts[instance]['metabase-port']}; do
+while ! lsof -i:${parts[instance]['metabase-port']} > /dev/null; do
     sleep 5s;
-    if ! ps -p $${PID} > /dev/null; then
-        echo 'ERROR: ${instance} process has died! See /tmp/init-metabase-${instance}.log for details'
-        exit $?
+    if ! bin/supervisorctl status ${instance} | grep "\(STARTING\|RUNNING\|BACKOFF\)"; then
+        echo 'ERROR: ${instance} did not start properly! See supervisor log for details'
+        exit 1
     fi
 done
 sleep 2s;  # just to be sure
-rm /tmp/init-metabase-${instance}.log;
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-host='${parts[instance]['metabase-host']}' \\
     --metabase-port='${parts[instance]['metabase-port']}' \\
@@ -53,9 +51,4 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --country-statistics \\
     {% end %} \\
     || exit $?
-echo 'Stopping metabase instance'
-kill $${PID}
 {% end %}
-echo ''
-echo 'Starting supervisor'
-${parts.buildout['bin-directory']}/supervisord
