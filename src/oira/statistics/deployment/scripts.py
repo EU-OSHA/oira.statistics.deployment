@@ -158,6 +158,24 @@ def get_metabase_args():
         action="store_true",
         help=("If passed, country-only dashboard cards will be added."),
     )
+    parser.add_argument(
+        "--ldap-host", type=str, help=("LDAP host name or IP-address"),
+    )
+    parser.add_argument(
+        "--ldap-port", type=str, help=("LDAP port"),
+    )
+    parser.add_argument(
+        "--ldap-bind-dn", type=str, help=("LDAP bind DN"),
+    )
+    parser.add_argument(
+        "--ldap-password", type=str, help=("LDAP password"),
+    )
+    parser.add_argument(
+        "--ldap-user-base", type=str, help=("LDAP user base DN"),
+    )
+    parser.add_argument(
+        "--ldap-user-filter", type=str, help=("LDAP user filter"),
+    )
     return parser.parse_args()
 
 
@@ -209,6 +227,20 @@ def init_metabase_instance():
         mb.post(
             "/api/dashboard/1/cards",
             json={"cardId": 17, "col": 10, "row": 4, "sizeX": 4, "sizeY": 4},
+        )
+
+    if args.ldap_host:
+        mb.put(
+            "/api/ldap/settings",
+            json={
+                "ldap-enabled": True,
+                "ldap-host": args.ldap_host,
+                "ldap-port": args.ldap_port or "389",
+                "ldap-bind-dn": args.ldap_bind_dn,
+                "ldap-password": args.ldap_password,
+                "ldap-user-base": args.ldap_user_base,
+                "ldap-user-filter": args.ldap_user_filter,
+            },
         )
 
     log.info("Done initializing metabase instance")
