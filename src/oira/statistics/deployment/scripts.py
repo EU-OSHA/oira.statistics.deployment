@@ -55,7 +55,7 @@ class OiraMetabase_API(Metabase_API):
     def check_error(self, result):
         if not result.ok:
             if result.status_code not in [404]:
-                errors = result.json().get("errors")
+                errors = result.json().get("errors") or result.json().get("message")
             else:
                 errors = result.reason
             log.error(
@@ -230,6 +230,7 @@ def init_metabase_instance():
         )
 
     if args.ldap_host:
+        log.info("Setting up LDAP")
         mb.put(
             "/api/ldap/settings",
             json={
