@@ -45,9 +45,11 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --database-user='${parts[instance]['database-user']}' \\
     --database-password='${escape(parts[instance]['database-password'])}' \\
     --database-name-statistics='${parts[instance]['database-name-statistics']}' \\
-    {% if parts[instance].get('ldap-host') %} \\
+    {% if parts[instance].get('ldap-password') %} \\
     --ldap-host='${parts[instance]['ldap-host']}' \\
     --ldap-port='${parts[instance]['ldap-port']}' \\
+    --ldap-bind-dn='${parts[instance]['ldap-bind-dn']}' \\
+    --ldap-password='${parts[instance]['ldap-password']}' \\
     --ldap-user-base='${parts[instance]['ldap-user-base']}' \\
     --ldap-user-filter='${parts[instance]['ldap-user-filter']}' \\
     {% end %} \\
