@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 {% def escape(password) %}${password.replace('\\'', '\'\\\\\'\'')}{% end %}
 set -e
-echo '# Restoring database dump'
-echo 'Shutting down supervisor'
-${parts.buildout['bin-directory']}/supervisorctl shutdown || true
-{% for instance in parts.buildout['metabase-instances'].split('\n') %}
-echo ''
-echo '${instance}'
-psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
-{% end %}
-echo ''
-echo 'Starting supervisor'
-${parts.buildout['bin-directory']}/supervisord
-echo ''
+while getopts "n" option; do
+  if [[ "$${option}" == "n" ]]; then
+    SKIP_DB_RESTORE=1;
+  fi
+done
+
+if [[ ! -v SKIP_DB_RESTORE ]]; then
+    echo '# Restoring database dump'
+    echo 'Shutting down supervisor'
+    ${parts.buildout['bin-directory']}/supervisorctl shutdown || true
+    {% for instance in parts.buildout['metabase-instances'].split('\n') %}
+    echo ''
+    echo '${instance}'
+    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
+    {% end %}
+    echo ''
+    echo 'Starting supervisor'
+    ${parts.buildout['bin-directory']}/supervisord
+    echo ''
+fi
 echo '# Applying instance specific settings'
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
