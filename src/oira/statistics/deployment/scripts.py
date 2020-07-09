@@ -176,6 +176,11 @@ def get_metabase_args():
     parser.add_argument(
         "--ldap-user-filter", type=str, help=("LDAP user filter"),
     )
+    parser.add_argument(
+        "--ldap-attribute-firstname",
+        type=str,
+        help=("LDAP attribute to use as first name"),
+    )
     return parser.parse_args()
 
 
@@ -241,6 +246,7 @@ def init_metabase_instance():
                 "ldap-password": args.ldap_password,
                 "ldap-user-base": args.ldap_user_base,
                 "ldap-user-filter": args.ldap_user_filter,
+                "ldap-attribute-firstname": args.ldap_attribute_firstname,
             },
         )
 

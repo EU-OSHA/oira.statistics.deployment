@@ -52,6 +52,7 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --ldap-password='${parts[instance]['ldap-password']}' \\
     --ldap-user-base='${parts[instance]['ldap-user-base']}' \\
     --ldap-user-filter='${parts[instance]['ldap-user-filter']}' \\
+    --ldap-attribute-firstname='${parts[instance]['ldap-attribute-firstname']}' \\
     {% end %} \\
     {% if parts[instance].get('statistics-user') %} \\
         {% for user in parts[instance].get('statistics-user').split('\n') %} \\
