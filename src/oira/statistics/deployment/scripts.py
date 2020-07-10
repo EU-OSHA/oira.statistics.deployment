@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from metabase_api import Metabase_API
 import argparse
+import json
 import logging
 import requests
 import sys
@@ -55,7 +56,10 @@ class OiraMetabase_API(Metabase_API):
     def check_error(self, result):
         if not result.ok:
             if result.status_code not in [404]:
-                errors = result.json().get("errors") or result.json().get("message")
+                try:
+                    errors = result.json().get("errors") or result.json().get("message")
+                except json.decoder.JSONDecodeError:
+                    errors = result.text
             else:
                 errors = result.reason
             log.error(
@@ -208,18 +212,34 @@ def init_metabase_instance():
         },
     )
 
+    users = mb.get("/api/user").json()
+    user_emails = [user["email"] for user in users]
     for email, password, first_name, last_name in args.statistics_user or []:
-        log.info("Creating user {}".format(email))
-        mb.post(
-            "/api/user",
-            json={
-                "first_name": first_name,
-                "last_name": last_name,
-                "email": email,
-                "password": password,
-                "group_ids": [1],
-            },
-        )
+        if email not in user_emails:
+            log.info("Creating user {}".format(email))
+            mb.post(
+                "/api/user",
+                json={
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "password": password,
+                    "group_ids": [1, 4],
+                },
+            )
+        else:
+            log.info("Modifying user {}".format(email))
+            user_id = [user["id"] for user in users if user["email"] == email][0]
+            mb.put(
+                "/api/user/{}".format(user_id),
+                json={
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "email": email,
+                    "password": password,
+                    "group_ids": [1, 4],
+                },
+            )
 
     if args.global_statistics:
         log.info("Adding global dashboard cards")
