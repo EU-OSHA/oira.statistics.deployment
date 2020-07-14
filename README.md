@@ -24,15 +24,16 @@ or create your own `secrets.cfg` like this:
 
     [metabase-instance]
     metabase-password = ********
+    ldap-password = ********
 
     [metabase-global]
-    statistics-user-password = ********
+    statistics-user = userid ******** firstname lastname
 
     [metabase-eu]
-    statistics-user-password = ********
+    statistics-user = userid ******** firstname lastname
 
     [metabase-fr]
-    statistics-user-password = ********
+    statistics-user = userid ******** firstname lastname
 
 Then, as usual, run:
 
