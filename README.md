@@ -4,6 +4,8 @@ This package contains configuration and scripts for deploying the OSHA OiRA stat
 
 # Setup
 
+## Getting Started
+
 Create a `buildout.cfg` like this:
 
     [buildout]
@@ -15,6 +17,20 @@ Create a `buildout.cfg` like this:
     metabase-host = oira.local
 
 Adapt `metabase-host` to the address you want to bind to or leave empty to use the default (`localhost`).
+
+## Installation / Update
+
+### One-Shot
+
+Whether you're installing for the first time or updating an existing installation, it's usually enough to call
+
+    # make all
+
+This sets up everything in one go.
+
+### Step-By-Step
+
+If the one-shot setup fails for some reason or you're interested in the details, read on for a step-by-step setup.
 
 Decrypt the secrets with:
 
@@ -39,13 +55,31 @@ Then, as usual, run:
 
     # bin/buildout
 
+Alternatively, decrypting and running buildout is done by
+
+    # make buildout
+
+To initialize the postgresql databases, run
+
+    # psql -U postgres < scripts/create-databases.sql
+
+or
+
+    # make create-databases
+
 # Usage
 
 ## Getting started
 
+If you've run `make all` successfully, you can skip this section.
+
 To set up the metabase instances:
 
     # bin/init-metabase
+
+or
+
+    # make init-metabase
 
 This calls `bin/init-metabase-instance` (see below) for all instances with the parameters specified in the corresponding buildout sections.
 
@@ -59,7 +93,7 @@ To get a clean start, restore the database from the checked-in dump:
 
     # bin/restore-metabase
 
-Then make your changes throught the metabase UI. To dump the database, run:
+Then make your changes through the metabase UI. To dump the database, run:
 
     # bin/dump-metabase
 

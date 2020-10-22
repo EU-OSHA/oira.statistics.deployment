@@ -14,6 +14,7 @@ if [[ ! -v SKIP_DB_RESTORE ]]; then
     {% for instance in parts.buildout['metabase-instances'].split('\n') %}
     echo ''
     echo '${instance}'
+    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} -c "DROP SCHEMA IF EXISTS public CASCADE" >/dev/null
     psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
     {% end %}
     echo ''
@@ -26,14 +27,13 @@ echo '# Applying instance specific settings'
 echo ''
 echo '${instance}'
 echo 'Waiting for ${instance} to come up...'
-while ! lsof -i:${parts[instance]['metabase-port']} > /dev/null; do
+while ! grep "Metabase Initialization COMPLETE" ./var/log/${instance}-stdout*.log > /dev/null; do
     sleep 5s;
     if ! bin/supervisorctl status ${instance} | grep "\(STARTING\|RUNNING\|BACKOFF\)"; then
         echo 'ERROR: ${instance} did not start properly! See supervisor log for details'
         exit 1
     fi
 done
-sleep 2s;  # just to be sure
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-host='${parts[instance]['metabase-host']}' \\
     --metabase-port='${parts[instance]['metabase-port']}' \\
@@ -44,7 +44,6 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --database-port='${parts[instance]['database-port']}' \\
     --database-user='${parts[instance]['database-user']}' \\
     --database-password='${escape(parts[instance]['database-password'])}' \\
-    --database-name-statistics='${parts[instance]['database-name-statistics']}' \\
     {% if parts[instance].get('ldap-password') %} \\
     --ldap-host='${parts[instance]['ldap-host']}' \\
     --ldap-port='${parts[instance]['ldap-port']}' \\
@@ -52,7 +51,6 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --ldap-password='${parts[instance]['ldap-password']}' \\
     --ldap-user-base='${parts[instance]['ldap-user-base']}' \\
     --ldap-user-filter='${parts[instance]['ldap-user-filter']}' \\
-    --ldap-attribute-firstname='${parts[instance]['ldap-attribute-firstname']}' \\
     {% end %} \\
     {% if parts[instance].get('statistics-user') %} \\
         {% for user in parts[instance].get('statistics-user').split('\n') %} \\
@@ -64,8 +62,8 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     {% if parts[instance].get('global-statistics') == 'true' %} \\
     --global-statistics \\
     {% end %} \\
-    {% if parts[instance].get('country-statistics') == 'true' %} \\
-    --country-statistics \\
+    {% if parts[instance].get('countries') %} \\
+    --countries='${parts[instance]['countries']}' \\
     {% end %} \\
     || exit $?
 {% end %}

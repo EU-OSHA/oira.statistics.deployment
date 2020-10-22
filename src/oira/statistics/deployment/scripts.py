@@ -138,8 +138,17 @@ def get_metabase_args():
     parser.add_argument(
         "--database-name-statistics",
         type=str,
-        required=True,
         help=("Name of the postgresql statistics database"),
+    )
+    parser.add_argument(
+        "--database-pattern-statistics",
+        type=str,
+        default="statistics_{country}",
+        help=(
+            "Pattern for constructing the name of the postgresql statistics databases. "
+            "{country} will be replaced by the two-letter country code. Default: "
+            "statisticts_{country}"
+        ),
     )
     parser.add_argument(
         "--statistics-user",
@@ -158,9 +167,12 @@ def get_metabase_args():
         help=("If passed, global-only dashboard cards will be added."),
     )
     parser.add_argument(
-        "--country-statistics",
-        action="store_true",
-        help=("If passed, country-only dashboard cards will be added."),
+        "--countries",
+        type=str,
+        help=(
+            "Comma separated list of country codes for which database, collection, "
+            "dashboards and cards will be set up."
+        ),
     )
     parser.add_argument(
         "--ldap-host", type=str, help=("LDAP host name or IP-address"),
@@ -183,9 +195,388 @@ def get_metabase_args():
     parser.add_argument(
         "--ldap-attribute-firstname",
         type=str,
+        default="givenName",
         help=("LDAP attribute to use as first name"),
     )
     return parser.parse_args()
+
+
+class MetabaseInitializer(object):
+    def __init__(self, args):
+        self.args = args
+        api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
+        self.mb = OiraMetabase_API(api_url, args.metabase_user, args.metabase_password)
+        self._database_mapping = None
+        self._existing_items = None
+
+    def __call__(self):
+        countries = {}
+
+        if self.args.countries:
+            countries = {
+                country.strip(): {} for country in self.args.countries.split(",")
+            }
+
+            for country in countries:
+                countries[country]["database"] = self.set_up_country_database(country)
+                countries[country]["group"] = self.set_up_country_group(country)
+                countries[country]["collection"] = self.set_up_country_collection(
+                    country
+                )
+                self.set_up_country_dashboards(
+                    country,
+                    countries[country]["database"],
+                    countries[country]["collection"],
+                )
+
+            self.set_up_country_permissions(countries)
+
+        if self.args.global_statistics:
+            log.info("Adding global dashboard cards")
+            self.mb.post(
+                "/api/dashboard/1/cards",
+                json={"cardId": 15, "col": 0, "row": 4, "sizeX": 4, "sizeY": 4},
+            )
+
+        if self.args.ldap_host:
+            self.set_up_ldap(countries)
+
+        if self.args.statistics_user:
+            users = self.mb.get("/api/user").json()
+            user_emails = [user["email"] for user in users]
+            for email, password, first_name, last_name in (
+                self.args.statistics_user or []
+            ):
+                if email not in user_emails:
+                    log.info("Creating user {}".format(email))
+                    self.mb.post(
+                        "/api/user",
+                        json={
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "email": email,
+                            "password": password,
+                            "group_ids": [1, 4],
+                        },
+                    )
+                else:
+                    log.info("Modifying user {}".format(email))
+                    user_id = [user["id"] for user in users if user["email"] == email][
+                        0
+                    ]
+                    self.mb.put(
+                        "/api/user/{}".format(user_id),
+                        json={
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "email": email,
+                            "password": password,
+                            "group_ids": [1, 4],
+                        },
+                    )
+
+        if self.args.database_name_statistics:
+            log.info(
+                "Setting up database {}".format(self.args.database_name_statistics)
+            )
+            self.mb.put(
+                "/api/database/34",
+                json={
+                    "name": self.args.database_name_statistics,
+                    "engine": "postgres",
+                    "details": {
+                        "dbname": self.args.database_name_statistics,
+                        "host": self.args.database_host,
+                        "port": self.args.database_port,
+                        "user": self.args.database_user,
+                        "password": self.args.database_password,
+                    },
+                },
+            )
+        else:
+            permissions = self.mb.get("/api/permissions/graph").json()
+            if "1" in permissions["groups"]:
+                permissions["groups"]["1"]["34"] = {"schemas": "none"}
+
+        log.info("Done initializing metabase instance")
+
+    def set_up_country_database(self, country):
+        db_name = self.args.database_pattern_statistics.format(country=country.lower())
+        if db_name in self.existing_items["databases"]:
+            log.info("Keeping existing database {}".format(db_name))
+            db_id = self.existing_items["databases"][db_name]
+            db_info = self.mb.put(
+                "/api/database/{}".format(db_id),
+                json={
+                    "name": db_name,
+                    "engine": "postgres",
+                    "details": {
+                        "dbname": db_name,
+                        "host": self.args.database_host,
+                        "port": self.args.database_port,
+                        "user": self.args.database_user,
+                        "password": self.args.database_password,
+                    },
+                },
+            ).json()
+            db_id = db_info["id"]
+        else:
+            log.info("Setting up database {}".format(db_name))
+            db_info = self.mb.post(
+                "/api/database/",
+                json={
+                    "name": db_name,
+                    "engine": "postgres",
+                    "details": {
+                        "dbname": db_name,
+                        "host": self.args.database_host,
+                        "port": self.args.database_port,
+                        "user": self.args.database_user,
+                        "password": self.args.database_password,
+                    },
+                },
+            ).json()
+            db_id = db_info["id"]
+
+        self._database_mapping = None
+        return db_id
+
+    def set_up_country_group(self, country):
+        if country.upper() in self.existing_items["groups"]:
+            log.info("Keeping existing country group {}".format(country))
+            group_id = self.existing_items["groups"][country.upper()]
+        else:
+            log.info("Adding country group {}".format(country))
+            group_info = self.mb.post(
+                "/api/permissions/group", json={"name": country.upper()},
+            ).json()
+            group_id = group_info["id"]
+        return group_id
+
+    def set_up_country_collection(self, country):
+        if country.upper() in self.existing_items["collections"]:
+            log.info("Reusing existing country collection")
+            collection_id = self.existing_items["collections"][country.upper()]
+        else:
+            log.info("Adding country collection")
+            collection_id = self.mb.post(
+                "/api/collection", json={"name": country.upper(), "color": "#00FF00"}
+            ).json()["id"]
+        return collection_id
+
+    def set_up_country_dashboards(self, country, database_id, collection_id):
+        log.info("Adding country dashboards")
+        dashboard_id_map = {}
+        for base_dashboard_id, dashboard_name_tmpl in {
+            "1": "Assessments Dashboard ({})",
+            "2": "Users Dashboard ({})",
+        }.items():
+            dashboard_name = dashboard_name_tmpl.format(country.upper())
+            if dashboard_name in self.existing_items["dashboards"]:
+                dashboard_id_map[base_dashboard_id] = self.existing_items["dashboards"][
+                    dashboard_name
+                ]
+            else:
+                dashboard_data = {
+                    "name": dashboard_name,
+                    "collection_id": collection_id,
+                    "collection_position": int(base_dashboard_id),
+                }
+                result = self.mb.post("/api/dashboard", json=dashboard_data,)
+                if not result.ok and "duplicate key" in result.json()["message"]:
+                    # retry, this usually goes away by itself
+                    log.info('Retrying after "duplicate key" error')
+                    result = self.mb.post("/api/dashboard", json=dashboard_data,)
+                dashboard_id_map[base_dashboard_id] = result.json()["id"]
+
+        log.info("Adding country dashboard cards")
+        for base_dashboard_id in ["1", "2"]:
+            country_dashboard_id = dashboard_id_map[base_dashboard_id]
+            existing_cards = {
+                card["card"]["name"]: card["id"]
+                for card in self.mb.get(
+                    "/api/dashboard/{}".format(country_dashboard_id)
+                ).json()["ordered_cards"]
+            }
+            for dashboard_card in self.mb.get(
+                "/api/dashboard/{}".format(base_dashboard_id)
+            ).json()["ordered_cards"]:
+                card = dashboard_card["card"]
+                if card["name"] not in existing_cards:
+                    del card["id"]
+                    card["collection_id"] = collection_id
+                    if "query" in card["dataset_query"]:
+                        old_database_id = card["dataset_query"]["database"]
+                        card["dataset_query"]["query"] = self.transform_query(
+                            card["dataset_query"]["query"], old_database_id, database_id
+                        )
+                    card["dataset_query"]["database"] = database_id
+                    card["database_id"] = database_id
+                    new_card = self.mb.post("/api/card", json=card).json()
+                    new_card_id = new_card["id"]
+                else:
+                    new_card_id = existing_cards[card["name"]]
+                self.mb.post(
+                    "/api/dashboard/{}/cards".format(country_dashboard_id),
+                    json={
+                        "cardId": new_card_id,
+                        "col": dashboard_card["col"],
+                        "row": dashboard_card["row"],
+                        "sizeX": dashboard_card["sizeX"],
+                        "sizeY": dashboard_card["sizeY"],
+                    },
+                )
+            if base_dashboard_id == "1":
+                card = self.mb.get("/api/card/17").json()
+                if card["name"] not in existing_cards:
+                    del card["id"]
+                    card["collection_id"] = collection_id
+                    card["database_id"] = database_id
+                    card["dataset_query"]["database"] = database_id
+                    new_card = self.mb.post("/api/card", json=card).json()
+                    new_card_id = new_card["id"]
+                else:
+                    new_card_id = existing_cards[card["name"]]
+                self.mb.post(
+                    "/api/dashboard/{}/cards".format(
+                        dashboard_id_map[base_dashboard_id]
+                    ),
+                    json={
+                        "cardId": new_card_id,
+                        "col": 10,
+                        "row": 4,
+                        "sizeX": 4,
+                        "sizeY": 4,
+                    },
+                )
+
+    def set_up_country_permissions(self, countries):
+        permissions = self.mb.get("/api/permissions/graph").json()
+        collection_permissions = self.mb.get("/api/collection/graph").json()
+        for country_info in countries.values():
+            if str(self.existing_items["groups"]["ALL USERS"]) in permissions["groups"]:
+                permissions["groups"][str(self.existing_items["groups"]["ALL USERS"])][
+                    str(country_info["database"])
+                ] = {"schemas": "none"}
+            group_permissions = permissions["groups"].setdefault(
+                str(country_info["group"]), {}
+            )
+            group_permissions = {db: {"schemas": "none"} for db in group_permissions}
+            group_permissions[str(country_info["database"])] = {"schemas": "all"}
+            permissions["groups"][str(country_info["group"])] = group_permissions
+
+            collection_permissions["groups"][str(country_info["group"])][
+                country_info["collection"]
+            ] = "read"
+        self.mb.put("/api/permissions/graph", json=permissions)
+        self.mb.put("/api/collection/graph", json=collection_permissions)
+
+    def set_up_ldap(self, countries):
+        log.info("Setting up LDAP")
+        group_mappings = {
+            "cn={},ou=Countries,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu".format(
+                country
+            ): [info["group"]]
+            for country, info in countries.items()
+        }
+        self.mb.put(
+            "/api/ldap/settings",
+            json={
+                "ldap-enabled": True,
+                "ldap-host": self.args.ldap_host,
+                "ldap-port": self.args.ldap_port or "389",
+                "ldap-bind-dn": self.args.ldap_bind_dn,
+                "ldap-password": self.args.ldap_password,
+                "ldap-user-base": self.args.ldap_user_base,
+                "ldap-user-filter": self.args.ldap_user_filter,
+                "ldap-attribute-firstname": self.args.ldap_attribute_firstname,
+                "ldap-group-sync": True,
+                "ldap-group-base": (
+                    "ou=Countries,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu"
+                ),
+                "ldap-group-mappings": group_mappings,
+            },
+        )
+
+    @property
+    def existing_items(self):
+        if not self._existing_items:
+            self._existing_items = {}
+            self._existing_items["groups"] = {
+                group["name"].upper(): group["id"]
+                for group in self.mb.get("/api/permissions/group").json()
+            }
+            self._existing_items["databases"] = {
+                db["details"]["dbname"]: db["id"]
+                for db in self.mb.get("/api/database").json()
+            }
+            self._existing_items["collections"] = {
+                collection["name"]: collection["id"]
+                for collection in self.mb.get("/api/collection").json()
+            }
+            self._existing_items["dashboards"] = {
+                dashboard["name"]: dashboard["id"]
+                for dashboard in self.mb.get("/api/dashboard").json()
+            }
+
+        return self._existing_items
+
+    def transform_query(self, query, old_database_id, database_id):
+        old_table_id = query["source-table"]
+        if "breakout" in query:
+            for item in query["breakout"]:
+                if item[0] == "field-id":
+                    item[1] = self.database_mapping[database_id]["fields"][item[1]]
+                elif item[1][0] == "field-id":
+                    item[1][1] = self.database_mapping[database_id]["fields"][
+                        item[1][1]
+                    ]
+        if "filter" in query:
+            if query["filter"][1][0] == "field-id":
+                query["filter"][1][1] = self.database_mapping[database_id]["fields"][
+                    query["filter"][1][1]
+                ]
+        query["source-table"] = self.database_mapping[database_id]["tables"][
+            old_table_id
+        ]
+        return query
+
+    @property
+    def database_mapping(self):
+        if not self._database_mapping:
+            self._database_mapping = {}
+            base_database = self.mb.get("/api/database/34?include=tables.fields").json()
+            base_tables = {
+                table["name"]: table["id"] for table in base_database["tables"]
+            }
+            for database in self.mb.get("/api/database?include=tables").json():
+                if database["id"] != "34":
+                    tables = {
+                        table["name"]: table["id"] for table in database["tables"]
+                    }
+                    fields = {
+                        table["name"]: {
+                            field["name"]: field["id"] for field in table["fields"]
+                        }
+                        for table in self.mb.get(
+                            "/api/database/{}?include=tables.fields".format(
+                                database["id"]
+                            )
+                        ).json()["tables"]
+                    }
+                    self._database_mapping[database["id"]] = {
+                        "tables": {},
+                        "fields": {},
+                    }
+                    for base_table in base_database["tables"]:
+                        self._database_mapping[database["id"]]["tables"][
+                            base_table["id"]
+                        ] = tables[base_table["name"]]
+                        for base_field in base_table["fields"]:
+                            self._database_mapping[database["id"]]["fields"][
+                                base_field["id"]
+                            ] = fields[base_table["name"]][base_field["name"]]
+        return self._database_mapping
 
 
 def init_metabase_instance():
@@ -193,81 +584,5 @@ def init_metabase_instance():
     args = get_metabase_args()
 
     log.info("Initializing metabase instance")
-    api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
-    mb = OiraMetabase_API(api_url, args.metabase_user, args.metabase_password)
-
-    log.info("Setting up database {}".format(args.database_name_statistics))
-    mb.put(
-        "/api/database/34",
-        json={
-            "name": args.database_name_statistics,
-            "engine": "postgres",
-            "details": {
-                "dbname": args.database_name_statistics,
-                "host": args.database_host,
-                "port": args.database_port,
-                "user": args.database_user,
-                "password": args.database_password,
-            },
-        },
-    )
-
-    users = mb.get("/api/user").json()
-    user_emails = [user["email"] for user in users]
-    for email, password, first_name, last_name in args.statistics_user or []:
-        if email not in user_emails:
-            log.info("Creating user {}".format(email))
-            mb.post(
-                "/api/user",
-                json={
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "email": email,
-                    "password": password,
-                    "group_ids": [1, 4],
-                },
-            )
-        else:
-            log.info("Modifying user {}".format(email))
-            user_id = [user["id"] for user in users if user["email"] == email][0]
-            mb.put(
-                "/api/user/{}".format(user_id),
-                json={
-                    "first_name": first_name,
-                    "last_name": last_name,
-                    "email": email,
-                    "password": password,
-                    "group_ids": [1, 4],
-                },
-            )
-
-    if args.global_statistics:
-        log.info("Adding global dashboard cards")
-        mb.post(
-            "/api/dashboard/1/cards",
-            json={"cardId": 15, "col": 0, "row": 4, "sizeX": 4, "sizeY": 4},
-        )
-    if args.country_statistics:
-        log.info("Adding country dashboard cards")
-        mb.post(
-            "/api/dashboard/1/cards",
-            json={"cardId": 17, "col": 10, "row": 4, "sizeX": 4, "sizeY": 4},
-        )
-
-    if args.ldap_host:
-        log.info("Setting up LDAP")
-        mb.put(
-            "/api/ldap/settings",
-            json={
-                "ldap-enabled": True,
-                "ldap-host": args.ldap_host,
-                "ldap-port": args.ldap_port or "389",
-                "ldap-bind-dn": args.ldap_bind_dn,
-                "ldap-password": args.ldap_password,
-                "ldap-user-base": args.ldap_user_base,
-                "ldap-user-filter": args.ldap_user_filter,
-                "ldap-attribute-firstname": args.ldap_attribute_firstname,
-            },
-        )
-
-    log.info("Done initializing metabase instance")
+    initializer = MetabaseInitializer(args)
+    initializer()
