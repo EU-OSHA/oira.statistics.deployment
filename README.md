@@ -26,7 +26,7 @@ Whether you're installing for the first time or updating an existing installatio
 
     # make all
 
-This sets up everything in one go.
+This sets up everything in one go except for creating the databases - you may need to do this as a privileged user, so it's not included by default. See "Creating the Databases" for instructions.
 
 ### Step-By-Step
 
@@ -59,13 +59,27 @@ Alternatively, decrypting and running buildout is done by
 
     # make buildout
 
-To initialize the postgresql databases, run
+### Creating the Databases
+
+During the first setup or if you get an error like
+
+    psql: FATAL:  database "xyz" does not exist
+
+you will need to initialize the postgresql databases. Make sure
+
+* buildout has run sucessfully (`make buildout` or `bin/buildout`)
+* `PSQL_USER` (see Makefile) is set to a user who may create postgresql databases
+* your current user can use sudo to become `PSQL_USER`
+
+Once you're set, run
+
+    # make create-databases
+
+or, if you're already logged in as an appropriate user
 
     # psql -U postgres < scripts/create-databases.sql
 
-or
-
-    # make create-databases
+and then retry `make all`.
 
 # Usage
 
