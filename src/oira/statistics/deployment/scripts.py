@@ -293,6 +293,7 @@ class MetabaseInitializer(object):
                     },
                 },
             )
+            self.mb.post("/api/database/34/sync")
         else:
             permissions = self.mb.get("/api/permissions/graph").json()
             if "1" in permissions["groups"]:
@@ -337,6 +338,8 @@ class MetabaseInitializer(object):
                 },
             ).json()
             db_id = db_info["id"]
+
+        self.mb.post("/api/database/{}/sync".format(db_id))
 
         self._database_mapping = None
         return db_id
@@ -546,9 +549,6 @@ class MetabaseInitializer(object):
         if not self._database_mapping:
             self._database_mapping = {}
             base_database = self.mb.get("/api/database/34?include=tables.fields").json()
-            base_tables = {
-                table["name"]: table["id"] for table in base_database["tables"]
-            }
             for database in self.mb.get("/api/database?include=tables").json():
                 if database["id"] != "34":
                     tables = {
