@@ -471,6 +471,9 @@ class MetabaseInitializer(object):
             collection_permissions["groups"][str(country_info["group"])][
                 country_info["collection"]
             ] = "read"
+            collection_permissions["groups"].setdefault(
+                self.existing_items["groups"]["ALL USERS"], {}
+            )[country_info["collection"]] = "none"
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
