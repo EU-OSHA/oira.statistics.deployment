@@ -454,6 +454,7 @@ class MetabaseInitializer(object):
                 )
 
     def set_up_country_permissions(self, countries):
+        log.info("Setting up country permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
         for country_info in countries.values():
@@ -500,9 +501,9 @@ class MetabaseInitializer(object):
                 "ldap-group-base": (
                     "ou=Countries,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu"
                 ),
-                "ldap-group-mappings": group_mappings,
             },
         )
+        self.mb.put("/api/setting/ldap-group-mappings", json={"value": group_mappings})
 
     @property
     def existing_items(self):
