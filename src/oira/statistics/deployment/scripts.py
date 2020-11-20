@@ -212,6 +212,7 @@ class MetabaseInitializer(object):
     def __call__(self):
         countries = {}
 
+        global_group_id = self.set_up_global_group()
         if self.args.countries:
             countries = {
                 country.strip(): {} for country in self.args.countries.split(",")
@@ -229,9 +230,10 @@ class MetabaseInitializer(object):
                     countries[country]["collection"],
                 )
 
-            self.set_up_country_permissions(countries)
+            self.set_up_country_permissions(countries, global_group_id)
 
         if self.args.global_statistics:
+            self.set_up_global_permissions(global_group_id)
             log.info("Adding global dashboard cards")
             self.mb.post(
                 "/api/dashboard/1/cards",
@@ -239,7 +241,7 @@ class MetabaseInitializer(object):
             )
 
         if self.args.ldap_host:
-            self.set_up_ldap(countries)
+            self.set_up_ldap(countries, global_group_id)
 
         if self.args.statistics_user:
             users = self.mb.get("/api/user").json()
@@ -343,6 +345,18 @@ class MetabaseInitializer(object):
 
         self._database_mapping = None
         return db_id
+
+    def set_up_global_group(self):
+        if "GLOBAL" in self.existing_items["groups"]:
+            log.info("Keeping existing global group")
+            group_id = self.existing_items["groups"]["GLOBAL"]
+        else:
+            log.info("Adding global group")
+            group_info = self.mb.post(
+                "/api/permissions/group", json={"name": "global"},
+            ).json()
+            group_id = group_info["id"]
+        return group_id
 
     def set_up_country_group(self, country):
         if country.upper() in self.existing_items["groups"]:
@@ -453,7 +467,33 @@ class MetabaseInitializer(object):
                     },
                 )
 
-    def set_up_country_permissions(self, countries):
+    def set_up_global_permissions(self, global_group_id):
+        log.info("Setting up global permissions")
+        permissions = self.mb.get("/api/permissions/graph").json()
+        collection_permissions = self.mb.get("/api/collection/graph").json()
+        if str(self.existing_items["groups"]["ALL USERS"]) in permissions["groups"]:
+            permissions["groups"][str(self.existing_items["groups"]["ALL USERS"])][
+                "34"
+            ] = {"schemas": "none"}
+        global_group_permissions = permissions["groups"].setdefault(
+            str(global_group_id), {}
+        )
+        global_group_permissions["34"] = {"schemas": "all"}
+        permissions["groups"][str(global_group_id)] = global_group_permissions
+
+        collection_permissions["groups"][str(global_group_id)]["3"] = "read"
+        collection_permissions["groups"][str(global_group_id)]["4"] = "read"
+        collection_permissions["groups"].setdefault(
+            self.existing_items["groups"]["ALL USERS"], {}
+        )["3"] = "none"
+        collection_permissions["groups"].setdefault(
+            self.existing_items["groups"]["ALL USERS"], {}
+        )["4"] = "none"
+
+        self.mb.put("/api/permissions/graph", json=permissions)
+        self.mb.put("/api/collection/graph", json=collection_permissions)
+
+    def set_up_country_permissions(self, countries, global_group_id):
         log.info("Setting up country permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
@@ -469,7 +509,16 @@ class MetabaseInitializer(object):
             group_permissions[str(country_info["database"])] = {"schemas": "all"}
             permissions["groups"][str(country_info["group"])] = group_permissions
 
+            global_group_permissions = permissions["groups"].setdefault(
+                str(global_group_id), {}
+            )
+            global_group_permissions[str(country_info["database"])] = {"schemas": "all"}
+            permissions["groups"][str(global_group_id)] = global_group_permissions
+
             collection_permissions["groups"][str(country_info["group"])][
+                country_info["collection"]
+            ] = "read"
+            collection_permissions["groups"][str(global_group_id)][
                 country_info["collection"]
             ] = "read"
             collection_permissions["groups"].setdefault(
@@ -478,7 +527,7 @@ class MetabaseInitializer(object):
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
-    def set_up_ldap(self, countries):
+    def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
         group_mappings = {
             "cn={},ou=Countries,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu".format(
@@ -486,6 +535,9 @@ class MetabaseInitializer(object):
             ): [info["group"]]
             for country, info in countries.items()
         }
+        group_mappings["cn=ADMIN,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu"] = [
+            global_group_id
+        ]
         self.mb.put(
             "/api/ldap/settings",
             json={
