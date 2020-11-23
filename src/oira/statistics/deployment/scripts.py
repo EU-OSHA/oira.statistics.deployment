@@ -220,20 +220,24 @@ class MetabaseInitializer(object):
 
             for country in countries:
                 countries[country]["group"] = self.set_up_country_group(country)
-                countries[country]["database"] = self.set_up_country_database(country)
-                countries[country]["collection"] = self.set_up_country_collection(
-                    country
-                )
-                self.set_up_country_dashboards(
-                    country,
-                    countries[country]["database"],
-                    countries[country]["collection"],
-                )
+                if not self.args.global_statistics:
+                    countries[country]["database"] = self.set_up_country_database(
+                        country
+                    )
+                    countries[country]["collection"] = self.set_up_country_collection(
+                        country
+                    )
+                    self.set_up_country_dashboards(
+                        country,
+                        countries[country]["database"],
+                        countries[country]["collection"],
+                    )
 
-            self.set_up_country_permissions(countries, global_group_id)
+            if not self.args.global_statistics:
+                self.set_up_country_permissions(countries, global_group_id)
 
         if self.args.global_statistics:
-            self.set_up_global_permissions(global_group_id)
+            self.set_up_global_permissions(countries, global_group_id)
             log.info("Adding global dashboard cards")
             self.mb.post(
                 "/api/dashboard/1/cards",
@@ -467,7 +471,7 @@ class MetabaseInitializer(object):
                     },
                 )
 
-    def set_up_global_permissions(self, global_group_id):
+    def set_up_global_permissions(self, countries, global_group_id):
         log.info("Setting up global permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
@@ -481,6 +485,13 @@ class MetabaseInitializer(object):
         global_group_permissions["34"] = {"schemas": "all"}
         permissions["groups"][str(global_group_id)] = global_group_permissions
 
+        permissions["groups"].update(
+            {
+                country_info["group"]: {"34": {"schemas": "all"}}
+                for country_info in countries.values()
+            }
+        )
+
         collection_permissions["groups"][str(global_group_id)]["3"] = "read"
         collection_permissions["groups"][str(global_group_id)]["4"] = "read"
         collection_permissions["groups"].setdefault(
@@ -489,6 +500,13 @@ class MetabaseInitializer(object):
         collection_permissions["groups"].setdefault(
             self.existing_items["groups"]["ALL USERS"], {}
         )["4"] = "none"
+
+        collection_permissions["groups"].update(
+            {
+                country_info["group"]: {"3": "read", "4": "read"}
+                for country_info in countries.values()
+            }
+        )
 
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
