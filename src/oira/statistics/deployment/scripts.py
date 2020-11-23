@@ -219,8 +219,8 @@ class MetabaseInitializer(object):
             }
 
             for country in countries:
-                countries[country]["database"] = self.set_up_country_database(country)
                 countries[country]["group"] = self.set_up_country_group(country)
+                countries[country]["database"] = self.set_up_country_database(country)
                 countries[country]["collection"] = self.set_up_country_collection(
                     country
                 )
@@ -497,33 +497,54 @@ class MetabaseInitializer(object):
         log.info("Setting up country permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
+
         for country_info in countries.values():
-            if str(self.existing_items["groups"]["ALL USERS"]) in permissions["groups"]:
-                permissions["groups"][str(self.existing_items["groups"]["ALL USERS"])][
-                    str(country_info["database"])
-                ] = {"schemas": "none"}
-            group_permissions = permissions["groups"].setdefault(
-                str(country_info["group"]), {}
+            permissions["groups"][str(country_info["group"])] = {
+                str(country_info["database"]): {"schemas": "all"}
+            }
+            permissions["groups"][str(country_info["group"])].update(
+                {
+                    str(country_other["database"]): {"schemas": "none"}
+                    for country_other in countries.values()
+                    if country_info["group"] != country_other["group"]
+                }
             )
-            group_permissions = {db: {"schemas": "none"} for db in group_permissions}
-            group_permissions[str(country_info["database"])] = {"schemas": "all"}
-            permissions["groups"][str(country_info["group"])] = group_permissions
 
-            global_group_permissions = permissions["groups"].setdefault(
-                str(global_group_id), {}
+            collection_permissions["groups"][str(country_info["group"])] = {
+                str(country_info["collection"]): "read"
+            }
+            collection_permissions["groups"][str(country_info["group"])].update(
+                {
+                    str(country_other["collection"]): "none"
+                    for country_other in countries.values()
+                    if country_info["group"] != country_other["group"]
+                }
             )
-            global_group_permissions[str(country_info["database"])] = {"schemas": "all"}
-            permissions["groups"][str(global_group_id)] = global_group_permissions
 
-            collection_permissions["groups"][str(country_info["group"])][
-                country_info["collection"]
-            ] = "read"
-            collection_permissions["groups"][str(global_group_id)][
-                country_info["collection"]
-            ] = "read"
-            collection_permissions["groups"].setdefault(
-                self.existing_items["groups"]["ALL USERS"], {}
-            )[country_info["collection"]] = "none"
+        permissions["groups"][str(global_group_id)] = {
+            str(country_info["database"]): {"schemas": "all"}
+            for country_info in countries.values()
+        }
+        collection_permissions["groups"][str(global_group_id)] = {
+            str(country_info["collection"]): "read"
+            for country_info in countries.values()
+        }
+
+        all_users_id = str(self.existing_items["groups"]["ALL USERS"])
+        if all_users_id in permissions["groups"]:
+            permissions["groups"][all_users_id].update(
+                {
+                    str(country_info["database"]): {"schemas": "none"}
+                    for country_info in countries.values()
+                }
+            )
+        if all_users_id in collection_permissions["groups"]:
+            collection_permissions["groups"][all_users_id].update(
+                {
+                    country_info["collection"]: "none"
+                    for country_info in countries.values()
+                }
+            )
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
@@ -550,9 +571,7 @@ class MetabaseInitializer(object):
                 "ldap-user-filter": self.args.ldap_user_filter,
                 "ldap-attribute-firstname": self.args.ldap_attribute_firstname,
                 "ldap-group-sync": True,
-                "ldap-group-base": (
-                    "ou=Countries,ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu"
-                ),
+                "ldap-group-base": ("ou=OiRA_CMS,ou=Sites,dc=osha,dc=europa,dc=eu"),
             },
         )
         self.mb.put("/api/setting/ldap-group-mappings", json={"value": group_mappings})
