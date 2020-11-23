@@ -22,11 +22,11 @@ Adapt `metabase-host` to the address you want to bind to or leave empty to use t
 
 ### One-Shot
 
-Whether you're installing for the first time or updating an existing installation, it's usually enough to call
+If you're installing for the first time, you need to make sure the databases are created (see below). If you're updating an existing installation, it's usually enough to call
 
     # make all
 
-This sets up everything in one go except for creating the databases - you may need to do this as a privileged user, so it's not included by default. See "Creating the Databases" for instructions.
+This sets up everything in one go except for creating the databases - you may need to do this as a privileged user, and it's unnecessary to run on every update, so it's not included by default. See "Creating the Databases" for instructions.
 
 ### Step-By-Step
 
