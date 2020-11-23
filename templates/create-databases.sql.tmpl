@@ -4,10 +4,12 @@ ALTER DATABASE ${parts[instance]['database-name']} OWNER TO ${parts[instance]['d
 \c ${parts[instance]['database-name']};
 ALTER SCHEMA public OWNER TO ${parts[instance]['database-user']};
 
+{% if parts[instance].get('database-name-statistics') %}
 CREATE DATABASE ${parts[instance]['database-name-statistics']};
 ALTER DATABASE ${parts[instance]['database-name-statistics']} OWNER TO ${parts[instance]['database-user']};
 \c ${parts[instance]['database-name-statistics']};
 ALTER SCHEMA public OWNER TO ${parts[instance]['database-user']};
+{% end %}
 
 {% if parts[instance].get('countries') %}
     {% for country in parts[instance].get('countries').split(',') %}
