@@ -120,3 +120,9 @@ To apply the changes to the global and country instances, again run
 ## init-metabase-instance
 
 Apply settings to a single metabase instance. Sets database connection parameters and optionally creates an additional user. Run `init-metabase-instance --help` for arguments.
+
+## init-metabase
+
+Initializes all metabase instances by restoring the database dump and running
+init-metabase-instance on each of them. Does not take any parameters; buildout writes
+them directly into the script.

@@ -448,28 +448,35 @@ class MetabaseInitializer(object):
                     },
                 )
             if base_dashboard_id == "1":
-                card = self.mb.get("/api/card/17").json()
-                if card["name"] not in existing_cards:
-                    del card["id"]
-                    card["collection_id"] = collection_id
-                    card["database_id"] = database_id
-                    card["dataset_query"]["database"] = database_id
-                    new_card = self.mb.post("/api/card", json=card).json()
-                    new_card_id = new_card["id"]
-                else:
-                    new_card_id = existing_cards[card["name"]]
-                self.mb.post(
-                    "/api/dashboard/{}/cards".format(
-                        dashboard_id_map[base_dashboard_id]
-                    ),
-                    json={
-                        "cardId": new_card_id,
-                        "col": 10,
-                        "row": 4,
-                        "sizeX": 4,
-                        "sizeY": 4,
-                    },
-                )
+                country_specific_cards = [("17", 10, 4), ("18", 0, 4)]
+                for card_id, col, row in country_specific_cards:
+                    card = self.mb.get("/api/card/{}".format(card_id)).json()
+                    if card["name"] not in existing_cards:
+                        del card["id"]
+                        card["collection_id"] = collection_id
+                        if "query" in card["dataset_query"]:
+                            old_database_id = card["dataset_query"]["database"]
+                            card["dataset_query"]["query"] = self.transform_query(
+                                card["dataset_query"]["query"], old_database_id, database_id
+                            )
+                        card["database_id"] = database_id
+                        card["dataset_query"]["database"] = database_id
+                        new_card = self.mb.post("/api/card", json=card).json()
+                        new_card_id = new_card["id"]
+                    else:
+                        new_card_id = existing_cards[card["name"]]
+                    self.mb.post(
+                        "/api/dashboard/{}/cards".format(
+                            dashboard_id_map[base_dashboard_id]
+                        ),
+                        json={
+                            "cardId": new_card_id,
+                            "col": col,
+                            "row": row,
+                            "sizeX": 4,
+                            "sizeY": 4,
+                        },
+                    )
 
     def set_up_global_permissions(self, countries, global_group_id):
         log.info("Setting up global permissions")
