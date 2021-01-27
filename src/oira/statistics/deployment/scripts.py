@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from metabase_api import Metabase_API
+from time import sleep
 import argparse
 import json
 import logging
@@ -226,6 +227,8 @@ class MetabaseInitializer(object):
 
         global_group_id = self.set_up_global_group()
 
+        self.set_up_questionnaire()
+
         if self.args.countries:
             countries = {
                 country.strip(): {} for country in self.args.countries.split(",")
@@ -244,6 +247,11 @@ class MetabaseInitializer(object):
                         country,
                         countries[country]["database"],
                         countries[country]["collection"],
+                    )
+                    self.set_up_questionnaire(
+                        country=country,
+                        database_id=countries[country]["database"],
+                        collection_id=countries[country]["collection"],
                     )
 
             if not self.args.global_statistics:
@@ -439,12 +447,15 @@ class MetabaseInitializer(object):
                 for card in self.mb.get(
                     "/api/dashboard/{}".format(country_dashboard_id)
                 ).json()["ordered_cards"]
+                if "name" in card["card"]
             }
             for dashboard_card in self.mb.get(
                 "/api/dashboard/{}".format(base_dashboard_id)
             ).json()["ordered_cards"]:
                 card = dashboard_card["card"]
-                if card["name"] not in existing_cards:
+                if card["name"] not in existing_cards or card["id"] not in [
+                    card["id"] for card in self.mb.get("/api/card").json()
+                ]:
                     del card["id"]
                     card["collection_id"] = collection_id
                     if "query" in card["dataset_query"]:
@@ -596,6 +607,152 @@ class MetabaseInitializer(object):
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
+    def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
+        if collection_id is None:
+            collection_name = "Questionnaire"
+
+            collection_data = {
+                "name": collection_name,
+                "color": "#509EE3",
+            }
+            if collection_name in self.existing_items["collections"]:
+                log.info("Reusing existing questionnaire collection")
+                collection_id = self.existing_items["collections"][collection_name]
+                self.mb.put(
+                    "/api/collection/{}".format(collection_id),
+                    json=collection_data,
+                )
+            else:
+                log.info("Adding questionnaire collection")
+                collection_id = self.mb.post(
+                    "/api/collection",
+                    json=collection_data,
+                ).json()["id"]
+
+        dashboard_name = "Questionnaire Dashboard"
+        if country is not None:
+            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
+
+        dashboard_data = {
+            "name": dashboard_name,
+            "collection_id": collection_id,
+            "collection_position": 3,
+        }
+        if dashboard_name in self.existing_items["dashboards"]:
+            log.info("Reusing existing questionnaire dashboard")
+            dashboard_id = self.existing_items["dashboards"][dashboard_name]
+            result = self.mb.put(
+                "/api/dashboard/{}".format(dashboard_id),
+                json=dashboard_data,
+            )
+        else:
+            log.info("Adding questionnaire dashboard")
+            result = self.mb.post(
+                "/api/dashboard",
+                json=dashboard_data,
+            )
+            if not result.ok and "duplicate key" in result.json()["message"]:
+                # retry, this usually goes away by itself
+                log.info('Retrying after "duplicate key" error')
+                result = self.mb.post(
+                    "/api/dashboard",
+                    json=dashboard_data,
+                )
+            dashboard_id = result.json()["id"]
+
+        log.info("Adding questionnaire cards")
+        table_id = self.database_mapping[database_id]["tables"][44]
+        card = {
+            "name": "Number of Employees",
+            "collection_id": collection_id,
+            "display": "pie",
+            "database_id": database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "type": "query",
+                "query": {
+                    "source-table": table_id,
+                    "aggregation": [["count"]],
+                    "breakout": [
+                        ["field-id", self.database_mapping[database_id]["fields"][179]]
+                    ],
+                },
+                "database": database_id,
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "Employees",
+                    "name": "employees",
+                    "special_type": "type/Category",
+                    "fingerprint": {
+                        "global": {"distinct-count": 5, "nil%": 0.912037037037037},
+                        "type": {
+                            "type/Text": {
+                                "percent-json": 0.0,
+                                "percent-url": 0.0,
+                                "percent-email": 0.0,
+                                "percent-state": 0.0,
+                                "average-length": 0.38425925925925924,
+                            }
+                        },
+                    },
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                    "fingerprint": {
+                        "global": {"distinct-count": 4, "nil%": 0.0},
+                        "type": {
+                            "type/Number": {
+                                "min": 3.0,
+                                "q1": 4.16227766016838,
+                                "q3": 53.75,
+                                "max": 197.0,
+                                "sd": 85.983719389196,
+                                "avg": 43.2,
+                            }
+                        },
+                    },
+                },
+            ],
+            "visualization_settings": {
+                "pie.colors": {
+                    "1-9": "#98D9D9",
+                    "10-49": "#509EE3",
+                    "250+": "#7172AD",
+                    "null": "#74838f",
+                    "50-249": "#A989C5",
+                },
+                "pie.slice_threshold": 0.1,
+                "column_settings": {'["name","count"]': {"number_style": "decimal"}},
+                "pie.show_legend": True,
+                "pie.show_legend_perecent": True,
+            },
+        }
+        new_card = self.mb.post("/api/card", json=card).json()
+        card_id = new_card["id"]
+
+        cards_on_dashboard = [
+            card["card_id"]
+            for card in self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
+                "ordered_cards"
+            ]
+        ]
+        if not card_id in cards_on_dashboard:
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json={
+                    "cardId": card_id,
+                    "col": 0,
+                    "row": 0,
+                    "sizeX": 4,
+                    "sizeY": 4,
+                },
+            )
+
     def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
         group_mappings = {
@@ -671,6 +828,9 @@ class MetabaseInitializer(object):
     def database_mapping(self):
         if not self._database_mapping:
             self._database_mapping = {}
+            self.mb.post("/api/database/34/sync_schema")
+            # XXX check for "sync.util :: FINISHED: Analyze data" in /api/util/logs
+            sleep(2)
             base_database = self.mb.get("/api/database/34?include=tables.fields").json()
             for database in self.mb.get("/api/database?include=tables").json():
                 if database["id"] != "34":
