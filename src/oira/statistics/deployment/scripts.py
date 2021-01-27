@@ -175,22 +175,34 @@ def get_metabase_args():
         ),
     )
     parser.add_argument(
-        "--ldap-host", type=str, help=("LDAP host name or IP-address"),
+        "--ldap-host",
+        type=str,
+        help=("LDAP host name or IP-address"),
     )
     parser.add_argument(
-        "--ldap-port", type=str, help=("LDAP port"),
+        "--ldap-port",
+        type=str,
+        help=("LDAP port"),
     )
     parser.add_argument(
-        "--ldap-bind-dn", type=str, help=("LDAP bind DN"),
+        "--ldap-bind-dn",
+        type=str,
+        help=("LDAP bind DN"),
     )
     parser.add_argument(
-        "--ldap-password", type=str, help=("LDAP password"),
+        "--ldap-password",
+        type=str,
+        help=("LDAP password"),
     )
     parser.add_argument(
-        "--ldap-user-base", type=str, help=("LDAP user base DN"),
+        "--ldap-user-base",
+        type=str,
+        help=("LDAP user base DN"),
     )
     parser.add_argument(
-        "--ldap-user-filter", type=str, help=("LDAP user filter"),
+        "--ldap-user-filter",
+        type=str,
+        help=("LDAP user filter"),
     )
     parser.add_argument(
         "--ldap-attribute-firstname",
@@ -213,6 +225,7 @@ class MetabaseInitializer(object):
         countries = {}
 
         global_group_id = self.set_up_global_group()
+
         if self.args.countries:
             countries = {
                 country.strip(): {} for country in self.args.countries.split(",")
@@ -357,7 +370,8 @@ class MetabaseInitializer(object):
         else:
             log.info("Adding global group")
             group_info = self.mb.post(
-                "/api/permissions/group", json={"name": "global"},
+                "/api/permissions/group",
+                json={"name": "global"},
             ).json()
             group_id = group_info["id"]
         return group_id
@@ -369,7 +383,8 @@ class MetabaseInitializer(object):
         else:
             log.info("Adding country group {}".format(country))
             group_info = self.mb.post(
-                "/api/permissions/group", json={"name": country.upper()},
+                "/api/permissions/group",
+                json={"name": country.upper()},
             ).json()
             group_id = group_info["id"]
         return group_id
@@ -403,11 +418,17 @@ class MetabaseInitializer(object):
                     "collection_id": collection_id,
                     "collection_position": int(base_dashboard_id),
                 }
-                result = self.mb.post("/api/dashboard", json=dashboard_data,)
+                result = self.mb.post(
+                    "/api/dashboard",
+                    json=dashboard_data,
+                )
                 if not result.ok and "duplicate key" in result.json()["message"]:
                     # retry, this usually goes away by itself
                     log.info('Retrying after "duplicate key" error')
-                    result = self.mb.post("/api/dashboard", json=dashboard_data,)
+                    result = self.mb.post(
+                        "/api/dashboard",
+                        json=dashboard_data,
+                    )
                 dashboard_id_map[base_dashboard_id] = result.json()["id"]
 
         log.info("Adding country dashboard cards")
@@ -457,7 +478,9 @@ class MetabaseInitializer(object):
                         if "query" in card["dataset_query"]:
                             old_database_id = card["dataset_query"]["database"]
                             card["dataset_query"]["query"] = self.transform_query(
-                                card["dataset_query"]["query"], old_database_id, database_id
+                                card["dataset_query"]["query"],
+                                old_database_id,
+                                database_id,
                             )
                         card["database_id"] = database_id
                         card["dataset_query"]["database"] = database_id
