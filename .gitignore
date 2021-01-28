@@ -13,7 +13,6 @@
 /local
 /parts
 /var
-/src
 *.mo
 *.pyc
 *~
