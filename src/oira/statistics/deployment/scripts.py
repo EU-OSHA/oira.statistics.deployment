@@ -417,58 +417,48 @@ class MetabaseInitializer(object):
         }.items():
             dashboard_name = dashboard_name_tmpl.format(country.upper())
             if dashboard_name in self.existing_items["dashboards"]:
-                dashboard_id_map[base_dashboard_id] = self.existing_items["dashboards"][
-                    dashboard_name
-                ]
-            else:
-                dashboard_data = {
-                    "name": dashboard_name,
-                    "collection_id": collection_id,
-                    "collection_position": int(base_dashboard_id),
-                }
+                log.info("Deleting existing country dashboard")
+                self.mb.delete(
+                    "/api/dashboard/{}".format(
+                        self.existing_items["dashboards"][dashboard_name]
+                    )
+                )
+            dashboard_data = {
+                "name": dashboard_name,
+                "collection_id": collection_id,
+                "collection_position": int(base_dashboard_id),
+            }
+            result = self.mb.post(
+                "/api/dashboard",
+                json=dashboard_data,
+            )
+            if not result.ok and "duplicate key" in result.json()["message"]:
+                # retry, this usually goes away by itself
+                log.info('Retrying after "duplicate key" error')
                 result = self.mb.post(
                     "/api/dashboard",
                     json=dashboard_data,
                 )
-                if not result.ok and "duplicate key" in result.json()["message"]:
-                    # retry, this usually goes away by itself
-                    log.info('Retrying after "duplicate key" error')
-                    result = self.mb.post(
-                        "/api/dashboard",
-                        json=dashboard_data,
-                    )
-                dashboard_id_map[base_dashboard_id] = result.json()["id"]
+            dashboard_id_map[base_dashboard_id] = result.json()["id"]
 
         log.info("Adding country dashboard cards")
         for base_dashboard_id in ["1", "2"]:
             country_dashboard_id = dashboard_id_map[base_dashboard_id]
-            existing_cards = {
-                card["card"]["name"]: card["id"]
-                for card in self.mb.get(
-                    "/api/dashboard/{}".format(country_dashboard_id)
-                ).json()["ordered_cards"]
-                if "name" in card["card"]
-            }
             for dashboard_card in self.mb.get(
                 "/api/dashboard/{}".format(base_dashboard_id)
             ).json()["ordered_cards"]:
                 card = dashboard_card["card"]
-                if card["name"] not in existing_cards or card["id"] not in [
-                    card["id"] for card in self.mb.get("/api/card").json()
-                ]:
-                    del card["id"]
-                    card["collection_id"] = collection_id
-                    if "query" in card["dataset_query"]:
-                        old_database_id = card["dataset_query"]["database"]
-                        card["dataset_query"]["query"] = self.transform_query(
-                            card["dataset_query"]["query"], old_database_id, database_id
-                        )
-                    card["dataset_query"]["database"] = database_id
-                    card["database_id"] = database_id
-                    new_card = self.mb.post("/api/card", json=card).json()
-                    new_card_id = new_card["id"]
-                else:
-                    new_card_id = existing_cards[card["name"]]
+                del card["id"]
+                card["collection_id"] = collection_id
+                if "query" in card["dataset_query"]:
+                    old_database_id = card["dataset_query"]["database"]
+                    card["dataset_query"]["query"] = self.transform_query(
+                        card["dataset_query"]["query"], old_database_id, database_id
+                    )
+                card["dataset_query"]["database"] = database_id
+                card["database_id"] = database_id
+                new_card = self.mb.post("/api/card", json=card).json()
+                new_card_id = new_card["id"]
                 self.mb.post(
                     "/api/dashboard/{}/cards".format(country_dashboard_id),
                     json={
@@ -483,22 +473,19 @@ class MetabaseInitializer(object):
                 country_specific_cards = [("17", 10, 4), ("18", 0, 4)]
                 for card_id, col, row in country_specific_cards:
                     card = self.mb.get("/api/card/{}".format(card_id)).json()
-                    if card["name"] not in existing_cards:
-                        del card["id"]
-                        card["collection_id"] = collection_id
-                        if "query" in card["dataset_query"]:
-                            old_database_id = card["dataset_query"]["database"]
-                            card["dataset_query"]["query"] = self.transform_query(
-                                card["dataset_query"]["query"],
-                                old_database_id,
-                                database_id,
-                            )
-                        card["database_id"] = database_id
-                        card["dataset_query"]["database"] = database_id
-                        new_card = self.mb.post("/api/card", json=card).json()
-                        new_card_id = new_card["id"]
-                    else:
-                        new_card_id = existing_cards[card["name"]]
+                    del card["id"]
+                    card["collection_id"] = collection_id
+                    if "query" in card["dataset_query"]:
+                        old_database_id = card["dataset_query"]["database"]
+                        card["dataset_query"]["query"] = self.transform_query(
+                            card["dataset_query"]["query"],
+                            old_database_id,
+                            database_id,
+                        )
+                    card["database_id"] = database_id
+                    card["dataset_query"]["database"] = database_id
+                    new_card = self.mb.post("/api/card", json=card).json()
+                    new_card_id = new_card["id"]
                     self.mb.post(
                         "/api/dashboard/{}/cards".format(
                             dashboard_id_map[base_dashboard_id]
@@ -639,115 +626,89 @@ class MetabaseInitializer(object):
             "collection_position": 3,
         }
         if dashboard_name in self.existing_items["dashboards"]:
-            log.info("Reusing existing questionnaire dashboard")
+            log.info("Deleting existing questionnaire dashboard")
             dashboard_id = self.existing_items["dashboards"][dashboard_name]
-            result = self.mb.put(
+            result = self.mb.delete(
                 "/api/dashboard/{}".format(dashboard_id),
-                json=dashboard_data,
             )
-        else:
-            log.info("Adding questionnaire dashboard")
+        log.info("Adding questionnaire dashboard")
+        result = self.mb.post(
+            "/api/dashboard",
+            json=dashboard_data,
+        )
+        if not result.ok and "duplicate key" in result.json()["message"]:
+            # retry, this usually goes away by itself
+            log.info('Retrying after "duplicate key" error')
             result = self.mb.post(
                 "/api/dashboard",
                 json=dashboard_data,
             )
-            if not result.ok and "duplicate key" in result.json()["message"]:
-                # retry, this usually goes away by itself
-                log.info('Retrying after "duplicate key" error')
-                result = self.mb.post(
-                    "/api/dashboard",
-                    json=dashboard_data,
-                )
-            dashboard_id = result.json()["id"]
+        dashboard_id = result.json()["id"]
 
         log.info("Adding questionnaire cards")
         table_id = self.database_mapping[database_id]["tables"][44]
-        card = {
-            "name": "Number of Employees",
-            "collection_id": collection_id,
-            "display": "pie",
-            "database_id": database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": table_id,
-                    "aggregation": [["count"]],
-                    "breakout": [
-                        ["field-id", self.database_mapping[database_id]["fields"][179]]
-                    ],
-                },
-                "database": database_id,
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/Text",
-                    "display_name": "Employees",
-                    "name": "employees",
-                    "special_type": "type/Category",
-                    "fingerprint": {
-                        "global": {"distinct-count": 5, "nil%": 0.912037037037037},
-                        "type": {
-                            "type/Text": {
-                                "percent-json": 0.0,
-                                "percent-url": 0.0,
-                                "percent-email": 0.0,
-                                "percent-state": 0.0,
-                                "average-length": 0.38425925925925924,
-                            }
-                        },
+        cards = [
+            {
+                "name": "Number of Employees",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][179],
+                            ]
+                        ],
                     },
+                    "database": database_id,
                 },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                    "fingerprint": {
-                        "global": {"distinct-count": 4, "nil%": 0.0},
-                        "type": {
-                            "type/Number": {
-                                "min": 3.0,
-                                "q1": 4.16227766016838,
-                                "q3": 53.75,
-                                "max": 197.0,
-                                "sd": 85.983719389196,
-                                "avg": 43.2,
-                            }
-                        },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Employees",
+                        "name": "employees",
+                        "special_type": "type/Category",
                     },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.colors": {
+                        "1-9": "#98D9D9",
+                        "10-49": "#509EE3",
+                        "250+": "#7172AD",
+                        "null": "#74838f",
+                        "50-249": "#A989C5",
+                    },
+                    "pie.slice_threshold": 0.1,
+                    "column_settings": {
+                        '["name","count"]': {"number_style": "decimal"}
+                    },
+                    "pie.show_legend": True,
+                    "pie.show_legend_perecent": True,
                 },
-            ],
-            "visualization_settings": {
-                "pie.colors": {
-                    "1-9": "#98D9D9",
-                    "10-49": "#509EE3",
-                    "250+": "#7172AD",
-                    "null": "#74838f",
-                    "50-249": "#A989C5",
-                },
-                "pie.slice_threshold": 0.1,
-                "column_settings": {'["name","count"]': {"number_style": "decimal"}},
-                "pie.show_legend": True,
-                "pie.show_legend_perecent": True,
             },
-        }
-        new_card = self.mb.post("/api/card", json=card).json()
-        card_id = new_card["id"]
-
-        cards_on_dashboard = [
-            card["card_id"]
-            for card in self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
-                "ordered_cards"
-            ]
         ]
-        if not card_id in cards_on_dashboard:
+        for idx, card in enumerate(cards):
+            new_card = self.mb.post("/api/card", json=card).json()
+            card_id = new_card["id"]
+
             self.mb.post(
                 "/api/dashboard/{}/cards".format(dashboard_id),
                 json={
                     "cardId": card_id,
-                    "col": 0,
-                    "row": 0,
+                    "col": idx * 4 % 16,
+                    "row": idx // 4 * 4,
                     "sizeX": 4,
                     "sizeY": 4,
                 },
