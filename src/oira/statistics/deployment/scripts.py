@@ -331,46 +331,61 @@ class MetabaseInitializer(object):
 
     def set_up_country_database(self, country):
         db_name = self.args.database_pattern_statistics.format(country=country.lower())
-        if db_name in self.existing_items["databases"]:
-            log.info("Keeping existing database {}".format(db_name))
-            db_id = self.existing_items["databases"][db_name]
-            db_info = self.mb.put(
-                "/api/database/{}".format(db_id),
-                json={
-                    "name": db_name,
-                    "engine": "postgres",
-                    "details": {
-                        "dbname": db_name,
-                        "host": self.args.database_host,
-                        "port": self.args.database_port,
-                        "user": self.args.database_user,
-                        "password": self.args.database_password,
-                    },
-                },
-            ).json()
-            db_id = db_info["id"]
-        else:
-            log.info("Setting up database {}".format(db_name))
-            db_info = self.mb.post(
-                "/api/database/",
-                json={
-                    "name": db_name,
-                    "engine": "postgres",
-                    "details": {
-                        "dbname": db_name,
-                        "host": self.args.database_host,
-                        "port": self.args.database_port,
-                        "user": self.args.database_user,
-                        "password": self.args.database_password,
-                    },
-                },
-            ).json()
-            db_id = db_info["id"]
+        db_data = {
+            "name": db_name,
+            "engine": "postgres",
+            "details": {
+                "dbname": db_name,
+                "host": self.args.database_host,
+                "port": self.args.database_port,
+                "user": self.args.database_user,
+                "password": self.args.database_password,
+            },
+        }
+        db_id = self.create("database", db_name, extra_data=db_data)
 
         self.mb.post("/api/database/{}/sync".format(db_id))
 
         self._database_mapping = None
         return db_id
+
+    def create(self, obj_type, obj_name, extra_data={}, reuse=True):
+        if obj_type == "group":
+            url = "/api/permissions/group"
+        else:
+            url = "/api/{}".format(obj_type)
+        obj_data = {"name": obj_name}
+        obj_data.update(extra_data)
+
+        obj_exists = obj_name in self.existing_items[obj_type + "s"]
+        if obj_exists:
+            obj_id = self.existing_items[obj_type + "s"][obj_name]
+            if reuse:
+                log.info("Keeping existing {} '{}'".format(obj_type, obj_name))
+                obj_info = self.mb.put(
+                    "{}/{}".format(url, obj_id),
+                    json=obj_data,
+                ).json()
+            else:
+                log.info("Deleting existing {} '{}'".format(obj_type, obj_name))
+                self.mb.delete("{}/{}".format(url, obj_id))
+        if not obj_exists or (obj_exists and not reuse):
+            log.info("Adding {} '{}'".format(obj_type, obj_name))
+            result = self.mb.post(
+                url,
+                json=obj_data,
+            )
+            obj_info = result.json()
+            if not result.ok and "duplicate key" in obj_info.get("message", ""):
+                # retry, this usually goes away by itself
+                log.info('Retrying after "duplicate key" error')
+                result = self.mb.post(
+                    url,
+                    json=obj_data,
+                )
+                obj_info = result.json()
+        obj_id = obj_info["id"]
+        return obj_id
 
     def set_up_global_group(self):
         if "GLOBAL" in self.existing_items["groups"]:
@@ -399,15 +414,9 @@ class MetabaseInitializer(object):
         return group_id
 
     def set_up_country_collection(self, country):
-        if country.upper() in self.existing_items["collections"]:
-            log.info("Reusing existing country collection")
-            collection_id = self.existing_items["collections"][country.upper()]
-        else:
-            log.info("Adding country collection")
-            collection_id = self.mb.post(
-                "/api/collection", json={"name": country.upper(), "color": "#00FF00"}
-            ).json()["id"]
-        return collection_id
+        return self.create(
+            "collection", country.upper(), extra_data={"color": "#00FF00"}
+        )
 
     def set_up_country_dashboards(self, country, database_id, collection_id):
         log.info("Adding country dashboards")
@@ -417,30 +426,13 @@ class MetabaseInitializer(object):
             "2": "Users Dashboard ({})",
         }.items():
             dashboard_name = dashboard_name_tmpl.format(country.upper())
-            if dashboard_name in self.existing_items["dashboards"]:
-                log.info("Deleting existing country dashboard")
-                self.mb.delete(
-                    "/api/dashboard/{}".format(
-                        self.existing_items["dashboards"][dashboard_name]
-                    )
-                )
             dashboard_data = {
-                "name": dashboard_name,
                 "collection_id": collection_id,
                 "collection_position": int(base_dashboard_id),
             }
-            result = self.mb.post(
-                "/api/dashboard",
-                json=dashboard_data,
+            dashboard_id_map[base_dashboard_id] = self.create(
+                "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
             )
-            if not result.ok and "duplicate key" in result.json()["message"]:
-                # retry, this usually goes away by itself
-                log.info('Retrying after "duplicate key" error')
-                result = self.mb.post(
-                    "/api/dashboard",
-                    json=dashboard_data,
-                )
-            dashboard_id_map[base_dashboard_id] = result.json()["id"]
 
         log.info("Adding country dashboard cards")
         for base_dashboard_id in ["1", "2"]:
@@ -598,53 +590,25 @@ class MetabaseInitializer(object):
     def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
         if collection_id is None:
             collection_name = "Questionnaire"
-
-            collection_data = {
-                "name": collection_name,
-                "color": "#509EE3",
-            }
-            if collection_name in self.existing_items["collections"]:
-                log.info("Reusing existing questionnaire collection")
-                collection_id = self.existing_items["collections"][collection_name]
-                self.mb.put(
-                    "/api/collection/{}".format(collection_id),
-                    json=collection_data,
-                )
-            else:
-                log.info("Adding questionnaire collection")
-                collection_id = self.mb.post(
-                    "/api/collection",
-                    json=collection_data,
-                ).json()["id"]
+            collection_id = self.create(
+                "collection",
+                collection_name,
+                extra_data={
+                    "color": "#509EE3",
+                },
+            )
 
         dashboard_name = "Questionnaire Dashboard"
         if country is not None:
             dashboard_name = "{} ({})".format(dashboard_name, country.upper())
 
         dashboard_data = {
-            "name": dashboard_name,
             "collection_id": collection_id,
             "collection_position": 3,
         }
-        if dashboard_name in self.existing_items["dashboards"]:
-            log.info("Deleting existing questionnaire dashboard")
-            dashboard_id = self.existing_items["dashboards"][dashboard_name]
-            result = self.mb.delete(
-                "/api/dashboard/{}".format(dashboard_id),
-            )
-        log.info("Adding questionnaire dashboard")
-        result = self.mb.post(
-            "/api/dashboard",
-            json=dashboard_data,
+        dashboard_id = self.create(
+            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
         )
-        if not result.ok and "duplicate key" in result.json()["message"]:
-            # retry, this usually goes away by itself
-            log.info('Retrying after "duplicate key" error')
-            result = self.mb.post(
-                "/api/dashboard",
-                json=dashboard_data,
-            )
-        dashboard_id = result.json()["id"]
 
         log.info("Adding questionnaire cards")
         table_id = self.database_mapping[database_id]["tables"][44]
