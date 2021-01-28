@@ -649,6 +649,30 @@ class MetabaseInitializer(object):
         table_id = self.database_mapping[database_id]["tables"][44]
         cards = [
             {
+                "name": "Number of Survey Responses",
+                "collection_id": collection_id,
+                "display": "scalar",
+                "database_id": database_id,
+                "query_type": "native",
+                "dataset_query": {
+                    "type": "native",
+                    "native": {
+                        "query": 'SELECT count(*) AS "count"\nFROM "public"."company"\nWHERE needs_met is not NULL or workers_participated is not NULL or referer is not NULL or employees is not NULL or conductor is not NULL or recommend_tool is not NULL',
+                        "template-tags": {},
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    }
+                ],
+                "visualization_settings": {"table.cell_column": "count"},
+            },
+            {
                 "name": "Number of Employees",
                 "collection_id": collection_id,
                 "display": "pie",
@@ -696,6 +720,230 @@ class MetabaseInitializer(object):
                     },
                     "pie.show_legend": True,
                     "pie.show_legend_perecent": True,
+                },
+            },
+            {
+                "name": "Assessment conducted by",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][182],
+                            ]
+                        ],
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Conductor",
+                        "name": "conductor",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.colors": {
+                        "both": "#EF8C8C",
+                        "null": "#74838f",
+                        "staff": "#509EE3",
+                        "third-party": "#7172AD",
+                    },
+                    "pie.slice_threshold": 0,
+                    "pie.show_legend": True,
+                },
+            },
+            {
+                "name": "Learned about OiRA",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][176],
+                            ]
+                        ],
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Refer Er",
+                        "name": "referer",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.slice_threshold": 0,
+                    "pie.colors": {
+                        "employers-organisation": "#88BF4D",
+                        "eu-institution": "#F2A86F",
+                        "null": "#74838f",
+                        "other": "#509EE3",
+                        "health-safety-experts": "#A989C5",
+                        "national-public-institution": "#EF8C8C",
+                    },
+                    "pie.show_legend": True,
+                },
+            },
+            {
+                "name": "Workers were invited",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][178],
+                            ]
+                        ],
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Boolean",
+                        "display_name": "Workers Participated",
+                        "name": "workers_participated",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.show_legend": True,
+                    "pie.slice_threshold": 0,
+                    "pie.colors": {
+                        "null": "#74838f",
+                        "true": "#88BF4D",
+                        "false": "#F2A86F",
+                    },
+                },
+            },
+            {
+                "name": "Needs were met",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][184],
+                            ]
+                        ],
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Boolean",
+                        "display_name": "Needs Met",
+                        "name": "needs_met",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.slice_threshold": 0,
+                    "pie.colors": {
+                        "null": "#74838f",
+                        "true": "#88BF4D",
+                        "false": "#F2A86F",
+                    },
+                    "pie.show_legend": True,
+                },
+            },
+            {
+                "name": "Would recommend tool",
+                "collection_id": collection_id,
+                "display": "pie",
+                "database_id": database_id,
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.database_mapping[database_id]["fields"][183],
+                            ]
+                        ],
+                    },
+                    "database": database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Boolean",
+                        "display_name": "Recommend Tool",
+                        "name": "recommend_tool",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.show_legend": True,
+                    "pie.slice_threshold": 0,
+                    "pie.colors": {
+                        "null": "#74838f",
+                        "true": "#88BF4D",
+                        "false": "#F2A86F",
+                    },
                 },
             },
         ]
