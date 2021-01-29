@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .content import QuestionnaireCardFactory
+from .content import AssessmentsCardFactory
 from metabase_api import Metabase_API
 from time import sleep
 import argparse
@@ -463,28 +464,24 @@ class MetabaseInitializer(object):
                     },
                 )
             if base_dashboard_id == "1":
-                country_specific_cards = [("17", 10, 4), ("18", 0, 4)]
-                for card_id, col, row in country_specific_cards:
-                    card = self.mb.get("/api/card/{}".format(card_id)).json()
-                    del card["id"]
-                    card["collection_id"] = collection_id
-                    if "query" in card["dataset_query"]:
-                        old_database_id = card["dataset_query"]["database"]
-                        card["dataset_query"]["query"] = self.transform_query(
-                            card["dataset_query"]["query"],
-                            old_database_id,
-                            database_id,
-                        )
-                    card["database_id"] = database_id
-                    card["dataset_query"]["database"] = database_id
+                table_id = self.database_mapping[database_id]["tables"][61]
+                card_factory = AssessmentsCardFactory(
+                    self.database_mapping, database_id, collection_id, table_id
+                )
+                cards = [
+                    (10, 4, card_factory.tools_by_accumulated_assessments),
+                    (0, 4, card_factory.tools_by_assessment_completion),
+                ]
+                for col, row, card in cards:
                     new_card = self.mb.post("/api/card", json=card).json()
-                    new_card_id = new_card["id"]
+                    card_id = new_card["id"]
+
                     self.mb.post(
                         "/api/dashboard/{}/cards".format(
                             dashboard_id_map[base_dashboard_id]
                         ),
                         json={
-                            "cardId": new_card_id,
+                            "cardId": card_id,
                             "col": col,
                             "row": row,
                             "sizeX": 4,
@@ -613,7 +610,7 @@ class MetabaseInitializer(object):
         log.info("Adding questionnaire cards")
         table_id = self.database_mapping[database_id]["tables"][44]
         card_factory = QuestionnaireCardFactory(
-            self.database_mapping, database_id, collection_id, table_id=table_id
+            self.database_mapping, database_id, collection_id, table_id
         )
         cards = [
             card_factory.number_of_survey_responses,

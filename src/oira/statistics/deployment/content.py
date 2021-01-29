@@ -1,15 +1,128 @@
 class CardFactory(object):
-    def __init__(self, database_mapping, database_id, collection_id):
+    def __init__(self, database_mapping, database_id, collection_id, table_id):
         self.database_mapping = database_mapping
         self.database_id = database_id
         self.collection_id = collection_id
+        self.table_id = table_id
+
+
+class AssessmentsCardFactory(CardFactory):
+    @property
+    def tools_by_accumulated_assessments(self):
+        return {
+            "name": "Tools by Accumulated Assessments",
+            "collection_id": self.collection_id,
+            "display": "row",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [["count"]],
+                    "breakout": [
+                        [
+                            "field-id",
+                            self.database_mapping[self.database_id]["fields"][302],
+                        ]
+                    ],
+                    "order-by": [["desc", ["aggregation", 0]]],
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "Tool",
+                    "name": "tool",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.dimensions": ["tool"],
+                "graph.metrics": ["count"],
+                "series_settings": {"count": {"title": "Number of Assessments"}},
+            },
+        }
+
+    @property
+    def tools_by_assessment_completion(self):
+        return {
+            "name": "Tools by Assessment Completion",
+            "collection_id": self.collection_id,
+            "display": "bar",
+            "database_id": self.database_id,
+            "query_type": "native",
+            "dataset_query": {
+                "type": "native",
+                "native": {
+                    "query": (
+                        "select sector || '/' || tool as tool,\n"
+                        "    count(case when completion_percentage > 70 then 'top' end) as top_assessments,\n"
+                        "    count(case when completion_percentage >= 10 and completion_percentage <= 70 then 'avg' end) as avg_assessments,\n"
+                        "    count(case when completion_percentage < 10 then 'low' end) as low_assessments\n"
+                        "from assessment\n"
+                        "where tool != 'preview'\n"
+                        "group by country, sector, tool\n"
+                        "order by top_assessments desc, avg_assessments desc, low_assessments desc;"
+                    ),
+                    "template-tags": {},
+                },
+                "database": self.database_id,
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "tool",
+                    "name": "tool",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "top_assessments",
+                    "name": "top_assessments",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "avg_assessments",
+                    "name": "avg_assessments",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "low_assessments",
+                    "name": "low_assessments",
+                    "special_type": None,
+                },
+            ],
+            "visualization_settings": {
+                "series_settings": {
+                    "top_assessments": {"color": "#88BF4D", "title": "Top Assessments"},
+                    "low_assessments": {"color": "#EF8C8C", "title": "Low Assessments"},
+                    "avg_assessments": {"title": "Average Assessments"},
+                },
+                "stackable.stack_type": None,
+                "graph.dimensions": ["tool"],
+                "graph.metrics": [
+                    "top_assessments",
+                    "avg_assessments",
+                    "low_assessments",
+                ],
+                "graph.show_values": False,
+                "graph.x_axis.axis_enabled": False,
+                "graph.y_axis.auto_split": False,
+            },
+        }
 
 
 class QuestionnaireCardFactory(CardFactory):
-    def __init__(self, *args, table_id, **kwargs):
-        self.table_id = table_id
-        return super(QuestionnaireCardFactory, self).__init__(*args, **kwargs)
-
     @property
     def number_of_survey_responses(self):
         return {
