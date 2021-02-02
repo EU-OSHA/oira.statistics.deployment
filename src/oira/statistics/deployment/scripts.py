@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from .content import QuestionnaireCardFactory
+from .content import AccountsCardFactory
 from .content import AssessmentsCardFactory
+from .content import QuestionnaireCardFactory
 from metabase_api import Metabase_API
 from time import sleep
 import argparse
@@ -229,6 +230,7 @@ class MetabaseInitializer(object):
 
         global_group_id = self.set_up_global_group()
 
+        self.set_up_account()
         self.set_up_questionnaire()
 
         if self.args.countries:
@@ -249,6 +251,11 @@ class MetabaseInitializer(object):
                         country,
                         countries[country]["database"],
                         countries[country]["collection"],
+                    )
+                    self.set_up_account(
+                        country=country,
+                        database_id=countries[country]["database"],
+                        collection_id=countries[country]["collection"],
                     )
                     self.set_up_questionnaire(
                         country=country,
@@ -424,7 +431,6 @@ class MetabaseInitializer(object):
         dashboard_id_map = {}
         for base_dashboard_id, dashboard_name_tmpl in {
             "1": "Assessments Dashboard ({})",
-            "2": "Users Dashboard ({})",
         }.items():
             dashboard_name = dashboard_name_tmpl.format(country.upper())
             dashboard_data = {
@@ -436,7 +442,7 @@ class MetabaseInitializer(object):
             )
 
         log.info("Adding country dashboard cards")
-        for base_dashboard_id in ["1", "2"]:
+        for base_dashboard_id in ["1"]:
             country_dashboard_id = dashboard_id_map[base_dashboard_id]
             for dashboard_card in self.mb.get(
                 "/api/dashboard/{}".format(base_dashboard_id)
@@ -583,6 +589,85 @@ class MetabaseInitializer(object):
             )
         self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
+
+    def set_up_account(self, country=None, database_id=34, collection_id=4):
+        dashboard_name = "Users Dashboard"
+        if country is not None:
+            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
+
+        dashboard_data = {
+            "collection_id": collection_id,
+            "collection_position": 1,
+        }
+        dashboard_id = self.create(
+            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+        )
+
+        log.info("Adding accounts cards")
+        table_id = self.database_mapping[database_id]["tables"][43]
+        card_factory = AccountsCardFactory(
+            self.database_mapping, database_id, collection_id, table_id
+        )
+        cards = [
+            card_factory.accumulated_users_per_type,
+            card_factory.new_users_per_month,
+            card_factory.user_conversions_per_month,
+            card_factory.accumulated_registered_users_per_type,
+            card_factory.accumulated_number_of_full_users_over_time,
+            card_factory.accumulated_number_of_converted_users_over_time,
+            card_factory.accumulated_number_of_guest_users_over_time,
+        ]
+        new_cards = []
+        for card in cards:
+            new_card = self.mb.post("/api/card", json=card).json()
+            card_id = new_card["id"]
+            new_cards.append(card_id)
+
+        for idx, card_id in enumerate(new_cards[:4]):
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json={
+                    "cardId": card_id,
+                    "col": idx * 4 % 12,
+                    "row": idx // 3 * 4,
+                    "sizeX": 4,
+                    "sizeY": 4,
+                },
+            )
+        self.mb.post(
+            "/api/dashboard/{}/cards".format(dashboard_id),
+            json={
+                "cardId": new_cards[4],
+                "col": 4,
+                "row": 4,
+                "sizeX": 4,
+                "sizeY": 4,
+                "series": [
+                    {
+                        "id": new_cards[5],
+                    },
+                    {
+                        "id": new_cards[6],
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.dimensions": ["creation_date"],
+                    "graph.metrics": ["count"],
+                    "series_settings": {
+                        "count": {"color": "#A989C5", "title": "full"},
+                        "Accumulated Number Of Converted Users Over Time": {
+                            "color": "#98D9D9",
+                            "title": "converted",
+                        },
+                        "Accumulated Number Of Guest Users Over Time": {
+                            "color": "#F9D45C",
+                            "title": "guest",
+                        },
+                    },
+                    "card.title": "Accumulated Number Of Users Over Time",
+                },
+            },
+        )
 
     def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
         if collection_id is None:
