@@ -231,6 +231,7 @@ class MetabaseInitializer(object):
         global_group_id = self.set_up_global_group()
 
         self.set_up_account()
+        self.set_up_assessment()
         self.set_up_questionnaire()
 
         if self.args.countries:
@@ -247,12 +248,12 @@ class MetabaseInitializer(object):
                     countries[country]["collection"] = self.set_up_country_collection(
                         country
                     )
-                    self.set_up_country_dashboards(
-                        country,
-                        countries[country]["database"],
-                        countries[country]["collection"],
-                    )
                     self.set_up_account(
+                        country=country,
+                        database_id=countries[country]["database"],
+                        collection_id=countries[country]["collection"],
+                    )
+                    self.set_up_assessment(
                         country=country,
                         database_id=countries[country]["database"],
                         collection_id=countries[country]["collection"],
@@ -268,11 +269,6 @@ class MetabaseInitializer(object):
 
         if self.args.global_statistics:
             self.set_up_global_permissions(countries, global_group_id)
-            log.info("Adding global dashboard cards")
-            self.mb.post(
-                "/api/dashboard/1/cards",
-                json={"cardId": 15, "col": 0, "row": 4, "sizeX": 4, "sizeY": 4},
-            )
 
         if self.args.ldap_host:
             self.set_up_ldap(countries, global_group_id)
@@ -370,10 +366,13 @@ class MetabaseInitializer(object):
             obj_id = self.existing_items[obj_type + "s"][obj_name]
             if reuse:
                 log.info("Keeping existing {} '{}'".format(obj_type, obj_name))
-                obj_info = self.mb.put(
-                    "{}/{}".format(url, obj_id),
-                    json=obj_data,
-                ).json()
+                if extra_data:
+                    obj_info = self.mb.put(
+                        "{}/{}".format(url, obj_id),
+                        json=obj_data,
+                    ).json()
+                else:
+                    obj_info = self.mb.get("{}/{}".format(url, obj_id)).json()
             else:
                 log.info("Deleting existing {} '{}'".format(obj_type, obj_name))
                 self.mb.delete("{}/{}".format(url, obj_id))
@@ -396,113 +395,23 @@ class MetabaseInitializer(object):
         return obj_id
 
     def set_up_global_group(self):
-        if "GLOBAL" in self.existing_items["groups"]:
-            log.info("Keeping existing global group")
-            group_id = self.existing_items["groups"]["GLOBAL"]
-        else:
-            log.info("Adding global group")
-            group_info = self.mb.post(
-                "/api/permissions/group",
-                json={"name": "global"},
-            ).json()
-            group_id = group_info["id"]
-        return group_id
+        return self.create("group", "global")
 
     def set_up_country_group(self, country):
-        if country.upper() in self.existing_items["groups"]:
-            log.info("Keeping existing country group {}".format(country))
-            group_id = self.existing_items["groups"][country.upper()]
-        else:
-            log.info("Adding country group {}".format(country))
-            group_info = self.mb.post(
-                "/api/permissions/group",
-                json={"name": country.upper()},
-            ).json()
-            group_id = group_info["id"]
-        return group_id
+        return self.create("group", country.upper())
 
     def set_up_country_collection(self, country):
         return self.create(
             "collection", country.upper(), extra_data={"color": "#00FF00"}
         )
 
-    def set_up_country_dashboards(self, country, database_id, collection_id):
-        log.info("Adding country dashboards")
-        dashboard_id_map = {}
-        for base_dashboard_id, dashboard_name_tmpl in {
-            "1": "Assessments Dashboard ({})",
-        }.items():
-            dashboard_name = dashboard_name_tmpl.format(country.upper())
-            dashboard_data = {
-                "collection_id": collection_id,
-                "collection_position": int(base_dashboard_id),
-            }
-            dashboard_id_map[base_dashboard_id] = self.create(
-                "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
-            )
-
-        log.info("Adding country dashboard cards")
-        for base_dashboard_id in ["1"]:
-            country_dashboard_id = dashboard_id_map[base_dashboard_id]
-            for dashboard_card in self.mb.get(
-                "/api/dashboard/{}".format(base_dashboard_id)
-            ).json()["ordered_cards"]:
-                card = dashboard_card["card"]
-                del card["id"]
-                card["collection_id"] = collection_id
-                if "query" in card["dataset_query"]:
-                    old_database_id = card["dataset_query"]["database"]
-                    card["dataset_query"]["query"] = self.transform_query(
-                        card["dataset_query"]["query"], old_database_id, database_id
-                    )
-                card["dataset_query"]["database"] = database_id
-                card["database_id"] = database_id
-                new_card = self.mb.post("/api/card", json=card).json()
-                new_card_id = new_card["id"]
-                self.mb.post(
-                    "/api/dashboard/{}/cards".format(country_dashboard_id),
-                    json={
-                        "cardId": new_card_id,
-                        "col": dashboard_card["col"],
-                        "row": dashboard_card["row"],
-                        "sizeX": dashboard_card["sizeX"],
-                        "sizeY": dashboard_card["sizeY"],
-                    },
-                )
-            if base_dashboard_id == "1":
-                table_id = self.database_mapping[database_id]["tables"][61]
-                card_factory = AssessmentsCardFactory(
-                    self.database_mapping, database_id, collection_id, table_id
-                )
-                cards = [
-                    (10, 4, card_factory.tools_by_accumulated_assessments),
-                    (0, 4, card_factory.tools_by_assessment_completion),
-                ]
-                for col, row, card in cards:
-                    new_card = self.mb.post("/api/card", json=card).json()
-                    card_id = new_card["id"]
-
-                    self.mb.post(
-                        "/api/dashboard/{}/cards".format(
-                            dashboard_id_map[base_dashboard_id]
-                        ),
-                        json={
-                            "cardId": card_id,
-                            "col": col,
-                            "row": row,
-                            "sizeX": 4,
-                            "sizeY": 4,
-                        },
-                    )
-
     def set_up_global_permissions(self, countries, global_group_id):
         log.info("Setting up global permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
-        if str(self.existing_items["groups"]["ALL USERS"]) in permissions["groups"]:
-            permissions["groups"][str(self.existing_items["groups"]["ALL USERS"])][
-                "34"
-            ] = {"schemas": "none"}
+        all_users_id = str(self.existing_items["groups"]["All Users"])
+        if str(all_users_id) in permissions["groups"]:
+            permissions["groups"][str(all_users_id)]["34"] = {"schemas": "none"}
         global_group_permissions = permissions["groups"].setdefault(
             str(global_group_id), {}
         )
@@ -518,12 +427,8 @@ class MetabaseInitializer(object):
 
         collection_permissions["groups"][str(global_group_id)]["3"] = "read"
         collection_permissions["groups"][str(global_group_id)]["4"] = "read"
-        collection_permissions["groups"].setdefault(
-            self.existing_items["groups"]["ALL USERS"], {}
-        )["3"] = "none"
-        collection_permissions["groups"].setdefault(
-            self.existing_items["groups"]["ALL USERS"], {}
-        )["4"] = "none"
+        collection_permissions["groups"].setdefault(all_users_id, {})["3"] = "none"
+        collection_permissions["groups"].setdefault(all_users_id, {})["4"] = "none"
 
         collection_permissions["groups"].update(
             {
@@ -572,7 +477,7 @@ class MetabaseInitializer(object):
             for country_info in countries.values()
         }
 
-        all_users_id = str(self.existing_items["groups"]["ALL USERS"])
+        all_users_id = str(self.existing_items["groups"]["All Users"])
         if all_users_id in permissions["groups"]:
             permissions["groups"][all_users_id].update(
                 {
@@ -669,6 +574,61 @@ class MetabaseInitializer(object):
             },
         )
 
+    def set_up_assessment(self, country=None, database_id=34, collection_id=3):
+        dashboard_name = "Assessments Dashboard"
+        if country is not None:
+            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
+
+        dashboard_data = {
+            "collection_id": collection_id,
+            "collection_position": 1,
+        }
+        dashboard_id = self.create(
+            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+        )
+
+        log.info("Adding assessments cards")
+        table_id = self.database_mapping[database_id]["tables"][61]
+        card_factory = AssessmentsCardFactory(
+            self.database_mapping, database_id, collection_id, table_id
+        )
+        cards = [
+            card_factory.accumulated_assessments,
+            card_factory.new_assessments_per_month,
+            card_factory.completion_of_assessments,
+            card_factory.accumulated_assessments_over_time,
+        ]
+        if country is not None:
+            cards.extend(
+                [
+                    card_factory.tools_by_accumulated_assessments,
+                    card_factory.tools_by_assessment_completion,
+                ]
+            )
+        else:
+            cards.extend(
+                [
+                    card_factory.accumulated_assessments_per_country,
+                ]
+            )
+        new_cards = []
+        for card in cards:
+            new_card = self.mb.post("/api/card", json=card).json()
+            card_id = new_card["id"]
+            new_cards.append(card_id)
+
+        for idx, card_id in enumerate(new_cards):
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json={
+                    "cardId": card_id,
+                    "col": idx * 4 % 12,
+                    "row": idx // 3 * 4,
+                    "sizeX": 4,
+                    "sizeY": 4,
+                },
+            )
+
     def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
         if collection_id is None:
             collection_name = "Questionnaire"
@@ -754,7 +714,7 @@ class MetabaseInitializer(object):
         if not self._existing_items:
             self._existing_items = {}
             self._existing_items["groups"] = {
-                group["name"].upper(): group["id"]
+                group["name"]: group["id"]
                 for group in self.mb.get("/api/permissions/group").json()
             }
             self._existing_items["databases"] = {

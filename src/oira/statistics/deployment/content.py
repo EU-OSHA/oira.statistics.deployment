@@ -410,6 +410,204 @@ class AccountsCardFactory(CardFactory):
 
 class AssessmentsCardFactory(CardFactory):
     @property
+    def accumulated_assessments(self):
+        return {
+            "name": "Accumulated Assessments",
+            "collection_id": self.collection_id,
+            "display": "scalar",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {"source-table": self.table_id, "aggregation": [["count"]]},
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                }
+            ],
+            "visualization_settings": {},
+        }
+
+    @property
+    def new_assessments_per_month(self):
+        return {
+            "name": "New Assessments per Month",
+            "collection_id": self.collection_id,
+            "display": "line",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [["count"]],
+                    "breakout": [
+                        [
+                            "datetime-field",
+                            [
+                                "field-id",
+                                self.database_mapping[self.database_id]["fields"][304],
+                            ],
+                            "month",
+                        ]
+                    ],
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/DateTime",
+                    "display_name": "Start Date",
+                    "name": "start_date",
+                    "special_type": "type/CreationTimestamp",
+                    "unit": "month",
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.show_trendline": True,
+                "graph.y_axis.title_text": "Number of started assessments",
+                "graph.show_values": False,
+                "graph.x_axis.title_text": "Date",
+                "graph.label_value_frequency": "fit",
+                "graph.metrics": ["count"],
+                "series_settings": {"count": {"display": "bar"}},
+                "graph.dimensions": ["start_date"],
+                "stackable.stack_type": None,
+            },
+        }
+
+    @property
+    def completion_of_assessments(self):
+        return {
+            "name": "Completion of Assessments",
+            "collection_id": self.collection_id,
+            "display": "bar",
+            "database_id": self.database_id,
+            "query_type": "native",
+            "dataset_query": {
+                "database": self.database_id,
+                "native": {
+                    "query": "select (\n"
+                    "    case when completion_percentage > 70 then "
+                    "'top (more than 70% of risks answered)'\n"
+                    "         when completion_percentage >= 10 and completion_percentage <= 70 then 'average (more than 10% of risks answered)'\n"
+                    "         when completion_percentage < 10 then 'low (less than 10% of risks answered)'\n"
+                    "         when completion_percentage is null then 'unknown (no data)'\n"
+                    "         else 'unknown (unusable data)'\n"
+                    "end) as completion,\n"
+                    "count(*) from assessment\n"
+                    "where completion_percentage >= 0 group by completion order by min(completion_percentage) desc;"
+                },
+                "type": "native",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "completion",
+                    "name": "completion",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.y_axis.title_text": "Number of Assessments",
+                "graph.show_values": True,
+                "table.cell_column": "count",
+                "stackable.stack_display": "bar",
+                "graph.x_axis.title_text": "Completion Percentage",
+                "graph.y_axis.scale": "pow",
+                "graph.metrics": ["count"],
+                "graph.label_value_formatting": "auto",
+                "table.pivot_column": "completion",
+                "series_settings": {
+                    "2": {"color": "#88BF4D"},
+                    "22": {"color": "#F9D45C"},
+                    "86": {"color": "#EF8C8C"},
+                    "count": {"color": "#98D9D9", "display": "bar"},
+                },
+                "graph.dimensions": ["completion", "count"],
+                "stackable.stack_type": None,
+            },
+        }
+
+    @property
+    def accumulated_assessments_over_time(self):
+        return {
+            "name": "Accumulated Assessments Over Time",
+            "collection_id": self.collection_id,
+            "display": "line",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [["cum-count"]],
+                    "breakout": [
+                        [
+                            "datetime-field",
+                            [
+                                "field-id",
+                                self.database_mapping[self.database_id]["fields"][304],
+                            ],
+                            "month",
+                        ]
+                    ],
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/DateTime",
+                    "display_name": "Start Date",
+                    "name": "start_date",
+                    "special_type": "type/CreationTimestamp",
+                    "unit": "month",
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.show_trendline": True,
+                "graph.y_axis.title_text": "Number of Accumulated Assessments",
+                "graph.show_values": False,
+                "graph.x_axis.title_text": "Date",
+                "graph.label_value_frequency": "fit",
+                "graph.metrics": ["count"],
+                # "column_settings": {
+                #    '["ref",["field-id",{}]]'.format(
+                #        self.database_mapping[self.database_id]["fields"][238]
+                #    ): {"date_abbreviate": False}
+                # },
+                "series_settings": {
+                    "count": {"display": "bar", "title": "Number of Assessments"}
+                },
+                "graph.dimensions": ["start_date"],
+                "stackable.stack_type": None,
+            },
+        }
+
+    @property
     def tools_by_accumulated_assessments(self):
         return {
             "name": "Tools by Accumulated Assessments",
@@ -520,6 +718,50 @@ class AssessmentsCardFactory(CardFactory):
                 "graph.show_values": False,
                 "graph.x_axis.axis_enabled": False,
                 "graph.y_axis.auto_split": False,
+            },
+        }
+
+    @property
+    def accumulated_assessments_per_country(self):
+        return {
+            "name": "Accumulated Assessments per Country",
+            "collection_id": self.collection_id,
+            "display": "row",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [["count"]],
+                    "breakout": [
+                        [
+                            "field-id",
+                            self.database_mapping[self.database_id]["fields"][301],
+                        ]
+                    ],
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "Country",
+                    "name": "country",
+                    "special_type": "type/Country",
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "map.type": "region",
+                "map.region": "world_countries",
+                "graph.dimensions": ["country"],
+                "graph.metrics": ["count"],
             },
         }
 
