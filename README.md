@@ -101,17 +101,7 @@ After that you can log in to the metabase instances with the credentials you pro
 
 ## Making changes
 
-To make changes to the metabase content, use metabase-instance (not metabase-global or one of the country specific ones). Ideally you should have the same version of postgresql and pg_dump installed as specified at the top of the database dump file in the `dumps/` directory. It's recommended to use the master instance on our test server.
-
-To get a clean start, restore the database from the checked-in dump:
-
-    # bin/restore-metabase
-
-Then make your changes through the metabase UI. To dump the database, run:
-
-    # bin/dump-metabase
-
-Then inspect and, if satisfied, commit the changes to the database dump in the `dumps/` directory.
+To make changes to the metabase content, modify the data in oira.statistics.deployment.content. It may be convenient to make changes via the UI and then get the corresponding values via the API. You can use the `ipybase` shell defined in devel.cfg for this purpose.
 
 To apply the changes to the global and country instances, again run
 
@@ -123,6 +113,6 @@ Apply settings to a single metabase instance. Sets database connection parameter
 
 ## init-metabase
 
-Initializes all metabase instances by restoring the database dump and running
+Initializes all metabase instances by dropping all database content and running
 init-metabase-instance on each of them. Does not take any parameters; buildout writes
-them directly into the script.
+them directly into the script. If the environment variable `SKIP_DB_RESTORE` is set, database contents are not dropped but kept.

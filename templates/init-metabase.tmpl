@@ -9,17 +9,16 @@ done
 
 if [[ ! -v SKIP_DB_RESTORE ]]; then
     echo '# Restoring database dump'
-    echo 'Shutting down supervisor'
-    ${parts.buildout['bin-directory']}/supervisorctl shutdown || true
+    echo 'Shutting down supervisor programs'
+    ${parts.buildout['bin-directory']}/supervisorctl stop all || true
     {% for instance in parts.buildout['metabase-instances'].split('\n') %}
     echo ''
     echo '${instance}'
-    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} -c "DROP SCHEMA IF EXISTS public CASCADE" >/dev/null
-    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
+    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;" >/dev/null
     {% end %}
     echo ''
-    echo 'Starting supervisor'
-    ${parts.buildout['bin-directory']}/supervisord
+    echo 'Starting supervisor programs'
+    ${parts.buildout['bin-directory']}/supervisorctl start all || ${parts.buildout['bin-directory']}/supervisord
     echo ''
 fi
 echo '# Applying instance specific settings'
@@ -27,7 +26,7 @@ echo '# Applying instance specific settings'
 echo ''
 echo '${instance}'
 echo 'Waiting for ${instance} to come up...'
-while ! grep "Metabase Initialization COMPLETE" ./var/log/${instance}-stdout*.log > /dev/null; do
+while ! curl --silent http://${parts[instance]['metabase-host']}:${parts[instance]['metabase-port']}/api/user/current > /dev/null; do
     sleep 5s;
     if ! bin/supervisorctl status ${instance} | grep "\(STARTING\|RUNNING\|BACKOFF\)"; then
         echo 'ERROR: ${instance} did not start properly! See supervisor log for details'

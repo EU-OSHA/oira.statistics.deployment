@@ -222,17 +222,27 @@ class MetabaseInitializer(object):
         self.args = args
         api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
         self.mb = OiraMetabase_API(api_url, args.metabase_user, args.metabase_password)
-        self._database_mapping = None
         self._existing_items = None
 
     def __call__(self):
         countries = {}
 
+        self.mb.put("/api/setting/show-homepage-xrays", json={"value": False})
+        self.mb.put("/api/setting/show-homepage-data", json={"value": False})
+
         global_group_id = self.set_up_global_group()
 
-        self.set_up_account()
-        self.set_up_assessment()
-        self.set_up_questionnaire()
+        global_database_id = self.set_up_database()
+        global_collection_id = self.set_up_global_collection()
+        self.set_up_account(
+            database_id=global_database_id, collection_id=global_collection_id
+        )
+        self.set_up_assessment(
+            database_id=global_database_id, collection_id=global_collection_id
+        )
+        self.set_up_questionnaire(
+            database_id=global_database_id, collection_id=global_collection_id
+        )
 
         if self.args.countries:
             countries = {
@@ -242,8 +252,8 @@ class MetabaseInitializer(object):
             for country in countries:
                 countries[country]["group"] = self.set_up_country_group(country)
                 if not self.args.global_statistics:
-                    countries[country]["database"] = self.set_up_country_database(
-                        country
+                    countries[country]["database"] = self.set_up_database(
+                        country=country
                     )
                     countries[country]["collection"] = self.set_up_country_collection(
                         country
@@ -268,7 +278,9 @@ class MetabaseInitializer(object):
                 self.set_up_country_permissions(countries, global_group_id)
 
         if self.args.global_statistics:
-            self.set_up_global_permissions(countries, global_group_id)
+            self.set_up_global_permissions(
+                global_database_id, countries, global_group_id, global_collection_id
+            )
 
         if self.args.ldap_host:
             self.set_up_ldap(countries, global_group_id)
@@ -307,34 +319,18 @@ class MetabaseInitializer(object):
                         },
                     )
 
-        if self.args.database_name_statistics:
-            log.info(
-                "Setting up database {}".format(self.args.database_name_statistics)
-            )
-            self.mb.put(
-                "/api/database/34",
-                json={
-                    "name": self.args.database_name_statistics,
-                    "engine": "postgres",
-                    "details": {
-                        "dbname": self.args.database_name_statistics,
-                        "host": self.args.database_host,
-                        "port": self.args.database_port,
-                        "user": self.args.database_user,
-                        "password": self.args.database_password,
-                    },
-                },
-            )
-            self.mb.post("/api/database/34/sync")
-        else:
-            permissions = self.mb.get("/api/permissions/graph").json()
-            if "1" in permissions["groups"]:
-                permissions["groups"]["1"]["34"] = {"schemas": "none"}
-
         log.info("Done initializing metabase instance")
 
-    def set_up_country_database(self, country):
-        db_name = self.args.database_pattern_statistics.format(country=country.lower())
+    def set_up_database(self, country=None):
+        if country is None:
+            db_name = "statistics_global"
+            for database in self.mb.get("/api/database").json():
+                if database["name"] == "Sample Dataset":
+                    self.mb.delete("/api/database/{}".format(database["id"]))
+        else:
+            db_name = self.args.database_pattern_statistics.format(
+                country=country.lower()
+            )
         db_data = {
             "name": db_name,
             "engine": "postgres",
@@ -350,7 +346,6 @@ class MetabaseInitializer(object):
 
         self.mb.post("/api/database/{}/sync".format(db_id))
 
-        self._database_mapping = None
         return db_id
 
     def create(self, obj_type, obj_name, extra_data={}, reuse=True):
@@ -400,39 +395,48 @@ class MetabaseInitializer(object):
     def set_up_country_group(self, country):
         return self.create("group", country.upper())
 
+    def set_up_global_collection(self):
+        return self.create("collection", "-Global-", extra_data={"color": "#0000FF"})
+
     def set_up_country_collection(self, country):
         return self.create(
             "collection", country.upper(), extra_data={"color": "#00FF00"}
         )
 
-    def set_up_global_permissions(self, countries, global_group_id):
+    def set_up_global_permissions(
+        self, global_database_id, countries, global_group_id, global_collection_id
+    ):
         log.info("Setting up global permissions")
         permissions = self.mb.get("/api/permissions/graph").json()
         collection_permissions = self.mb.get("/api/collection/graph").json()
         all_users_id = str(self.existing_items["groups"]["All Users"])
         if str(all_users_id) in permissions["groups"]:
-            permissions["groups"][str(all_users_id)]["34"] = {"schemas": "none"}
+            permissions["groups"][str(all_users_id)][str(global_database_id)] = {
+                "schemas": "none"
+            }
         global_group_permissions = permissions["groups"].setdefault(
             str(global_group_id), {}
         )
-        global_group_permissions["34"] = {"schemas": "all"}
+        global_group_permissions[str(global_database_id)] = {"schemas": "all"}
         permissions["groups"][str(global_group_id)] = global_group_permissions
 
         permissions["groups"].update(
             {
-                country_info["group"]: {"34": {"schemas": "all"}}
+                country_info["group"]: {str(global_database_id): {"schemas": "all"}}
                 for country_info in countries.values()
             }
         )
 
-        collection_permissions["groups"][str(global_group_id)]["3"] = "read"
-        collection_permissions["groups"][str(global_group_id)]["4"] = "read"
-        collection_permissions["groups"].setdefault(all_users_id, {})["3"] = "none"
-        collection_permissions["groups"].setdefault(all_users_id, {})["4"] = "none"
+        collection_permissions["groups"][str(global_group_id)][
+            str(global_collection_id)
+        ] = "read"
+        collection_permissions["groups"].setdefault(all_users_id, {})[
+            str(global_collection_id)
+        ] = "none"
 
         collection_permissions["groups"].update(
             {
-                country_info["group"]: {"3": "read", "4": "read"}
+                country_info["group"]: {str(global_collection_id): "read"}
                 for country_info in countries.values()
             }
         )
@@ -509,10 +513,7 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding accounts cards")
-        table_id = self.database_mapping[database_id]["tables"][43]
-        card_factory = AccountsCardFactory(
-            self.database_mapping, database_id, collection_id, table_id
-        )
+        card_factory = AccountsCardFactory(self.mb, database_id, collection_id)
         cards = [
             card_factory.accumulated_users_per_type,
             card_factory.new_users_per_month,
@@ -581,17 +582,14 @@ class MetabaseInitializer(object):
 
         dashboard_data = {
             "collection_id": collection_id,
-            "collection_position": 1,
+            "collection_position": 2,
         }
         dashboard_id = self.create(
             "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
         )
 
         log.info("Adding assessments cards")
-        table_id = self.database_mapping[database_id]["tables"][61]
-        card_factory = AssessmentsCardFactory(
-            self.database_mapping, database_id, collection_id, table_id
-        )
+        card_factory = AssessmentsCardFactory(self.mb, database_id, collection_id)
         cards = [
             card_factory.accumulated_assessments,
             card_factory.new_assessments_per_month,
@@ -653,10 +651,7 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding questionnaire cards")
-        table_id = self.database_mapping[database_id]["tables"][44]
-        card_factory = QuestionnaireCardFactory(
-            self.database_mapping, database_id, collection_id, table_id
-        )
+        card_factory = QuestionnaireCardFactory(self.mb, database_id, collection_id)
         cards = [
             card_factory.number_of_survey_responses,
             card_factory.employees,
@@ -718,8 +713,7 @@ class MetabaseInitializer(object):
                 for group in self.mb.get("/api/permissions/group").json()
             }
             self._existing_items["databases"] = {
-                db["details"]["dbname"]: db["id"]
-                for db in self.mb.get("/api/database").json()
+                db["name"]: db["id"] for db in self.mb.get("/api/database").json()
             }
             self._existing_items["collections"] = {
                 collection["name"]: collection["id"]
@@ -732,62 +726,32 @@ class MetabaseInitializer(object):
 
         return self._existing_items
 
-    def transform_query(self, query, old_database_id, database_id):
-        old_table_id = query["source-table"]
-        if "breakout" in query:
-            for item in query["breakout"]:
-                if item[0] == "field-id":
-                    item[1] = self.database_mapping[database_id]["fields"][item[1]]
-                elif item[1][0] == "field-id":
-                    item[1][1] = self.database_mapping[database_id]["fields"][
-                        item[1][1]
-                    ]
-        if "filter" in query:
-            if query["filter"][1][0] == "field-id":
-                query["filter"][1][1] = self.database_mapping[database_id]["fields"][
-                    query["filter"][1][1]
-                ]
-        query["source-table"] = self.database_mapping[database_id]["tables"][
-            old_table_id
-        ]
-        return query
 
-    @property
-    def database_mapping(self):
-        if not self._database_mapping:
-            self._database_mapping = {}
-            self.mb.post("/api/database/34/sync_schema")
-            # XXX check for "sync.util :: FINISHED: Analyze data" in /api/util/logs
-            sleep(2)
-            base_database = self.mb.get("/api/database/34?include=tables.fields").json()
-            for database in self.mb.get("/api/database?include=tables").json():
-                if database["id"] != "34":
-                    tables = {
-                        table["name"]: table["id"] for table in database["tables"]
-                    }
-                    fields = {
-                        table["name"]: {
-                            field["name"]: field["id"] for field in table["fields"]
-                        }
-                        for table in self.mb.get(
-                            "/api/database/{}?include=tables.fields".format(
-                                database["id"]
-                            )
-                        ).json()["tables"]
-                    }
-                    self._database_mapping[database["id"]] = {
-                        "tables": {},
-                        "fields": {},
-                    }
-                    for base_table in base_database["tables"]:
-                        self._database_mapping[database["id"]]["tables"][
-                            base_table["id"]
-                        ] = tables[base_table["name"]]
-                        for base_field in base_table["fields"]:
-                            self._database_mapping[database["id"]]["fields"][
-                                base_field["id"]
-                            ] = fields[base_table["name"]][base_field["name"]]
-        return self._database_mapping
+def bootstrap_metabase_instance(args):
+    api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
+    result = requests.get(api_url)
+    token = json.loads(
+        next((line for line in result.text.split("\n") if "setup-token" in line))
+    )["setup-token"]
+    bootstrap = {
+        "token": token,
+        "prefs": {
+            "site_name": "Syslab.com",
+            "site_locale": "en",
+            "allow_tracking": "false",
+        },
+        "database": None,
+        "user": {
+            "first_name": "Admin",
+            "last_name": "Syslab",
+            "email": args.metabase_user,
+            "password": args.metabase_password,
+            "site_name": "Syslab.com",
+        },
+    }
+    result = requests.post(api_url + "/api/setup", json=bootstrap)
+    if not result.ok:
+        log.warn("Bootstrap returned {}!".format(result.status_code))
 
 
 def init_metabase_instance():
@@ -795,5 +759,6 @@ def init_metabase_instance():
     args = get_metabase_args()
 
     log.info("Initializing metabase instance")
+    bootstrap_metabase_instance(args)
     initializer = MetabaseInitializer(args)
     initializer()

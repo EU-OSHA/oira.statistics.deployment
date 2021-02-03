@@ -1,12 +1,21 @@
 class CardFactory(object):
-    def __init__(self, database_mapping, database_id, collection_id, table_id):
-        self.database_mapping = database_mapping
+    table_name = None
+
+    def __init__(self, mb, database_id, collection_id):
         self.database_id = database_id
         self.collection_id = collection_id
-        self.table_id = table_id
+        database = mb.get(
+            "/api/database/{}?include=tables.fields".format(database_id)
+        ).json()
+        for table in database["tables"]:
+            if table["name"] == self.table_name:
+                self.table_id = table["id"]
+                self.fields = {field["name"]: field["id"] for field in table["fields"]}
 
 
 class AccountsCardFactory(CardFactory):
+    table_name = "account"
+
     @property
     def accumulated_users_per_type(self):
         return {
@@ -23,7 +32,7 @@ class AccountsCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ]
                     ],
                 },
@@ -70,14 +79,14 @@ class AccountsCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ]
                     ],
                     "filter": [
                         "!=",
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                         "guest",
                     ],
@@ -127,13 +136,13 @@ class AccountsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][298],
+                                self.fields["creation_date"],
                             ],
                             "month",
                         ],
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                     ],
                 },
@@ -192,7 +201,7 @@ class AccountsCardFactory(CardFactory):
                         "=",
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                         "converted",
                     ],
@@ -202,7 +211,7 @@ class AccountsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][298],
+                                self.fields["creation_date"],
                             ],
                             "month",
                         ]
@@ -255,7 +264,7 @@ class AccountsCardFactory(CardFactory):
                         "=",
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                         "full",
                     ],
@@ -265,7 +274,7 @@ class AccountsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][298],
+                                self.fields["creation_date"],
                             ],
                             "month",
                         ]
@@ -311,7 +320,7 @@ class AccountsCardFactory(CardFactory):
                         "=",
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                         "converted",
                     ],
@@ -321,7 +330,7 @@ class AccountsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][298],
+                                self.fields["creation_date"],
                             ],
                             "month",
                         ]
@@ -367,7 +376,7 @@ class AccountsCardFactory(CardFactory):
                         "=",
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][157],
+                            self.fields["account_type"],
                         ],
                         "guest",
                     ],
@@ -377,7 +386,7 @@ class AccountsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][298],
+                                self.fields["creation_date"],
                             ],
                             "month",
                         ]
@@ -409,6 +418,8 @@ class AccountsCardFactory(CardFactory):
 
 
 class AssessmentsCardFactory(CardFactory):
+    table_name = "assessment"
+
     @property
     def accumulated_assessments(self):
         return {
@@ -451,7 +462,7 @@ class AssessmentsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][304],
+                                self.fields["start_date"],
                             ],
                             "month",
                         ]
@@ -564,7 +575,7 @@ class AssessmentsCardFactory(CardFactory):
                             "datetime-field",
                             [
                                 "field-id",
-                                self.database_mapping[self.database_id]["fields"][304],
+                                self.fields["start_date"],
                             ],
                             "month",
                         ]
@@ -594,11 +605,6 @@ class AssessmentsCardFactory(CardFactory):
                 "graph.x_axis.title_text": "Date",
                 "graph.label_value_frequency": "fit",
                 "graph.metrics": ["count"],
-                # "column_settings": {
-                #    '["ref",["field-id",{}]]'.format(
-                #        self.database_mapping[self.database_id]["fields"][238]
-                #    ): {"date_abbreviate": False}
-                # },
                 "series_settings": {
                     "count": {"display": "bar", "title": "Number of Assessments"}
                 },
@@ -623,7 +629,7 @@ class AssessmentsCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][302],
+                            self.fields["tool"],
                         ]
                     ],
                     "order-by": [["desc", ["aggregation", 0]]],
@@ -737,7 +743,7 @@ class AssessmentsCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][301],
+                            self.fields["country"],
                         ]
                     ],
                 },
@@ -767,6 +773,8 @@ class AssessmentsCardFactory(CardFactory):
 
 
 class QuestionnaireCardFactory(CardFactory):
+    table_name = "company"
+
     @property
     def number_of_survey_responses(self):
         return {
@@ -810,7 +818,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][179],
+                            self.fields["employees"],
                         ]
                     ],
                 },
@@ -861,7 +869,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][182],
+                            self.fields["conductor"],
                         ]
                     ],
                 },
@@ -909,7 +917,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][176],
+                            self.fields["referer"],
                         ]
                     ],
                 },
@@ -959,7 +967,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][178],
+                            self.fields["workers_participated"],
                         ]
                     ],
                 },
@@ -1006,7 +1014,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][184],
+                            self.fields["needs_met"],
                         ]
                     ],
                 },
@@ -1053,7 +1061,7 @@ class QuestionnaireCardFactory(CardFactory):
                     "breakout": [
                         [
                             "field-id",
-                            self.database_mapping[self.database_id]["fields"][183],
+                            self.fields["recommend_tool"],
                         ]
                     ],
                 },

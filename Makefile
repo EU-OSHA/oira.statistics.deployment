@@ -21,7 +21,7 @@ buildout: .installed.cfg
 create-databases: .installed.cfg
 	sudo -u ${PSQL_USER} psql -U postgres < ./scripts/create-databases.sql
 
-init-metabase: .installed.cfg dumps/*
+init-metabase: .installed.cfg
 	./bin/init-metabase
 
 restart:
