@@ -8,7 +8,7 @@ while getopts "n" option; do
 done
 
 if [[ ! -v SKIP_DB_RESTORE ]]; then
-    echo '# Restoring database dump'
+    echo '# Clearing database'
     echo 'Shutting down supervisor programs'
     ${parts.buildout['bin-directory']}/supervisorctl stop all || true
     {% for instance in parts.buildout['metabase-instances'].split('\n') %}
