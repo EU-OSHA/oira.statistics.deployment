@@ -2,6 +2,7 @@ from .content import AccountsCardFactory
 from .content import AssessmentsCardFactory
 from .content import QuestionnaireCardFactory
 from .metabase import OiraMetabase_API
+from pkg_resources import resource_string
 import logging
 
 log = logging.getLogger(__name__)
@@ -19,6 +20,8 @@ class MetabaseInitializer(object):
 
         self.mb.put("/api/setting/show-homepage-xrays", json={"value": False})
         self.mb.put("/api/setting/show-homepage-data", json={"value": False})
+
+        self.set_up_start_here_dashboard()
 
         global_group_id = self.set_up_global_group()
 
@@ -178,6 +181,41 @@ class MetabaseInitializer(object):
                 obj_info = result.json()
         obj_id = obj_info["id"]
         return obj_id
+
+    def set_up_start_here_dashboard(self):
+        intro_text = resource_string(__package__, "resources/intro_text.md").decode(
+            "utf-8"
+        )
+        dashboard_data = {
+            "description": "Introduction to the statistics",
+            "collection_position": 1,
+            "collection_id": None,
+        }
+        dashboard_id = self.create(
+            "dashboard", "-> Start here", extra_data=dashboard_data, reuse=False
+        )
+
+        intro_card = {
+            "card_id": None,
+            "parameter_mappings": [],
+            "series": [],
+            "visualization_settings": {
+                "virtual_card": {
+                    "name": None,
+                    "display": "text",
+                },
+                "text": intro_text,
+            },
+            "dashboard_id": 3,
+            "sizeX": 8,
+            "sizeY": 9,
+            "col": 0,
+            "row": 0,
+        }
+        self.mb.post(
+            "/api/dashboard/{}/cards".format(dashboard_id),
+            json=intro_card,
+        )
 
     def set_up_global_group(self):
         return self.create("group", "global")
