@@ -282,7 +282,7 @@ class MetabaseInitializer(object):
         if all_users_id in collection_permissions["groups"]:
             collection_permissions["groups"][all_users_id].update(
                 {
-                    country_info["collection"]: "none"
+                    str(country_info["collection"]): "none"
                     for country_info in countries.values()
                 }
             )
