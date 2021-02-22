@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-psql postgresql://${parts['metabase-instance']['database-user']}:${parts['metabase-instance']['database-password']}@${parts['metabase-instance']['database-host']}:${parts['metabase-instance']['database-port']}/${parts['metabase-instance']['database-name']} < ${parts.buildout['directory']}/dumps/metabase-dump.sql >/dev/null
+psql postgresql://${parts['metabase-instance']['database-user']}:${parts['metabase-instance']['database-password']}@${parts['metabase-instance']['database-host']}:${parts['metabase-instance']['database-port']}/${parts['metabase-instance']['database-name']}
