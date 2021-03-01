@@ -1,10 +1,10 @@
 # OSHA OiRA Statistics Deployment
 
-This package contains configuration and scripts for deploying the OSHA OiRA statistics. The buildout configuration sets up a number of metabase instances to serve the statistics and generates scripts to prime them with a database dump and tweak their settings afterwards.
+This package contains configuration and scripts for deploying the OSHA OiRA statistics. The buildout configuration sets up a number of metabase instances to serve the statistics and generates scripts to manage them.
 
 # Setup
 
-## Getting Started
+## Quickstart
 
 Create a `buildout.cfg` like this:
 
@@ -13,16 +13,23 @@ Create a `buildout.cfg` like this:
         base.cfg
         secrets.cfg
 
-    [metabase-instance]
-    metabase-host = oira.local
+    [secrets]
+    <= secrets-production
 
-Adapt `metabase-host` to the address you want to bind to or leave empty to use the default (`localhost`).
+Run
+
+    # make
+
 
 ## Installation / Update
 
 ### One-Shot
 
 If you're installing for the first time, you need to make sure the databases are created (see below). If you're updating an existing installation, it's usually enough to call
+
+    # make
+
+or, equivalently,
 
     # make all
 
@@ -32,24 +39,32 @@ This sets up everything in one go except for creating the databases - you may ne
 
 If the one-shot setup fails for some reason or you're interested in the details, read on for a step-by-step setup.
 
-Decrypt the secrets with:
+If you're in an environment with managed secrets, decrypt the secrets file with:
 
     # gpg -d secrets.cfg.gpg > secrets.cfg
 
-or create your own `secrets.cfg` like this:
+Create a `buildout.cfg` that extends `base.cfg` and, if you're using it, `secrets.cfg`.
+
+    [buildout]
+    extends =
+        base.cfg
+        secrets.cfg
+
+Make sure that there is a secrets section in your `buildout.cfg` and that it inherits from the correct section in `secrets.cfg.gpg`:
+
+    [secrets]
+    <= secrets-production
+
+Otherwise set the passwords manually:
+
+    [secrets]
+    metabase-password = secret
+    ldap-password = secret
+
+If you want to bind to a different address than `localhost`, set the `metabase-host`:
 
     [metabase-instance]
-    metabase-password = ********
-    ldap-password = ********
-
-    [metabase-global]
-    statistics-user = userid ******** firstname lastname
-
-    [metabase-eu]
-    statistics-user = userid ******** firstname lastname
-
-    [metabase-fr]
-    statistics-user = userid ******** firstname lastname
+    metabase-host = oira.local
 
 Then, as usual, run:
 
@@ -97,7 +112,7 @@ or
 
 This calls `bin/init-metabase-instance` (see below) for all instances with the parameters specified in the corresponding buildout sections.
 
-After that you can log in to the metabase instances with the credentials you provided.
+After that you can log in to the metabase instances with the credentials you provided in the buildout configuration.
 
 ## Making changes
 
@@ -109,7 +124,7 @@ To apply the changes to the global and country instances, again run
 
 ## init-metabase-instance
 
-Apply settings to a single metabase instance. Sets database connection parameters and optionally creates an additional user. Run `init-metabase-instance --help` for arguments.
+Applies settings to a single metabase instance. Sets database connection parameters and optionally creates an additional user. Run `init-metabase-instance --help` for arguments.
 
 ## init-metabase
 
