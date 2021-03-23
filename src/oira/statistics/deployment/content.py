@@ -1,3 +1,6 @@
+from . import config
+
+
 class CardFactory(object):
     table_name = None
 
@@ -767,6 +770,66 @@ class AssessmentsCardFactory(CardFactory):
                 "map.type": "region",
                 "map.region": "world_countries",
                 "graph.dimensions": ["country"],
+                "graph.metrics": ["count"],
+            },
+        }
+
+
+class SectorAssessmentsCardFactory(CardFactory):
+    table_name = "assessment"
+
+    def __init__(self, sector_name, *args):
+        super(SectorAssessmentsCardFactory, self).__init__(*args)
+        self.sector_name = sector_name
+
+    @property
+    def assessments_per_month(self):
+        return {
+            "name": "Education: Assessments per month",
+            "collection_id": self.collection_id,
+            "display": "line",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "filter": [
+                        "=",
+                        [
+                            "field-id",
+                            self.fields["tool"],
+                        ],
+                    ]
+                    + config.sectors[self.sector_name],
+                    "aggregation": [["count"]],
+                    "breakout": [
+                        [
+                            "datetime-field",
+                            ["field-id", self.fields["start_date"]],
+                            "month",
+                        ]
+                    ],
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/DateTime",
+                    "display_name": "Start Date",
+                    "name": "start_date",
+                    "special_type": "type/CreationTimestamp",
+                    "unit": "month",
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.dimensions": ["start_date"],
                 "graph.metrics": ["count"],
             },
         }

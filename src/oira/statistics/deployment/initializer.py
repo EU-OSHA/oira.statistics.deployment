@@ -1,6 +1,8 @@
+from . import config
 from .content import AccountsCardFactory
 from .content import AssessmentsCardFactory
 from .content import QuestionnaireCardFactory
+from .content import SectorAssessmentsCardFactory
 from .metabase import OiraMetabase_API
 from pkg_resources import resource_string
 from time import sleep
@@ -75,6 +77,7 @@ class MetabaseInitializer(object):
             self.set_up_global_permissions(
                 global_database_id, countries, global_group_id, global_collection_id
             )
+            self.set_up_sectors(global_database_id)
 
         if self.args.ldap_host:
             self.set_up_ldap(countries, global_group_id)
@@ -512,6 +515,45 @@ class MetabaseInitializer(object):
                     "sizeY": 4,
                 },
             )
+
+    def set_up_sectors(self, database_id):
+        for sector_name in config.sectors:
+            collection_id = self.create(
+                "collection",
+                "Sector: {}".format(sector_name),
+                extra_data={
+                    "color": "#509EE3",
+                },
+            )
+            dashboard_name = "Assessments ({})".format(sector_name)
+            dashboard_data = {
+                "collection_id": collection_id,
+                "collection_position": 1,
+            }
+            dashboard_id = self.create(
+                "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+            )
+
+            card_factory = SectorAssessmentsCardFactory(
+                sector_name, self.mb, database_id, collection_id
+            )
+            cards = [
+                card_factory.assessments_per_month,
+            ]
+            for idx, card in enumerate(cards):
+                new_card = self.mb.post("/api/card", json=card).json()
+                card_id = new_card["id"]
+
+                self.mb.post(
+                    "/api/dashboard/{}/cards".format(dashboard_id),
+                    json={
+                        "cardId": card_id,
+                        "col": idx * 4 % 16,
+                        "row": idx // 4 * 4,
+                        "sizeX": 4,
+                        "sizeY": 4,
+                    },
+                )
 
     def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
