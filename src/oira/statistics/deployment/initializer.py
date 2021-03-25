@@ -399,7 +399,8 @@ class MetabaseInitializer(object):
             card_factory.new_assessments_per_month,
             card_factory.completion_of_assessments,
             card_factory.accumulated_assessments_over_time,
-            card_factory.top_ten_tools,
+            card_factory.top_ten_tools_by_number_of_assessments,
+            card_factory.top_ten_tools_by_number_of_users,
         ]
         if country is not None:
             cards.extend(

@@ -664,9 +664,9 @@ class AssessmentsCardFactory(CardFactory):
         }
 
     @property
-    def top_ten_tools(self):
+    def top_ten_tools_by_number_of_assessments(self):
         return {
-            "name": "Top Ten Tools",
+            "name": "Top Ten Tools by Number of Assessments",
             "collection_id": self.collection_id,
             "display": "row",
             "database_id": self.database_id,
@@ -706,6 +706,47 @@ class AssessmentsCardFactory(CardFactory):
                 "series_settings": {"count": {"display": "bar"}},
                 "graph.dimensions": ["path"],
                 "stackable.stack_type": None,
+            },
+        }
+
+    @property
+    def top_ten_tools_by_number_of_users(self):
+        return {
+            "name": "Top Ten Tools by Number of Users",
+            "collection_id": self.collection_id,
+            "display": "row",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "database": self.database_id,
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [
+                        ["distinct", ["field-id", self.fields["account_id"]]]
+                    ],
+                    "breakout": [["field-id", self.fields["path"]]],
+                    "order-by": [["desc", ["aggregation", 0]]],
+                    "limit": 10,
+                },
+                "type": "query",
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "Path",
+                    "name": "path",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Distinct values of Account ID",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.dimensions": ["path"],
+                "graph.metrics": ["count"],
             },
         }
 
