@@ -774,6 +774,52 @@ class AssessmentsCardFactory(CardFactory):
             },
         }
 
+    @property
+    def top_ten_tools(self):
+        return {
+            "name": "Top Ten Tools",
+            "collection_id": self.collection_id,
+            "display": "row",
+            "database_id": self.database_id,
+            "query_type": "query",
+            "dataset_query": {
+                "type": "query",
+                "query": {
+                    "source-table": self.table_id,
+                    "aggregation": [["count"]],
+                    "breakout": [["field-id", self.fields["path"]]],
+                    "order-by": [["desc", ["aggregation", 0]]],
+                    "limit": 10,
+                },
+                "database": self.database_id,
+            },
+            "result_metadata": [
+                {
+                    "base_type": "type/Text",
+                    "display_name": "Path",
+                    "name": "path",
+                    "special_type": None,
+                },
+                {
+                    "base_type": "type/BigInteger",
+                    "display_name": "Count",
+                    "name": "count",
+                    "special_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.show_trendline": True,
+                "graph.y_axis.title_text": "Number of started assessments",
+                "graph.show_values": False,
+                "graph.x_axis.title_text": "Date",
+                "graph.label_value_frequency": "fit",
+                "graph.metrics": ["count"],
+                "series_settings": {"count": {"display": "bar"}},
+                "graph.dimensions": ["path"],
+                "stackable.stack_type": None,
+            },
+        }
+
 
 class SectorAssessmentsCardFactory(CardFactory):
     table_name = "assessment"
