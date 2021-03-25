@@ -518,6 +518,7 @@ class MetabaseInitializer(object):
 
     def set_up_sectors(self, database_id):
         for sector_name in config.sectors:
+            log.info("Adding sector {}".format(sector_name))
             collection_id = self.create(
                 "collection",
                 "Sector: {}".format(sector_name),

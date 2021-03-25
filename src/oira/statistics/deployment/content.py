@@ -785,7 +785,7 @@ class SectorAssessmentsCardFactory(CardFactory):
     @property
     def assessments_per_month(self):
         return {
-            "name": "Education: Assessments per month",
+            "name": "{}: Assessments per month".format(self.sector_name),
             "collection_id": self.collection_id,
             "display": "line",
             "database_id": self.database_id,
