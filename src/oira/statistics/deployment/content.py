@@ -798,7 +798,7 @@ class SectorAssessmentsCardFactory(CardFactory):
                         "=",
                         [
                             "field-id",
-                            self.fields["tool"],
+                            self.fields["path"],
                         ],
                     ]
                     + config.sectors[self.sector_name],
