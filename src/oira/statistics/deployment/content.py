@@ -252,9 +252,9 @@ class AccountsCardFactory(CardFactory):
         }
 
     @property
-    def accumulated_number_of_full_users_over_time(self):
+    def accumulated_registered_users_over_time(self):
         return {
-            "name": "Accumulated Number Of Full Users Over Time",
+            "name": "Accumulated Registered Users Over Time",
             "collection_id": self.collection_id,
             "display": "line",
             "database_id": self.database_id,
@@ -270,61 +270,6 @@ class AccountsCardFactory(CardFactory):
                             self.fields["account_type"],
                         ],
                         "full",
-                    ],
-                    "aggregation": [["cum-count"]],
-                    "breakout": [
-                        [
-                            "datetime-field",
-                            [
-                                "field-id",
-                                self.fields["creation_date"],
-                            ],
-                            "month",
-                        ]
-                    ],
-                },
-                "database": self.database_id,
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/DateTime",
-                    "display_name": "Creation Date",
-                    "name": "creation_date",
-                    "unit": "month",
-                    "special_type": None,
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "graph.dimensions": ["creation_date"],
-                "graph.metrics": ["count"],
-                "series_settings": {"count": {"color": "#A989C5"}},
-            },
-        }
-
-    @property
-    def accumulated_number_of_converted_users_over_time(self):
-        return {
-            "name": "Accumulated Number Of Converted Users Over Time",
-            "collection_id": self.collection_id,
-            "display": "line",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "filter": [
-                        "=",
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ],
                         "converted",
                     ],
                     "aggregation": [["cum-count"]],
@@ -359,63 +304,7 @@ class AccountsCardFactory(CardFactory):
             "visualization_settings": {
                 "graph.dimensions": ["creation_date"],
                 "graph.metrics": ["count"],
-                "series_settings": {"count": {"color": "#98D9D9"}},
-            },
-        }
-
-    @property
-    def accumulated_number_of_guest_users_over_time(self):
-        return {
-            "name": "Accumulated Number Of Guest Users Over Time",
-            "collection_id": self.collection_id,
-            "display": "line",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "filter": [
-                        "=",
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ],
-                        "guest",
-                    ],
-                    "aggregation": [["cum-count"]],
-                    "breakout": [
-                        [
-                            "datetime-field",
-                            [
-                                "field-id",
-                                self.fields["creation_date"],
-                            ],
-                            "month",
-                        ]
-                    ],
-                },
-                "database": self.database_id,
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/DateTime",
-                    "display_name": "Creation Date",
-                    "name": "creation_date",
-                    "unit": "month",
-                    "special_type": None,
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "graph.dimensions": ["creation_date"],
-                "graph.metrics": ["count"],
-                "series_settings": {"count": {"color": "#F9D45C"}},
+                "series_settings": {"count": {"color": "#A989C5"}},
             },
         }
 

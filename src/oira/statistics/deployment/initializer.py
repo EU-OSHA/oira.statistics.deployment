@@ -359,9 +359,7 @@ class MetabaseInitializer(object):
             card_factory.new_users_per_month,
             card_factory.user_conversions_per_month,
             card_factory.accumulated_registered_users_per_type,
-            card_factory.accumulated_number_of_full_users_over_time,
-            card_factory.accumulated_number_of_converted_users_over_time,
-            card_factory.accumulated_number_of_guest_users_over_time,
+            card_factory.accumulated_registered_users_over_time,
         ]
         new_cards = []
         for card in cards:
@@ -369,7 +367,7 @@ class MetabaseInitializer(object):
             card_id = new_card["id"]
             new_cards.append(card_id)
 
-        for idx, card_id in enumerate(new_cards[:4]):
+        for idx, card_id in enumerate(new_cards):
             self.mb.post(
                 "/api/dashboard/{}/cards".format(dashboard_id),
                 json={
@@ -380,40 +378,6 @@ class MetabaseInitializer(object):
                     "sizeY": 4,
                 },
             )
-        self.mb.post(
-            "/api/dashboard/{}/cards".format(dashboard_id),
-            json={
-                "cardId": new_cards[4],
-                "col": 4,
-                "row": 4,
-                "sizeX": 4,
-                "sizeY": 4,
-                "series": [
-                    {
-                        "id": new_cards[5],
-                    },
-                    {
-                        "id": new_cards[6],
-                    },
-                ],
-                "visualization_settings": {
-                    "graph.dimensions": ["creation_date"],
-                    "graph.metrics": ["count"],
-                    "series_settings": {
-                        "count": {"color": "#A989C5", "title": "full"},
-                        "Accumulated Number Of Converted Users Over Time": {
-                            "color": "#98D9D9",
-                            "title": "converted",
-                        },
-                        "Accumulated Number Of Guest Users Over Time": {
-                            "color": "#F9D45C",
-                            "title": "guest",
-                        },
-                    },
-                    "card.title": "Accumulated Number Of Users Over Time",
-                },
-            },
-        )
 
     def set_up_assessment(self, country=None, database_id=34, collection_id=3):
         dashboard_name = "Assessments Dashboard"
