@@ -3,6 +3,7 @@ from .content import AssessmentsCardFactory
 from .content import QuestionnaireCardFactory
 from .metabase import OiraMetabase_API
 from pkg_resources import resource_string
+from time import sleep
 import logging
 
 log = logging.getLogger(__name__)
@@ -138,6 +139,14 @@ class MetabaseInitializer(object):
         db_id = self.create("database", db_name, extra_data=db_data)
 
         self.mb.post("/api/database/{}/sync".format(db_id))
+        while not [
+            entry["msg"]
+            for entry in self.mb.get("/api/util/logs").json()
+            if "FINISHED: Sync postgres Database {} '{}'".format(db_id, db_name)
+            in entry["msg"]
+        ]:
+            log.info("Waiting for database sync to finish...")
+            sleep(1)
 
         return db_id
 
