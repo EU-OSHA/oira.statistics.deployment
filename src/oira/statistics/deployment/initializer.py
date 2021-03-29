@@ -505,7 +505,12 @@ class MetabaseInitializer(object):
                 sector_name, self.mb, database_id, collection_id
             )
             cards = [
-                card_factory.assessments_per_month,
+                card_factory.accumulated_assessments,
+                card_factory.new_assessments_per_month,
+                card_factory.completion_of_assessments,
+                card_factory.accumulated_assessments_over_time,
+                card_factory.top_ten_tools_by_number_of_assessments,
+                card_factory.top_ten_tools_by_number_of_users,
             ]
             for idx, card in enumerate(cards):
                 new_card = self.mb.post("/api/card", json=card).json()
