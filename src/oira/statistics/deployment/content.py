@@ -6,6 +6,8 @@ log = logging.getLogger(__name__)
 
 class CardFactory(object):
     table_name = None
+    extra_filter = None
+    _raw_cards = {}
 
     def __init__(self, mb, database_id, collection_id):
         self.database_id = database_id
@@ -18,303 +20,321 @@ class CardFactory(object):
                 self.table_id = table["id"]
                 self.fields = {field["name"]: field["id"] for field in table["fields"]}
 
+    def __getattr__(self, name):
+        card = self.get_base_properties()
+        card_data = self._raw_cards[name]
+        card.update(card_data)
+        card["name"] = self.transform_name(card["name"])
+        if self.extra_filter:
+            query_type = card["query_type"]
+            if query_type == "query":
+                if "filter" in card["dataset_query"][query_type]:
+                    log.warning(
+                        "Overwriting existing filter ({})".format(
+                            card["dataset_query"][query_type]["filter"]
+                        )
+                    )
+                card["dataset_query"][query_type]["filter"] = self.extra_filter[
+                    query_type
+                ]
+            elif query_type == "native":
+                query = card["dataset_query"][query_type]["query"]
+                if self.extra_filter[query_type] not in query:
+                    log.warning(
+                        "Filter not found in query: {}".format(
+                            self.extra_filter[query_type]
+                        )
+                    )
+            else:
+                log.warning("Unknown query type {}".format(query_type))
+        return card
+
+    def get_base_properties(self):
+        base = {
+            "collection_id": self.collection_id,
+            "database_id": self.database_id,
+        }
+        return base
+
+    def transform_name(self, name):
+        return name
+
 
 class AccountsCardFactory(CardFactory):
     table_name = "account"
 
     @property
-    def accumulated_users_per_type(self):
+    def _raw_cards(self):
         return {
-            "name": "Accumulated Users per Type",
-            "collection_id": self.collection_id,
-            "display": "pie",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "database": self.database_id,
-                "query": {
-                    "source-table": self.table_id,
-                    "aggregation": [["count"]],
-                    "breakout": [
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ]
-                    ],
-                },
-                "type": "query",
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/Text",
-                    "display_name": "Account Type",
-                    "name": "account_type",
-                    "special_type": "type/Category",
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "pie.show_legend": True,
-                "pie.show_legend_perecent": True,
-                "pie.colors": {
-                    "converted": "#98D9D9",
-                    "full": "#7172AD",
-                    "guest": "#F9D45C",
-                },
-            },
-        }
-
-    @property
-    def accumulated_registered_users_per_type(self):
-        return {
-            "name": "Accumulated Registered Users per Type",
-            "collection_id": self.collection_id,
-            "display": "pie",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "aggregation": [["count"]],
-                    "breakout": [
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ]
-                    ],
-                    "filter": [
-                        "!=",
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ],
-                        "guest",
-                    ],
-                },
-                "database": self.database_id,
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/Text",
-                    "display_name": "Account Type",
-                    "name": "account_type",
-                    "special_type": "type/Category",
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "pie.show_legend": True,
-                "pie.show_legend_perecent": True,
-                "pie.colors": {
-                    "converted": "#98D9D9",
-                    "full": "#7172AD",
-                    "guest": "#F9D45C",
-                },
-            },
-        }
-
-    @property
-    def new_users_per_month(self):
-        return {
-            "name": "New Users per Month",
-            "collection_id": self.collection_id,
-            "display": "bar",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "aggregation": [["count"]],
-                    "breakout": [
-                        [
-                            "datetime-field",
+            "accumulated_users_per_type": {
+                "name": "Accumulated Users per Type",
+                "display": "pie",
+                "query_type": "query",
+                "dataset_query": {
+                    "database": self.database_id,
+                    "query": {
+                        "source-table": self.table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
                             [
                                 "field-id",
-                                self.fields["creation_date"],
-                            ],
-                            "month",
+                                self.fields["account_type"],
+                            ]
                         ],
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ],
-                    ],
+                    },
+                    "type": "query",
                 },
-                "database": self.database_id,
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Account Type",
+                        "name": "account_type",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.show_legend": True,
+                    "pie.show_legend_perecent": True,
+                    "pie.colors": {
+                        "converted": "#98D9D9",
+                        "full": "#7172AD",
+                        "guest": "#F9D45C",
+                    },
+                },
             },
-            "result_metadata": [
-                {
-                    "base_type": "type/DateTime",
-                    "display_name": "Creation Date",
-                    "name": "creation_date",
-                    "unit": "month",
-                    "special_type": None,
-                },
-                {
-                    "base_type": "type/Text",
-                    "display_name": "Account Type",
-                    "name": "account_type",
-                    "special_type": "type/Category",
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "graph.show_goal": False,
-                "graph.show_trendline": True,
-                "graph.y_axis.title_text": "Number of New Users",
-                "graph.show_values": True,
-                "stackable.stack_display": "bar",
-                "graph.x_axis.title_text": "Creation Date",
-                "graph.y_axis.auto_split": False,
-                "graph.metrics": ["count"],
-                "graph.label_value_formatting": "auto",
-                "series_settings": {"guest": {"color": "#F9D45C"}},
-                "graph.dimensions": ["creation_date", "account_type"],
-                "stackable.stack_type": None,
-            },
-        }
-
-    @property
-    def user_conversions_per_month(self):
-        return {
-            "name": "User Conversions per Month",
-            "collection_id": self.collection_id,
-            "display": "line",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "filter": [
-                        "=",
-                        [
-                            "field-id",
-                            self.fields["account_type"],
-                        ],
-                        "converted",
-                    ],
-                    "aggregation": [["count"]],
-                    "breakout": [
-                        [
-                            "datetime-field",
+            "accumulated_registered_users_per_type": {
+                "name": "Accumulated Registered Users per Type",
+                "display": "pie",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
                             [
                                 "field-id",
-                                self.fields["creation_date"],
-                            ],
-                            "month",
-                        ]
-                    ],
-                },
-                "database": self.database_id,
-            },
-            "result_metadata": [
-                {
-                    "base_type": "type/DateTime",
-                    "display_name": "Creation Date",
-                    "name": "creation_date",
-                    "unit": "month",
-                    "special_type": None,
-                },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
-                },
-            ],
-            "visualization_settings": {
-                "graph.x_axis.title_text": "Date",
-                "graph.dimensions": ["creation_date"],
-                "graph.metrics": ["count"],
-                "graph.show_values": True,
-                "series_settings": {
-                    "count": {
-                        "title": "Number of User Accounts Converted",
-                        "color": "#98D9D9",
-                    }
-                },
-            },
-        }
-
-    @property
-    def accumulated_registered_users_over_time(self):
-        return {
-            "name": "Accumulated Registered Users Over Time",
-            "collection_id": self.collection_id,
-            "display": "line",
-            "database_id": self.database_id,
-            "query_type": "query",
-            "dataset_query": {
-                "type": "query",
-                "query": {
-                    "source-table": self.table_id,
-                    "filter": [
-                        "=",
-                        [
-                            "field-id",
-                            self.fields["account_type"],
+                                self.fields["account_type"],
+                            ]
                         ],
-                        "full",
-                        "converted",
-                    ],
-                    "aggregation": [["cum-count"]],
-                    "breakout": [
-                        [
-                            "datetime-field",
+                        "filter": [
+                            "!=",
                             [
                                 "field-id",
-                                self.fields["creation_date"],
+                                self.fields["account_type"],
                             ],
-                            "month",
-                        ]
-                    ],
+                            "guest",
+                        ],
+                    },
+                    "database": self.database_id,
                 },
-                "database": self.database_id,
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Account Type",
+                        "name": "account_type",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.show_legend": True,
+                    "pie.show_legend_perecent": True,
+                    "pie.colors": {
+                        "converted": "#98D9D9",
+                        "full": "#7172AD",
+                        "guest": "#F9D45C",
+                    },
+                },
             },
-            "result_metadata": [
-                {
-                    "base_type": "type/DateTime",
-                    "display_name": "Creation Date",
-                    "name": "creation_date",
-                    "unit": "month",
-                    "special_type": None,
+            "new_users_per_month": {
+                "name": "New Users per Month",
+                "display": "bar",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.table_id,
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "datetime-field",
+                                [
+                                    "field-id",
+                                    self.fields["creation_date"],
+                                ],
+                                "month",
+                            ],
+                            [
+                                "field-id",
+                                self.fields["account_type"],
+                            ],
+                        ],
+                    },
+                    "database": self.database_id,
                 },
-                {
-                    "base_type": "type/BigInteger",
-                    "display_name": "Count",
-                    "name": "count",
-                    "special_type": "type/Quantity",
+                "result_metadata": [
+                    {
+                        "base_type": "type/DateTime",
+                        "display_name": "Creation Date",
+                        "name": "creation_date",
+                        "unit": "month",
+                        "special_type": None,
+                    },
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Account Type",
+                        "name": "account_type",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.show_goal": False,
+                    "graph.show_trendline": True,
+                    "graph.y_axis.title_text": "Number of New Users",
+                    "graph.show_values": True,
+                    "stackable.stack_display": "bar",
+                    "graph.x_axis.title_text": "Creation Date",
+                    "graph.y_axis.auto_split": False,
+                    "graph.metrics": ["count"],
+                    "graph.label_value_formatting": "auto",
+                    "series_settings": {"guest": {"color": "#F9D45C"}},
+                    "graph.dimensions": ["creation_date", "account_type"],
+                    "stackable.stack_type": None,
                 },
-            ],
-            "visualization_settings": {
-                "graph.dimensions": ["creation_date"],
-                "graph.metrics": ["count"],
-                "series_settings": {"count": {"color": "#A989C5"}},
+            },
+            "user_conversions_per_month": {
+                "name": "User Conversions per Month",
+                "display": "line",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.table_id,
+                        "filter": [
+                            "=",
+                            [
+                                "field-id",
+                                self.fields["account_type"],
+                            ],
+                            "converted",
+                        ],
+                        "aggregation": [["count"]],
+                        "breakout": [
+                            [
+                                "datetime-field",
+                                [
+                                    "field-id",
+                                    self.fields["creation_date"],
+                                ],
+                                "month",
+                            ]
+                        ],
+                    },
+                    "database": self.database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/DateTime",
+                        "display_name": "Creation Date",
+                        "name": "creation_date",
+                        "unit": "month",
+                        "special_type": None,
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.x_axis.title_text": "Date",
+                    "graph.dimensions": ["creation_date"],
+                    "graph.metrics": ["count"],
+                    "graph.show_values": True,
+                    "series_settings": {
+                        "count": {
+                            "title": "Number of User Accounts Converted",
+                            "color": "#98D9D9",
+                        }
+                    },
+                },
+            },
+            "accumulated_registered_users_over_time": {
+                "name": "Accumulated Registered Users Over Time",
+                "display": "line",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.table_id,
+                        "filter": [
+                            "=",
+                            [
+                                "field-id",
+                                self.fields["account_type"],
+                            ],
+                            "full",
+                            "converted",
+                        ],
+                        "aggregation": [["cum-count"]],
+                        "breakout": [
+                            [
+                                "datetime-field",
+                                [
+                                    "field-id",
+                                    self.fields["creation_date"],
+                                ],
+                                "month",
+                            ]
+                        ],
+                    },
+                    "database": self.database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/DateTime",
+                        "display_name": "Creation Date",
+                        "name": "creation_date",
+                        "unit": "month",
+                        "special_type": None,
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.dimensions": ["creation_date"],
+                    "graph.metrics": ["count"],
+                    "series_settings": {"count": {"color": "#A989C5"}},
+                },
             },
         }
 
 
 class AssessmentsCardFactory(CardFactory):
     table_name = "assessment"
-    extra_filter = None
 
     @property
     def _raw_cards(self):
@@ -729,45 +749,6 @@ class AssessmentsCardFactory(CardFactory):
                 },
             },
         }
-
-    def __getattr__(self, name):
-        card = self.get_base_properties()
-        card_data = self._raw_cards[name]
-        card.update(card_data)
-        card["name"] = self.transform_name(card["name"])
-        if self.extra_filter:
-            query_type = card["query_type"]
-            if query_type == "query":
-                if "filter" in card["dataset_query"][query_type]:
-                    log.warning(
-                        "Overwriting existing filter ({})".format(
-                            card["dataset_query"][query_type]["filter"]
-                        )
-                    )
-                card["dataset_query"][query_type]["filter"] = self.extra_filter[
-                    query_type
-                ]
-            elif query_type == "native":
-                query = card["dataset_query"][query_type]["query"]
-                if self.extra_filter[query_type] not in query:
-                    log.warning(
-                        "Filter not found in query: {}".format(
-                            self.extra_filter[query_type]
-                        )
-                    )
-            else:
-                log.warning("Unknown query type {}".format(query_type))
-        return card
-
-    def get_base_properties(self):
-        base = {
-            "collection_id": self.collection_id,
-            "database_id": self.database_id,
-        }
-        return base
-
-    def transform_name(self, name):
-        return name
 
 
 class SectorAssessmentsCardFactory(AssessmentsCardFactory):
