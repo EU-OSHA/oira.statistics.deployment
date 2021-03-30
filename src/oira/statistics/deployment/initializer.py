@@ -74,10 +74,14 @@ class MetabaseInitializer(object):
                 self.set_up_country_permissions(countries, global_group_id)
 
         if self.args.global_statistics:
+            sector_collection_ids = self.set_up_sectors(global_database_id)
             self.set_up_global_permissions(
-                global_database_id, countries, global_group_id, global_collection_id
+                global_database_id,
+                countries,
+                sector_collection_ids,
+                global_group_id,
+                global_collection_id,
             )
-            self.set_up_sectors(global_database_id)
 
         if self.args.ldap_host:
             self.set_up_ldap(countries, global_group_id)
@@ -244,12 +248,18 @@ class MetabaseInitializer(object):
         )
 
     def set_up_global_permissions(
-        self, global_database_id, countries, global_group_id, global_collection_id
+        self,
+        global_database_id,
+        countries,
+        sector_collection_ids,
+        global_group_id,
+        global_collection_id,
     ):
         log.info("Setting up global permissions")
-        permissions = self.mb.get("/api/permissions/graph").json()
-        collection_permissions = self.mb.get("/api/collection/graph").json()
         all_users_id = str(self.existing_items["groups"]["All Users"])
+
+        # Database permissions
+        permissions = self.mb.get("/api/permissions/graph").json()
         if str(all_users_id) in permissions["groups"]:
             permissions["groups"][str(all_users_id)][str(global_database_id)] = {
                 "schemas": "none"
@@ -267,6 +277,10 @@ class MetabaseInitializer(object):
             }
         )
 
+        self.mb.put("/api/permissions/graph", json=permissions)
+
+        # Collection permissions
+        collection_permissions = self.mb.get("/api/collection/graph").json()
         collection_permissions["groups"][str(global_group_id)][
             str(global_collection_id)
         ] = "read"
@@ -280,8 +294,19 @@ class MetabaseInitializer(object):
                 for country_info in countries.values()
             }
         )
+        collection_permissions["groups"][all_users_id].update(
+            {
+                str(sector_collection_id): "none"
+                for sector_collection_id in sector_collection_ids
+            }
+        )
+        collection_permissions["groups"][str(global_group_id)].update(
+            {
+                str(sector_collection_id): "read"
+                for sector_collection_id in sector_collection_ids
+            }
+        )
 
-        self.mb.put("/api/permissions/graph", json=permissions)
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
     def set_up_country_permissions(self, countries, global_group_id):
@@ -486,6 +511,7 @@ class MetabaseInitializer(object):
             )
 
     def set_up_sectors(self, database_id):
+        sector_collection_ids = []
         for sector_name in config.sectors:
             log.info("Adding sector {}".format(sector_name))
             collection_id = self.create(
@@ -495,6 +521,7 @@ class MetabaseInitializer(object):
                     "color": "#509EE3",
                 },
             )
+            sector_collection_ids.append(collection_id)
             dashboard_name = "Assessments ({})".format(sector_name)
             dashboard_data = {
                 "collection_id": collection_id,
@@ -528,6 +555,7 @@ class MetabaseInitializer(object):
                         "sizeY": 4,
                     },
                 )
+        return sector_collection_ids
 
     def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
