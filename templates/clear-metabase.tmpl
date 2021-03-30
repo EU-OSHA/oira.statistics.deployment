@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+echo '# Clearing database'
+{% for instance in parts.buildout['metabase-instances'].split('\n') %}
+echo ''
+echo '${instance}'
+psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;" >/dev/null
+{% end %}

@@ -1,38 +1,14 @@
 #!/usr/bin/env bash
 {% def escape(password) %}${password.replace('\\'', '\'\\\\\'\'')}{% end %}
 set -e
-while getopts "n" option; do
-  if [[ "$${option}" == "n" ]]; then
-    SKIP_DB_RESTORE=1;
-  fi
-done
 
-if [[ ! -v SKIP_DB_RESTORE ]]; then
-    echo '# Clearing database'
-    echo 'Shutting down supervisor programs'
-    ${parts.buildout['bin-directory']}/supervisorctl stop all || true
-    {% for instance in parts.buildout['metabase-instances'].split('\n') %}
-    echo ''
-    echo '${instance}'
-    psql postgresql://${parts[instance]['database-user']}:${parts[instance]['database-password']}@${parts[instance]['database-host']}:${parts[instance]['database-port']}/${parts[instance]['database-name']} -c "DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;" >/dev/null
-    {% end %}
-    echo ''
-    echo 'Starting supervisor programs'
-    ${parts.buildout['bin-directory']}/supervisorctl start all || ${parts.buildout['bin-directory']}/supervisord
-    echo ''
-fi
-echo '# Applying instance specific settings'
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
 echo '${instance}'
-echo 'Waiting for ${instance} to come up...'
-while ! curl --silent http://${parts[instance]['metabase-host']}:${parts[instance]['metabase-port']}/api/user/current > /dev/null; do
-    sleep 5s;
-    if ! bin/supervisorctl status ${instance} | grep "\(STARTING\|RUNNING\|BACKOFF\)"; then
-        echo 'ERROR: ${instance} did not start properly! See supervisor log for details'
-        exit 1
-    fi
-done
+if ! timeout 5s curl --silent http://${parts[instance]['metabase-host']}:${parts[instance]['metabase-port']}/api/user/current > /dev/null; then
+    echo 'ERROR: Could not connect to ${instance}! Please check that it is running.'
+    exit 1
+fi
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-host='${parts[instance]['metabase-host']}' \\
     --metabase-port='${parts[instance]['metabase-port']}' \\

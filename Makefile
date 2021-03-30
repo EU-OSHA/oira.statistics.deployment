@@ -1,6 +1,6 @@
 PSQL_USER = postgres
 
-.PHONY: all buildout create-databases init-metabase restart
+.PHONY: all buildout clean create-databases init-metabase restart
 
 all: init-metabase
 
@@ -23,6 +23,9 @@ create-databases: .installed.cfg
 
 init-metabase: .installed.cfg
 	./bin/init-metabase
+
+clean: .installed.cfg
+	./bin/clear-metabase
 
 restart:
 	./bin/supervisord || ( ./bin/supervisorctl reread && ./bin/supervisorctl restart all)
