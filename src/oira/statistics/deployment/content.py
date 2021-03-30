@@ -9,9 +9,10 @@ class CardFactory(object):
     extra_filter = None
     _raw_cards = {}
 
-    def __init__(self, mb, database_id, collection_id):
+    def __init__(self, mb, database_id, collection_id, country=None):
         self.database_id = database_id
         self.collection_id = collection_id
+        self.country = country
         database = mb.get(
             "/api/database/{}?include=tables.fields".format(database_id)
         ).json()
@@ -57,7 +58,10 @@ class CardFactory(object):
         return base
 
     def transform_name(self, name):
-        return name
+        if self.country:
+            return "{} ({})".format(name, self.country.upper())
+        else:
+            return name
 
 
 class AccountsCardFactory(CardFactory):
@@ -754,6 +758,10 @@ class AssessmentsCardFactory(CardFactory):
 class SectorAssessmentsCardFactory(AssessmentsCardFactory):
     table_name = "assessment"
 
+    def __init__(self, sector_name, *args):
+        self.sector_name = sector_name
+        super(SectorAssessmentsCardFactory, self).__init__(*args)
+
     @property
     def extra_filter(self):
         return {
@@ -775,12 +783,8 @@ class SectorAssessmentsCardFactory(AssessmentsCardFactory):
             ),
         }
 
-    def __init__(self, sector_name, *args):
-        self.sector_name = sector_name
-        super(SectorAssessmentsCardFactory, self).__init__(*args)
-
     def transform_name(self, name):
-        return "{}: {}".format(self.sector_name, name)
+        return "{} ({})".format(name, self.sector_name)
 
 
 class QuestionnaireCardFactory(CardFactory):

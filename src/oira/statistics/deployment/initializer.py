@@ -353,7 +353,9 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding accounts cards")
-        card_factory = AccountsCardFactory(self.mb, database_id, collection_id)
+        card_factory = AccountsCardFactory(
+            self.mb, database_id, collection_id, country=country
+        )
         cards = [
             card_factory.accumulated_users_per_type,
             card_factory.new_users_per_month,
@@ -363,8 +365,7 @@ class MetabaseInitializer(object):
         ]
         new_cards = []
         for card in cards:
-            new_card = self.mb.post("/api/card", json=card).json()
-            card_id = new_card["id"]
+            card_id = self.create("card", card["name"], extra_data=card)
             new_cards.append(card_id)
 
         for idx, card_id in enumerate(new_cards):
@@ -393,7 +394,9 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding assessments cards")
-        card_factory = AssessmentsCardFactory(self.mb, database_id, collection_id)
+        card_factory = AssessmentsCardFactory(
+            self.mb, database_id, collection_id, country=country
+        )
         cards = [
             card_factory.accumulated_assessments,
             card_factory.new_assessments_per_month,
@@ -417,8 +420,7 @@ class MetabaseInitializer(object):
             )
         new_cards = []
         for card in cards:
-            new_card = self.mb.post("/api/card", json=card).json()
-            card_id = new_card["id"]
+            card_id = self.create("card", card["name"], extra_data=card)
             new_cards.append(card_id)
 
         for idx, card_id in enumerate(new_cards):
@@ -457,7 +459,9 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding questionnaire cards")
-        card_factory = QuestionnaireCardFactory(self.mb, database_id, collection_id)
+        card_factory = QuestionnaireCardFactory(
+            self.mb, database_id, collection_id, country=country
+        )
         cards = [
             card_factory.number_of_survey_responses,
             card_factory.employees,
@@ -468,8 +472,7 @@ class MetabaseInitializer(object):
             card_factory.recommend_tool,
         ]
         for idx, card in enumerate(cards):
-            new_card = self.mb.post("/api/card", json=card).json()
-            card_id = new_card["id"]
+            card_id = self.create("card", card["name"], extra_data=card)
 
             self.mb.post(
                 "/api/dashboard/{}/cards".format(dashboard_id),
@@ -513,8 +516,7 @@ class MetabaseInitializer(object):
                 card_factory.top_ten_tools_by_number_of_users,
             ]
             for idx, card in enumerate(cards):
-                new_card = self.mb.post("/api/card", json=card).json()
-                card_id = new_card["id"]
+                card_id = self.create("card", card["name"], extra_data=card)
 
                 self.mb.post(
                     "/api/dashboard/{}/cards".format(dashboard_id),
@@ -573,6 +575,9 @@ class MetabaseInitializer(object):
             self._existing_items["dashboards"] = {
                 dashboard["name"]: dashboard["id"]
                 for dashboard in self.mb.get("/api/dashboard").json()
+            }
+            self._existing_items["cards"] = {
+                card["name"]: card["id"] for card in self.mb.get("/api/card").json()
             }
 
         return self._existing_items
