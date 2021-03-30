@@ -260,108 +260,127 @@ class MetabaseInitializer(object):
 
         # Database permissions
         permissions = self.mb.get("/api/permissions/graph").json()
-        if str(all_users_id) in permissions["groups"]:
-            permissions["groups"][str(all_users_id)][str(global_database_id)] = {
-                "schemas": "none"
-            }
-        global_group_permissions = permissions["groups"].setdefault(
-            str(global_group_id), {}
-        )
-        global_group_permissions[str(global_database_id)] = {"schemas": "all"}
-        permissions["groups"][str(global_group_id)] = global_group_permissions
-
         permissions["groups"].update(
-            {
-                country_info["group"]: {str(global_database_id): {"schemas": "all"}}
-                for country_info in countries.values()
-            }
+            dict(
+                {
+                    str(all_users_id): {
+                        str(global_database_id): {"schemas": "none"},
+                    },
+                    str(global_group_id): {
+                        str(global_database_id): {"schemas": "all"},
+                    },
+                },
+                **{
+                    str(country_info["group"]): {
+                        str(global_database_id): {"schemas": "all"},
+                    }
+                    for country_info in countries.values()
+                }
+            )
         )
 
         self.mb.put("/api/permissions/graph", json=permissions)
 
         # Collection permissions
         collection_permissions = self.mb.get("/api/collection/graph").json()
-        collection_permissions["groups"][str(global_group_id)][
-            str(global_collection_id)
-        ] = "read"
-        collection_permissions["groups"].setdefault(all_users_id, {})[
-            str(global_collection_id)
-        ] = "none"
-
         collection_permissions["groups"].update(
-            {
-                country_info["group"]: {str(global_collection_id): "read"}
-                for country_info in countries.values()
-            }
-        )
-        collection_permissions["groups"][all_users_id].update(
-            {
-                str(sector_collection_id): "none"
-                for sector_collection_id in sector_collection_ids
-            }
-        )
-        collection_permissions["groups"][str(global_group_id)].update(
-            {
-                str(sector_collection_id): "read"
-                for sector_collection_id in sector_collection_ids
-            }
+            dict(
+                {
+                    str(all_users_id): dict(
+                        {
+                            str(global_collection_id): "none",
+                        },
+                        **{
+                            str(sector_collection_id): "none"
+                            for sector_collection_id in sector_collection_ids
+                        }
+                    ),
+                    str(global_group_id): dict(
+                        {
+                            str(global_collection_id): "read",
+                        },
+                        **{
+                            str(sector_collection_id): "read"
+                            for sector_collection_id in sector_collection_ids
+                        }
+                    ),
+                },
+                **{
+                    str(country_info["group"]): {
+                        str(global_collection_id): "read",
+                    }
+                    for country_info in countries.values()
+                }
+            )
         )
 
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
     def set_up_country_permissions(self, countries, global_group_id):
         log.info("Setting up country permissions")
-        permissions = self.mb.get("/api/permissions/graph").json()
-        collection_permissions = self.mb.get("/api/collection/graph").json()
-
-        for country_info in countries.values():
-            permissions["groups"][str(country_info["group"])] = {
-                str(country_info["database"]): {"schemas": "all"}
-            }
-            permissions["groups"][str(country_info["group"])].update(
-                {
-                    str(country_other["database"]): {"schemas": "none"}
-                    for country_other in countries.values()
-                    if country_info["group"] != country_other["group"]
-                }
-            )
-
-            collection_permissions["groups"][str(country_info["group"])] = {
-                str(country_info["collection"]): "read"
-            }
-            collection_permissions["groups"][str(country_info["group"])].update(
-                {
-                    str(country_other["collection"]): "none"
-                    for country_other in countries.values()
-                    if country_info["group"] != country_other["group"]
-                }
-            )
-
-        permissions["groups"][str(global_group_id)] = {
-            str(country_info["database"]): {"schemas": "all"}
-            for country_info in countries.values()
-        }
-        collection_permissions["groups"][str(global_group_id)] = {
-            str(country_info["collection"]): "read"
-            for country_info in countries.values()
-        }
-
         all_users_id = str(self.existing_items["groups"]["All Users"])
-        if all_users_id in permissions["groups"]:
-            permissions["groups"][all_users_id].update(
+
+        # Database permissions
+        permissions = self.mb.get("/api/permissions/graph").json()
+        permissions["groups"].update(
+            dict(
                 {
-                    str(country_info["database"]): {"schemas": "none"}
+                    str(all_users_id): {
+                        str(country_info["database"]): {"schemas": "none"}
+                        for country_info in countries.values()
+                    },
+                    str(global_group_id): {
+                        str(country_info["database"]): {"schemas": "all"}
+                        for country_info in countries.values()
+                    },
+                },
+                **{
+                    str(country_info["group"]): dict(
+                        {
+                            str(country_info["database"]): {"schemas": "all"},
+                        },
+                        **{
+                            str(country_other["database"]): {"schemas": "none"}
+                            for country_other in countries.values()
+                            if country_info["group"] != country_other["group"]
+                        }
+                    )
                     for country_info in countries.values()
                 }
             )
-        if all_users_id in collection_permissions["groups"]:
-            collection_permissions["groups"][all_users_id].update(
-                {
-                    str(country_info["collection"]): "none"
-                    for country_info in countries.values()
-                }
-            )
+        )
         self.mb.put("/api/permissions/graph", json=permissions)
+
+        # Collection permissions
+        collection_permissions = self.mb.get("/api/collection/graph").json()
+        collection_permissions["groups"].update(
+            dict(
+                {
+                    str(all_users_id): {
+                        str(country_info["collection"]): "none"
+                        for country_info in countries.values()
+                    },
+                    str(global_group_id): {
+                        str(country_info["collection"]): "read"
+                        for country_info in countries.values()
+                    },
+                },
+                **{
+                    str(country_info["group"]): dict(
+                        {
+                            str(country_info["collection"]): "read",
+                        },
+                        **{
+                            str(country_other["collection"]): "none"
+                            for country_other in countries.values()
+                            if country_info["group"] != country_other["group"]
+                        }
+                    )
+                    for country_info in countries.values()
+                }
+            )
+        )
+
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
