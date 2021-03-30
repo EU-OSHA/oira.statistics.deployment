@@ -19,27 +19,30 @@ class MetabaseInitializer(object):
         self._existing_items = None
 
     def __call__(self):
-        countries = {}
-
         self.mb.put("/api/setting/show-homepage-xrays", json={"value": False})
         self.mb.put("/api/setting/show-homepage-data", json={"value": False})
+        for database in self.mb.get("/api/database").json():
+            if database["name"] == "Sample Dataset":
+                self.mb.delete("/api/database/{}".format(database["id"]))
 
         self.set_up_start_here_dashboard()
 
         global_group_id = self.set_up_global_group()
 
-        global_database_id = self.set_up_database()
-        global_collection_id = self.set_up_global_collection()
-        self.set_up_account(
-            database_id=global_database_id, collection_id=global_collection_id
-        )
-        self.set_up_assessment(
-            database_id=global_database_id, collection_id=global_collection_id
-        )
-        self.set_up_questionnaire(
-            database_id=global_database_id, collection_id=global_collection_id
-        )
+        if self.args.global_statistics:
+            global_database_id = self.set_up_database()
+            global_collection_id = self.set_up_global_collection()
+            self.set_up_account(
+                database_id=global_database_id, collection_id=global_collection_id
+            )
+            self.set_up_assessment(
+                database_id=global_database_id, collection_id=global_collection_id
+            )
+            self.set_up_questionnaire(
+                database_id=global_database_id, collection_id=global_collection_id
+            )
 
+        countries = {}
         if self.args.countries:
             countries = {
                 country.strip(): {} for country in self.args.countries.split(",")
@@ -125,9 +128,6 @@ class MetabaseInitializer(object):
     def set_up_database(self, country=None):
         if country is None:
             db_name = "statistics_global"
-            for database in self.mb.get("/api/database").json():
-                if database["name"] == "Sample Dataset":
-                    self.mb.delete("/api/database/{}".format(database["id"]))
         else:
             db_name = self.args.database_pattern_statistics.format(
                 country=country.lower()
