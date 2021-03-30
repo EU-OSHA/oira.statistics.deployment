@@ -151,6 +151,17 @@ def get_metabase_args():
 
 def bootstrap_metabase_instance(args):
     api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
+    probe = requests.post(
+        f"{api_url}/api/session",
+        json={
+            "username": args.metabase_user,
+            "password": args.metabase_password,
+        },
+    )
+    if probe.ok:
+        log.info("Metabase user already set up")
+        return
+    log.info("Setting up metabase user")
     result = requests.get(api_url)
     token = json.loads(
         next((line for line in result.text.split("\n") if "setup-token" in line))
