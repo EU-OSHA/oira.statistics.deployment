@@ -82,7 +82,7 @@ sectors = {
         "es/adoberies/curtiduria",
         "es/adoberies/adoberies",
         "bg/obrabotka-na-kozhi-proizvodstvo-na-obuvki/obrabotka-na-kozhi-proizvodstvo-na-obuvki/",
-        "There shoud be one more leather and tanning tool, the first version of the EU tool, which has a considerable number of users and should also be included here, but I don´t have the URL, just the title “leather and tanning”",
+        "eu/leather-tanning/leather-tanning-draft-risk-assessment-tool",
     ],
     "Live performance": [
         "fi/esittava-taide/esittava-taide",
