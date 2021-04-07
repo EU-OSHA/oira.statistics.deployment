@@ -3,6 +3,7 @@ from .content import AccountsCardFactory
 from .content import AssessmentsCardFactory
 from .content import QuestionnaireCardFactory
 from .content import SectorAssessmentsCardFactory
+from .content import ToolsCardFactory
 from .metabase import OiraMetabase_API
 from pkg_resources import resource_string
 from time import sleep
@@ -438,28 +439,31 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding assessments cards")
-        card_factory = AssessmentsCardFactory(
+        assessments_card_factory = AssessmentsCardFactory(
+            self.mb, database_id, collection_id, country=country
+        )
+        tools_card_factory = ToolsCardFactory(
             self.mb, database_id, collection_id, country=country
         )
         cards = [
-            card_factory.accumulated_assessments,
-            card_factory.new_assessments_per_month,
-            card_factory.completion_of_assessments,
-            card_factory.accumulated_assessments_over_time,
-            card_factory.top_ten_tools_by_number_of_assessments,
-            card_factory.top_ten_tools_by_number_of_users,
+            assessments_card_factory.accumulated_assessments,
+            assessments_card_factory.new_assessments_per_month,
+            assessments_card_factory.completion_of_assessments,
+            assessments_card_factory.accumulated_assessments_over_time,
+            assessments_card_factory.top_ten_tools_by_number_of_assessments,
+            tools_card_factory.top_tools_by_number_of_users,
         ]
         if country is not None:
             cards.extend(
                 [
-                    card_factory.tools_by_accumulated_assessments,
-                    card_factory.tools_by_assessment_completion,
+                    assessments_card_factory.tools_by_accumulated_assessments,
+                    assessments_card_factory.tools_by_assessment_completion,
                 ]
             )
         else:
             cards.extend(
                 [
-                    card_factory.accumulated_assessments_per_country,
+                    assessments_card_factory.accumulated_assessments_per_country,
                 ]
             )
         new_cards = []
@@ -559,7 +563,7 @@ class MetabaseInitializer(object):
                 card_factory.completion_of_assessments,
                 card_factory.accumulated_assessments_over_time,
                 card_factory.top_ten_tools_by_number_of_assessments,
-                card_factory.top_ten_tools_by_number_of_users,
+                # card_factory.top_tools_by_number_of_users,
             ]
             for idx, card in enumerate(cards):
                 card_id = self.create("card", card["name"], extra_data=card)

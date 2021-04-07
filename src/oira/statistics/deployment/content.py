@@ -337,6 +337,72 @@ class AccountsCardFactory(CardFactory):
         }
 
 
+class ToolsCardFactory(CardFactory):
+    table_name = "tool"
+
+    @property
+    def _raw_cards(self):
+        return {
+            "top_tools_by_number_of_users": {
+                "name": "Top Tools by Number of Users",
+                "display": "row",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.table_id,
+                        "expressions": {
+                            "Users per Year": [
+                                "/",
+                                ["field-id", self.fields["num_users"]],
+                                ["+", ["field-id", self.fields["years_online"]], 1],
+                            ]
+                        },
+                        "order-by": [["desc", ["expression", "Users per Year"]]],
+                    },
+                    "database": self.database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
+                        "display_name": "Path",
+                        "name": "zodb_path",
+                        "special_type": "type/PK",
+                    },
+                    {
+                        "base_type": "type/DateTime",
+                        "display_name": "Published Date",
+                        "name": "published_date",
+                        "unit": "default",
+                        "special_type": None,
+                    },
+                    {
+                        "base_type": "type/Integer",
+                        "display_name": "Years Online",
+                        "name": "years_online",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/Integer",
+                        "display_name": "Num Users",
+                        "name": "num_users",
+                        "special_type": "type/Quantity",
+                    },
+                    {
+                        "base_type": "type/Float",
+                        "display_name": "Users per Year",
+                        "name": "Users per Year",
+                        "special_type": None,
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.dimensions": ["zodb_path"],
+                    "graph.metrics": ["Users per Year"],
+                },
+            },
+        }
+
+
 class AssessmentsCardFactory(CardFactory):
     table_name = "assessment"
 
@@ -714,42 +780,6 @@ class AssessmentsCardFactory(CardFactory):
                     "series_settings": {"count": {"display": "bar"}},
                     "graph.dimensions": ["path"],
                     "stackable.stack_type": None,
-                },
-            },
-            "top_ten_tools_by_number_of_users": {
-                "name": "Top Ten Tools by Number of Users",
-                "display": "row",
-                "query_type": "query",
-                "dataset_query": {
-                    "database": self.database_id,
-                    "query": {
-                        "source-table": self.table_id,
-                        "aggregation": [
-                            ["distinct", ["field-id", self.fields["account_id"]]]
-                        ],
-                        "breakout": [["field-id", self.fields["path"]]],
-                        "order-by": [["desc", ["aggregation", 0]]],
-                        "limit": 10,
-                    },
-                    "type": "query",
-                },
-                "result_metadata": [
-                    {
-                        "base_type": "type/Text",
-                        "display_name": "Path",
-                        "name": "path",
-                        "special_type": None,
-                    },
-                    {
-                        "base_type": "type/BigInteger",
-                        "display_name": "Distinct values of Account ID",
-                        "name": "count",
-                        "special_type": "type/Quantity",
-                    },
-                ],
-                "visualization_settings": {
-                    "graph.dimensions": ["path"],
-                    "graph.metrics": ["count"],
                 },
             },
         }
