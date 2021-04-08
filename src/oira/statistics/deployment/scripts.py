@@ -152,7 +152,7 @@ def get_metabase_args():
 def bootstrap_metabase_instance(args):
     api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
     probe = requests.post(
-        f"{api_url}/api/session",
+        "{api_url}/api/session".format(api_url=api_url),
         json={
             "username": args.metabase_user,
             "password": args.metabase_password,
