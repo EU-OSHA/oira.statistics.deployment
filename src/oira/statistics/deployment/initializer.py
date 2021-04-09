@@ -387,30 +387,27 @@ class MetabaseInitializer(object):
 
         self.mb.put("/api/collection/graph", json=collection_permissions)
 
-    def set_up_account(self, country=None, database_id=34, collection_id=4):
-        dashboard_name = "Users Dashboard"
+    def set_up_dashboard(
+        self,
+        dashboard_name=None,
+        cards=[],
+        country=None,
+        database_id=None,
+        collection_id=None,
+        collection_position=None,
+    ):
         if country is not None:
             dashboard_name = "{} ({})".format(dashboard_name, country.upper())
 
         dashboard_data = {
             "collection_id": collection_id,
-            "collection_position": 1,
+            "collection_position": collection_position or 1,
         }
         dashboard_id = self.create(
             "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
         )
 
-        log.info("Adding accounts cards")
-        card_factory = AccountsCardFactory(
-            self.mb, database_id, collection_id, country=country
-        )
-        cards = [
-            card_factory.accumulated_users_per_type,
-            card_factory.new_users_per_month,
-            card_factory.user_conversions_per_month,
-            card_factory.accumulated_registered_users_per_type,
-            card_factory.accumulated_registered_users_over_time,
-        ]
+        log.info("Adding {} cards".format(dashboard_name))
         new_cards = []
         for card in cards:
             card_id = self.create("card", card["name"], extra_data=card)
@@ -428,20 +425,27 @@ class MetabaseInitializer(object):
                 },
             )
 
-    def set_up_assessment(self, country=None, database_id=34, collection_id=3):
-        dashboard_name = "Assessments Dashboard"
-        if country is not None:
-            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
-
-        dashboard_data = {
-            "collection_id": collection_id,
-            "collection_position": 2,
-        }
-        dashboard_id = self.create(
-            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+    def set_up_account(self, country=None, database_id=34, collection_id=4):
+        card_factory = AccountsCardFactory(
+            self.mb, database_id, collection_id, country=country
+        )
+        cards = [
+            card_factory.accumulated_users_per_type,
+            card_factory.new_users_per_month,
+            card_factory.user_conversions_per_month,
+            card_factory.accumulated_registered_users_per_type,
+            card_factory.accumulated_registered_users_over_time,
+        ]
+        self.set_up_dashboard(
+            dashboard_name="Users Dashboard",
+            cards=cards,
+            country=country,
+            database_id=database_id,
+            collection_id=collection_id,
+            collection_position=1,
         )
 
-        log.info("Adding assessments cards")
+    def set_up_assessment(self, country=None, database_id=34, collection_id=3):
         assessments_card_factory = AssessmentsCardFactory(
             self.mb, database_id, collection_id, country=country
         )
@@ -465,84 +469,32 @@ class MetabaseInitializer(object):
                     assessments_card_factory.accumulated_assessments_per_country,
                 ]
             )
-        new_cards = []
-        for card in cards:
-            card_id = self.create("card", card["name"], extra_data=card)
-            new_cards.append(card_id)
-
-        for idx, card_id in enumerate(new_cards):
-            self.mb.post(
-                "/api/dashboard/{}/cards".format(dashboard_id),
-                json={
-                    "cardId": card_id,
-                    "col": idx * 4 % 12,
-                    "row": idx // 3 * 4,
-                    "sizeX": 4,
-                    "sizeY": 4,
-                },
-            )
-
-    def set_up_tool(self, country=None, database_id=34, collection_id=None):
-        dashboard_name = "Tools Dashboard"
-        if country is not None:
-            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
-
-        dashboard_data = {
-            "collection_id": collection_id,
-            "collection_position": 3,
-        }
-        dashboard_id = self.create(
-            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+        self.set_up_dashboard(
+            dashboard_name="Assessments Dashboard",
+            cards=cards,
+            country=country,
+            database_id=database_id,
+            collection_id=collection_id,
+            collection_position=2,
         )
 
-        log.info("Adding tools cards")
+    def set_up_tool(self, country=None, database_id=34, collection_id=None):
         tools_card_factory = ToolsCardFactory(
             self.mb, database_id, collection_id, country=country
         )
         cards = [
             tools_card_factory.top_tools_by_number_of_users,
         ]
-        new_cards = []
-        for card in cards:
-            card_id = self.create("card", card["name"], extra_data=card)
-            new_cards.append(card_id)
-
-        for idx, card_id in enumerate(new_cards):
-            self.mb.post(
-                "/api/dashboard/{}/cards".format(dashboard_id),
-                json={
-                    "cardId": card_id,
-                    "col": idx * 4 % 12,
-                    "row": idx // 3 * 4,
-                    "sizeX": 4,
-                    "sizeY": 4,
-                },
-            )
-
-    def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
-        if collection_id is None:
-            collection_name = "Questionnaire"
-            collection_id = self.create(
-                "collection",
-                collection_name,
-                extra_data={
-                    "color": "#509EE3",
-                },
-            )
-
-        dashboard_name = "Questionnaire Dashboard"
-        if country is not None:
-            dashboard_name = "{} ({})".format(dashboard_name, country.upper())
-
-        dashboard_data = {
-            "collection_id": collection_id,
-            "collection_position": 4,
-        }
-        dashboard_id = self.create(
-            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+        self.set_up_dashboard(
+            dashboard_name="Tools Dashboard",
+            cards=cards,
+            country=country,
+            database_id=database_id,
+            collection_id=collection_id,
+            collection_position=3,
         )
 
-        log.info("Adding questionnaire cards")
+    def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
         card_factory = QuestionnaireCardFactory(
             self.mb, database_id, collection_id, country=country
         )
@@ -555,19 +507,14 @@ class MetabaseInitializer(object):
             card_factory.needs_met,
             card_factory.recommend_tool,
         ]
-        for idx, card in enumerate(cards):
-            card_id = self.create("card", card["name"], extra_data=card)
-
-            self.mb.post(
-                "/api/dashboard/{}/cards".format(dashboard_id),
-                json={
-                    "cardId": card_id,
-                    "col": idx * 4 % 16,
-                    "row": idx // 4 * 4,
-                    "sizeX": 4,
-                    "sizeY": 4,
-                },
-            )
+        self.set_up_dashboard(
+            dashboard_name="Questionnaire Dashboard",
+            cards=cards,
+            country=country,
+            database_id=database_id,
+            collection_id=collection_id,
+            collection_position=4,
+        )
 
     def set_up_sectors(self, database_id):
         sector_collection_ids = []
@@ -581,15 +528,6 @@ class MetabaseInitializer(object):
                 },
             )
             sector_collection_ids.append(collection_id)
-            dashboard_name = "Assessments ({})".format(sector_name)
-            dashboard_data = {
-                "collection_id": collection_id,
-                "collection_position": 1,
-            }
-            dashboard_id = self.create(
-                "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
-            )
-
             card_factory = SectorAssessmentsCardFactory(
                 sector_name, self.mb, database_id, collection_id
             )
@@ -599,21 +537,14 @@ class MetabaseInitializer(object):
                 card_factory.completion_of_assessments,
                 card_factory.accumulated_assessments_over_time,
                 card_factory.top_ten_tools_by_number_of_assessments,
-                # card_factory.top_tools_by_number_of_users,
             ]
-            for idx, card in enumerate(cards):
-                card_id = self.create("card", card["name"], extra_data=card)
-
-                self.mb.post(
-                    "/api/dashboard/{}/cards".format(dashboard_id),
-                    json={
-                        "cardId": card_id,
-                        "col": idx * 4 % 16,
-                        "row": idx // 4 * 4,
-                        "sizeX": 4,
-                        "sizeY": 4,
-                    },
-                )
+            self.set_up_dashboard(
+                dashboard_name="Assessments ({})".format(sector_name),
+                cards=cards,
+                database_id=database_id,
+                collection_id=collection_id,
+                collection_position=1,
+            )
         return sector_collection_ids
 
     def set_up_ldap(self, countries, global_group_id):
