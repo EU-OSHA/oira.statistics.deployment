@@ -310,10 +310,20 @@ class MetabaseInitializer(object):
                     ),
                 },
                 **{
-                    str(country_info["group"]): {
-                        str(global_collection_id): "read",
-                    }
-                    for country_info in countries.values()
+                    str(country_info["group"]): dict(
+                        {
+                            str(global_collection_id): "read",
+                        },
+                        **(
+                            {
+                                str(sector_collection_id): "read"
+                                for sector_collection_id in sector_collection_ids
+                            }
+                            if country_id == "eu"
+                            else {}
+                        )
+                    )
+                    for country_id, country_info in countries.items()
                 }
             )
         )
