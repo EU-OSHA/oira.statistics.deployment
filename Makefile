@@ -31,3 +31,6 @@ clean: .installed.cfg
 
 restart:
 	./bin/supervisord || ( ./bin/supervisorctl reread && ./bin/supervisorctl restart all)
+
+wait:
+	./bin/wait-metabase

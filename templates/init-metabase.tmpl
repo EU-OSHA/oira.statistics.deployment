@@ -2,13 +2,10 @@
 {% def escape(password) %}${password.replace('\\'', '\'\\\\\'\'')}{% end %}
 set -e
 
+${parts['wait-metabase']['output']}
 {% for instance in parts.buildout['metabase-instances'].split('\n') %}
 echo ''
 echo '${instance}'
-if ! timeout 5s curl --silent http://${parts[instance]['metabase-host']}:${parts[instance]['metabase-port']}/api/user/current > /dev/null; then
-    echo 'ERROR: Could not connect to ${instance}! Please check that it is running.'
-    exit 1
-fi
 ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-host='${parts[instance]['metabase-host']}' \\
     --metabase-port='${parts[instance]['metabase-port']}' \\
