@@ -184,7 +184,7 @@ def bootstrap_metabase_instance(args):
     }
     result = requests.post(api_url + "/api/setup", json=bootstrap)
     if not result.ok:
-        log.warn("Bootstrap returned {}!".format(result.status_code))
+        log.warn("Bootstrap returned %r: %r!", result.status_code, result.text)
 
 
 def init_metabase_instance():
