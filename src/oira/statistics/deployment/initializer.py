@@ -418,22 +418,27 @@ class MetabaseInitializer(object):
         )
 
         log.info("Adding {} cards".format(dashboard_name))
-        new_cards = []
-        for card in cards:
-            card_id = self.create("card", card["name"], extra_data=card)
-            new_cards.append(card_id)
 
-        for idx, card_id in enumerate(new_cards):
+        col = 0
+        row = 0
+        for idx, card in enumerate(cards):
+            card_id = self.create("card", card["name"], extra_data=card)
+            width = card.get("width", 4)
+            if width + col > 16:
+                col = 0
+                row +=4
+
             self.mb.post(
                 "/api/dashboard/{}/cards".format(dashboard_id),
                 json={
                     "cardId": card_id,
-                    "col": idx * 4 % 12,
-                    "row": idx // 3 * 4,
-                    "sizeX": 4,
+                    "col": col,
+                    "row": row,
+                    "sizeX": width,
                     "sizeY": 4,
                 },
             )
+            col += width
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
         card_factory = AccountsCardFactory(

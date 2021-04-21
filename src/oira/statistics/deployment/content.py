@@ -399,6 +399,7 @@ class ToolsCardFactory(CardFactory):
                     "graph.dimensions": ["zodb_path"],
                     "graph.metrics": ["Users per Year"],
                 },
+                "width": 8,
             },
         }
 
