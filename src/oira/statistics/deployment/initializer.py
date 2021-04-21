@@ -71,6 +71,11 @@ class MetabaseInitializer(object):
                         database_id=countries[country]["database"],
                         collection_id=countries[country]["collection"],
                     )
+                    self.set_up_tool(
+                        country=country,
+                        database_id=countries[country]["database"],
+                        collection_id=countries[country]["collection"],
+                    )
                     self.set_up_questionnaire(
                         country=country,
                         database_id=countries[country]["database"],
