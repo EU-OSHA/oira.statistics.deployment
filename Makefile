@@ -11,9 +11,11 @@ bin/pip:
 bin/buildout: bin/pip requirements.txt
 	./bin/pip install -IUr requirements.txt
 
-.installed.cfg: bin/buildout buildout.cfg base.cfg picked-versions.cfg secrets.cfg.gpg templates/*
+secrets.cfg: secrets.cfg.gpg
 	gpg -d ./secrets.cfg.gpg > secrets.cfg
 	chmod 600 secrets.cfg
+
+.installed.cfg: bin/buildout buildout.cfg base.cfg picked-versions.cfg secrets.cfg templates/*
 	./bin/buildout
 
 buildout: .installed.cfg
