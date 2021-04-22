@@ -13,6 +13,9 @@ log = logging.getLogger(__name__)
 
 
 class MetabaseInitializer(object):
+
+    _total_cols = 16
+
     def __init__(self, args):
         self.args = args
         api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
@@ -426,13 +429,17 @@ class MetabaseInitializer(object):
 
         col = 0
         row = 0
-        for idx, card in enumerate(cards):
+        row_height = 4
+        for card in cards:
             card_id = self.create("card", card["name"], extra_data=card)
-            width = card.get("width", 4)
-            if width + col > 16:
+            width = min(card.get("width", 4), self._total_cols)
+            height = card.get("height", 4)
+            if width + col > self._total_cols:
                 col = 0
-                row +=4
-
+                row += row_height
+                row_height = height
+            else:
+                row_height = max(height, row_height)
             self.mb.post(
                 "/api/dashboard/{}/cards".format(dashboard_id),
                 json={
@@ -440,9 +447,10 @@ class MetabaseInitializer(object):
                     "col": col,
                     "row": row,
                     "sizeX": width,
-                    "sizeY": 4,
+                    "sizeY": height,
                 },
             )
+
             col += width
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
