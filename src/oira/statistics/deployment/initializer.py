@@ -49,6 +49,15 @@ class MetabaseInitializer(object):
                 database_id=global_database_id, collection_id=global_collection_id
             )
 
+        # `countries` has this format:
+        # countries = {
+        #     "de": {
+        #         "group": 23,
+        #         "database": 42,
+        #         "collection": 69,
+        #     },
+        #     ...
+        # }
         countries = {}
         if self.args.countries:
             countries = {
@@ -88,12 +97,27 @@ class MetabaseInitializer(object):
             if not self.args.global_statistics:
                 self.set_up_country_permissions(countries, global_group_id)
 
+        # `sectors` has this format:
+        # sectors = {
+        #     "Cleaning": {
+        #         "collection": 69,
+        #         "cards": {
+        #             "accumulated_assessments": {
+        #                 "id": 42,
+        #                 ...
+        #             },
+        #             ...
+        #         },
+        #     },
+        #     ...
+        # }
+        sectors = {}
         if self.args.global_statistics:
-            sector_collection_ids = self.set_up_sectors(global_database_id)
+            sectors = self.set_up_sectors(global_database_id, global_collection_id)
             self.set_up_global_permissions(
                 global_database_id,
                 countries,
-                sector_collection_ids,
+                sectors,
                 global_group_id,
                 global_collection_id,
             )
@@ -263,7 +287,7 @@ class MetabaseInitializer(object):
         self,
         global_database_id,
         countries,
-        sector_collection_ids,
+        sectors,
         global_group_id,
         global_collection_id,
     ):
@@ -303,8 +327,8 @@ class MetabaseInitializer(object):
                             str(global_collection_id): "none",
                         },
                         **{
-                            str(sector_collection_id): "none"
-                            for sector_collection_id in sector_collection_ids
+                            str(sector["collection"]): "none"
+                            for sector in sectors.values()
                         }
                     ),
                     str(global_group_id): dict(
@@ -312,8 +336,8 @@ class MetabaseInitializer(object):
                             str(global_collection_id): "read",
                         },
                         **{
-                            str(sector_collection_id): "read"
-                            for sector_collection_id in sector_collection_ids
+                            str(sector["collection"]): "read"
+                            for sector in sectors.values()
                         }
                     ),
                 },
@@ -324,8 +348,8 @@ class MetabaseInitializer(object):
                         },
                         **(
                             {
-                                str(sector_collection_id): "read"
-                                for sector_collection_id in sector_collection_ids
+                                str(sector["collection"]): "read"
+                                for sector in sectors.values()
                             }
                             if country_id == "eu"
                             else {}
@@ -431,7 +455,10 @@ class MetabaseInitializer(object):
         row = 0
         row_height = 4
         for card in cards:
-            card_id = self.create("card", card["name"], extra_data=card)
+            if "id" in card:
+                card_id = card["id"]
+            else:
+                card_id = self.create("card", card["name"], extra_data=card)
             width = min(card.get("width", 4), self._total_cols)
             height = card.get("height", 4)
             if width + col > self._total_cols:
@@ -452,6 +479,7 @@ class MetabaseInitializer(object):
             )
 
             col += width
+        return dashboard_id
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
         card_factory = AccountsCardFactory(
@@ -544,10 +572,11 @@ class MetabaseInitializer(object):
             collection_position=4,
         )
 
-    def set_up_sectors(self, database_id):
-        sector_collection_ids = []
+    def set_up_sectors(self, global_database_id, global_collection_id):
+        sectors = {}
         for sector_name in config.sectors:
             log.info("Adding sector {}".format(sector_name))
+            sectors[sector_name] = {}
             collection_id = self.create(
                 "collection",
                 "Sector: {}".format(sector_name),
@@ -555,25 +584,88 @@ class MetabaseInitializer(object):
                     "color": "#509EE3",
                 },
             )
-            sector_collection_ids.append(collection_id)
+            sectors[sector_name]["collection"] = collection_id
             card_factory = SectorAssessmentsCardFactory(
-                sector_name, self.mb, database_id, collection_id
+                sector_name, self.mb, global_database_id, collection_id
             )
-            cards = [
-                card_factory.accumulated_assessments,
-                card_factory.new_assessments_per_month,
-                card_factory.completion_of_assessments,
-                card_factory.accumulated_assessments_over_time,
-                card_factory.top_ten_tools_by_number_of_assessments,
-            ]
+            cards = {
+                "accumulated_assessments": card_factory.accumulated_assessments,
+                "new_assessments_per_month": card_factory.new_assessments_per_month,
+                "completion_of_assessments": card_factory.completion_of_assessments,
+                "accumulated_assessments_over_time": card_factory.accumulated_assessments_over_time,
+                "top_ten_tools_by_number_of_assessments": card_factory.top_ten_tools_by_number_of_assessments,
+            }
+            for card_token, card in cards.items():
+                cards[card_token]["id"] = self.create(
+                    "card", card["name"], extra_data=card
+                )
+
+            sectors[sector_name]["cards"] = cards
             self.set_up_dashboard(
                 dashboard_name="Assessments ({})".format(sector_name),
-                cards=cards,
-                database_id=database_id,
+                cards=cards.values(),
+                database_id=global_database_id,
                 collection_id=collection_id,
                 collection_position=1,
             )
-        return sector_collection_ids
+
+        overview_dashboard_id = self.set_up_dashboard(
+            dashboard_name="Sectors Overview Dashboard",
+            database_id=global_database_id,
+            collection_id=global_collection_id,
+            collection_position=5,
+        )
+        overview_cards = [
+            {
+                "token": "accumulated_assessments_over_time",
+                "base_title": "Accumulated Assessments Over Time",
+                "graph.dimensions": ["start_date"],
+            },
+            {
+                "token": "completion_of_assessments",
+                "base_title": "Completion of Assessments",
+                "graph.dimensions": ["completion", "count"],
+            },
+        ]
+        for idx, card_info in enumerate(overview_cards):
+            combined_card = None
+            for sector_name, sector_info in sectors.items():
+                next_card = sector_info["cards"][card_info["token"]]
+                if combined_card is None:
+                    combined_card = {
+                        "cardId": next_card["id"],
+                        "col": 0,
+                        "row": idx * 8,
+                        "sizeX": self._total_cols,
+                        "sizeY": 8,
+                        "series": [],
+                        "visualization_settings": {
+                            "graph.dimensions": card_info["graph.dimensions"],
+                            "graph.metrics": ["count"],
+                            "series_settings": {
+                                "count": {"color": "#A989C5", "title": sector_name},
+                            },
+                            "card.title": "{} Per Sector".format(
+                                card_info["base_title"]
+                            ),
+                        },
+                    }
+                else:
+                    combined_card["series"].append(
+                        {
+                            "id": next_card["id"],
+                        }
+                    )
+                    combined_card["visualization_settings"]["series_settings"][
+                        "{} ({})".format(card_info["base_title"], sector_name)
+                    ] = {
+                        "title": sector_name,
+                    }
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(overview_dashboard_id),
+                json=combined_card,
+            )
+        return sectors
 
     def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
