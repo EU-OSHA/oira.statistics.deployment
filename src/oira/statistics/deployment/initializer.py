@@ -96,6 +96,39 @@ class MetabaseInitializer(object):
 
             if not self.args.global_statistics:
                 self.set_up_country_permissions(countries, global_group_id)
+            else:
+                overview_dashboard_countryid = self.set_up_dashboard(
+                    dashboard_name="Countries Overview Dashboard",
+                    database_id=global_database_id,
+                    collection_id=global_collection_id,
+                    collection_position=6,
+                )
+
+                card = {
+                    "name": "Top assessments by country",
+                    "collection_id": global_collection_id,
+                    "display": "bar",
+                    "query_type": "native",
+                    "dataset_query": {
+                        "type": "native",
+                        "native": {
+                            "query": "SELECT country, count(*) FROM assessment WHERE completion_percentage > 70 GROUP BY country ORDER BY country;",
+                        },
+                        "database": global_database_id,
+                    },
+                    "visualization_settings": {},
+                }
+                card_id = self.create("card", card["name"], extra_data=card)
+                self.mb.post(
+                    "/api/dashboard/{}/cards".format(overview_dashboard_countryid),
+                    json={
+                        "cardId": card_id,
+                        "col": 0,
+                        "row": 0,
+                        "sizeX": 18,
+                        "sizeY": 4,
+                    },
+                )
 
         # `sectors` has this format:
         # sectors = {
