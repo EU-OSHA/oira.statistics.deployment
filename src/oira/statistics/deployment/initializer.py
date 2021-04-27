@@ -542,7 +542,7 @@ class MetabaseInitializer(object):
         )
         cards = [
             tools_card_factory.top_tools_by_number_of_users,
-            tools_card_factory.number_of_users_and_assessments_by_tools,
+            tools_card_factory.number_of_users_and_assessments_by_tool,
         ]
         self.set_up_dashboard(
             dashboard_name="Tools Dashboard",

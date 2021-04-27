@@ -402,8 +402,8 @@ class ToolsCardFactory(CardFactory):
                 "height": 8,
                 "width": 8,
             },
-            "number_of_users_and_assessments_by_tools": {
-                "name": "Number Of Users And Assessments By Tools",
+            "number_of_users_and_assessments_by_tool": {
+                "name": "Number Of Users And Assessments By Tool",
                 "display": "table",
                 "query_type": "query",
                 "dataset_query": {
@@ -434,45 +434,18 @@ class ToolsCardFactory(CardFactory):
                         "display_name": "Zo Db Path",
                         "name": "zodb_path",
                         "special_type": "type/PK",
-                        "fingerprint": None,
                     },
                     {
                         "base_type": "type/Integer",
                         "display_name": "Num Users",
                         "name": "num_users",
                         "special_type": "type/Quantity",
-                        "fingerprint": {
-                            "global": {"distinct-count": 8, "nil%": 0.0},
-                            "type": {
-                                "type/Number": {
-                                    "min": 1.0,
-                                    "q1": 1.3542486889354093,
-                                    "q3": 3.803847577293368,
-                                    "max": 20.0,
-                                    "sd": 3.632547632014008,
-                                    "avg": 3.3333333333333335,
-                                }
-                            },
-                        },
                     },
                     {
                         "base_type": "type/Integer",
                         "display_name": "Num Assessments",
                         "name": "num_assessments",
                         "special_type": "type/Quantity",
-                        "fingerprint": {
-                            "global": {"distinct-count": 14, "nil%": 0.0},
-                            "type": {
-                                "type/Number": {
-                                    "min": 1.0,
-                                    "q1": 1.5,
-                                    "q3": 9.0,
-                                    "max": 39.0,
-                                    "sd": 7.984467680311008,
-                                    "avg": 6.8,
-                                }
-                            },
-                        },
                     },
                 ],
                 "visualization_settings": {
