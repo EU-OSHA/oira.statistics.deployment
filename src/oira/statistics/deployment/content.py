@@ -783,6 +783,26 @@ class AssessmentsCardFactory(CardFactory):
                     "stackable.stack_type": None,
                 },
             },
+            "top_assessments_by_country": {
+                "name": "Top Assessments By Country",
+                "display": "bar",
+                "query_type": "query",
+                "dataset_query": {
+                    "query": {
+                        "source-table": self.table_id,
+                        "filter": [
+                            ">",
+                            ["field-id", self.fields["completion_percentage"]],
+                            70,
+                        ],
+                        "aggregation": [["count"]],
+                        "breakout": [["field-id", self.fields["country"]]],
+                    },
+                    "type": "query",
+                    "database": self.database_id,
+                },
+                "visualization_settings": {},
+            },
         }
 
 

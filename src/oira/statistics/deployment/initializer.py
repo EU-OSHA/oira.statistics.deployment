@@ -677,20 +677,10 @@ class MetabaseInitializer(object):
             collection_position=6,
         )
 
-        card = {
-            "name": "Top assessments by country",
-            "collection_id": global_collection_id,
-            "display": "bar",
-            "query_type": "native",
-            "dataset_query": {
-                "type": "native",
-                "native": {
-                    "query": "SELECT country, count(*) FROM assessment WHERE completion_percentage > 70 GROUP BY country ORDER BY country;",
-                },
-                "database": global_database_id,
-            },
-            "visualization_settings": {},
-        }
+        card_factory = AssessmentsCardFactory(
+            self.mb, global_database_id, global_collection_id
+        )
+        card = card_factory.top_assessments_by_country
         card_id = self.create("card", card["name"], extra_data=card)
         self.mb.post(
             "/api/dashboard/{}/cards".format(overview_dashboard_countryid),
