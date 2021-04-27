@@ -74,14 +74,14 @@ sectors = {
         "lv/latvia-test/sabiedriska-edinasana",
         "is/catering/veitingar-sept-2015 ",
         "cy/etaireies-trophodosias-catering/klados-etaireion-trophodosias-catering",
-        "bg/khotieli-i-riestoranti/khotieli-i-riestoranti/",
+        "bg/khotieli-i-riestoranti/khotieli-i-riestoranti",
     ],
     "Leather and tanning": [
         "lv/eu/leather-tanning/leather-and-tanning-version-2",
         "pt/curtumes/curtumes",
         "es/adoberies/curtiduria",
         "es/adoberies/adoberies",
-        "bg/obrabotka-na-kozhi-proizvodstvo-na-obuvki/obrabotka-na-kozhi-proizvodstvo-na-obuvki/",
+        "bg/obrabotka-na-kozhi-proizvodstvo-na-obuvki/obrabotka-na-kozhi-proizvodstvo-na-obuvki",
         "eu/leather-tanning/leather-tanning-draft-risk-assessment-tool",
     ],
     "Live performance": [
