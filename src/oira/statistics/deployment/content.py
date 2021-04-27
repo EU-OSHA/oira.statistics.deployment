@@ -5,7 +5,6 @@ log = logging.getLogger(__name__)
 
 
 class CardFactory(object):
-    table_name = None
     extra_filter = None
     _raw_cards = {}
 
@@ -16,12 +15,16 @@ class CardFactory(object):
         database = mb.get(
             "/api/database/{}?include=tables.fields".format(database_id)
         ).json()
+        self.tables = {}
         for table in database["tables"]:
-            if table["name"] == self.table_name:
-                self.table_id = table["id"]
-                self.fields = {field["name"]: field["id"] for field in table["fields"]}
+            self.tables[table["name"]] = {
+                "id": table["id"],
+                "fields": {field["name"]: field["id"] for field in table["fields"]},
+            }
 
     def __getattr__(self, name):
+        if name not in self._raw_cards:
+            return
         card = self.get_base_properties()
         card_data = self._raw_cards[name]
         card.update(card_data)
@@ -69,10 +72,6 @@ class CardFactory(object):
         else:
             return name
 
-
-class AccountsCardFactory(CardFactory):
-    table_name = "account"
-
     @property
     def _raw_cards(self):
         return {
@@ -83,12 +82,12 @@ class AccountsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["account"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ]
                         ],
                     },
@@ -125,19 +124,19 @@ class AccountsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["account"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ]
                         ],
                         "filter": [
                             "!=",
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ],
                             "guest",
                         ],
@@ -175,20 +174,20 @@ class AccountsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["account"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "datetime-field",
                                 [
                                     "field-id",
-                                    self.fields["creation_date"],
+                                    self.tables["account"]["fields"]["creation_date"],
                                 ],
                                 "month",
                             ],
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ],
                         ],
                     },
@@ -237,12 +236,12 @@ class AccountsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["account"]["id"],
                         "filter": [
                             "=",
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ],
                             "converted",
                         ],
@@ -252,7 +251,7 @@ class AccountsCardFactory(CardFactory):
                                 "datetime-field",
                                 [
                                     "field-id",
-                                    self.fields["creation_date"],
+                                    self.tables["account"]["fields"]["creation_date"],
                                 ],
                                 "month",
                             ]
@@ -295,12 +294,12 @@ class AccountsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["account"]["id"],
                         "filter": [
                             "=",
                             [
                                 "field-id",
-                                self.fields["account_type"],
+                                self.tables["account"]["fields"]["account_type"],
                             ],
                             "full",
                             "converted",
@@ -311,7 +310,7 @@ class AccountsCardFactory(CardFactory):
                                 "datetime-field",
                                 [
                                     "field-id",
-                                    self.fields["creation_date"],
+                                    self.tables["account"]["fields"]["creation_date"],
                                 ],
                                 "month",
                             ]
@@ -340,15 +339,6 @@ class AccountsCardFactory(CardFactory):
                     "series_settings": {"count": {"color": "#A989C5"}},
                 },
             },
-        }
-
-
-class ToolsCardFactory(CardFactory):
-    table_name = "tool"
-
-    @property
-    def _raw_cards(self):
-        return {
             "top_tools_by_number_of_users": {
                 "name": "Top Tools by Number of Users",
                 "display": "row",
@@ -356,12 +346,22 @@ class ToolsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["tool"]["id"],
                         "expressions": {
                             "Users per Year": [
                                 "/",
-                                ["field-id", self.fields["num_users"]],
-                                ["+", ["field-id", self.fields["years_online"]], 1],
+                                [
+                                    "field-id",
+                                    self.tables["tool"]["fields"]["num_users"],
+                                ],
+                                [
+                                    "+",
+                                    [
+                                        "field-id",
+                                        self.tables["tool"]["fields"]["years_online"],
+                                    ],
+                                    1,
+                                ],
                             ]
                         },
                         "order-by": [["desc", ["expression", "Users per Year"]]],
@@ -415,21 +415,40 @@ class ToolsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["tool"]["id"],
                         "expressions": {
                             "Users per Year": [
                                 "/",
-                                ["field-id", self.fields["num_users"]],
-                                ["+", ["field-id", self.fields["years_online"]], 1],
+                                [
+                                    "field-id",
+                                    self.tables["tool"]["fields"]["num_users"],
+                                ],
+                                [
+                                    "+",
+                                    [
+                                        "field-id",
+                                        self.tables["tool"]["fields"]["years_online"],
+                                    ],
+                                    1,
+                                ],
                             ]
                         },
                         "fields": [
-                            ["field-id", self.fields["zodb_path"]],
-                            ["field-id", self.fields["num_users"]],
-                            ["field-id", self.fields["num_assessments"]],
+                            ["field-id", self.tables["tool"]["fields"]["zodb_path"]],
+                            ["field-id", self.tables["tool"]["fields"]["num_users"]],
+                            [
+                                "field-id",
+                                self.tables["tool"]["fields"]["num_assessments"],
+                            ],
                         ],
                         "order-by": [
-                            ["desc", ["field-id", self.fields["num_assessments"]]]
+                            [
+                                "desc",
+                                [
+                                    "field-id",
+                                    self.tables["tool"]["fields"]["num_assessments"],
+                                ],
+                            ]
                         ],
                     },
                     "database": self.database_id,
@@ -462,15 +481,6 @@ class ToolsCardFactory(CardFactory):
                 "height": 8,
                 "width": 8,
             },
-        }
-
-
-class AssessmentsCardFactory(CardFactory):
-    table_name = "assessment"
-
-    @property
-    def _raw_cards(self):
-        return {
             "accumulated_assessments": {
                 "name": "Accumulated Assessments",
                 "display": "scalar",
@@ -478,7 +488,7 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
                     },
                     "type": "query",
@@ -500,14 +510,14 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "datetime-field",
                                 [
                                     "field-id",
-                                    self.fields["start_date"],
+                                    self.tables["assessment"]["fields"]["start_date"],
                                 ],
                                 "month",
                             ]
@@ -610,14 +620,14 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["cum-count"]],
                         "breakout": [
                             [
                                 "datetime-field",
                                 [
                                     "field-id",
-                                    self.fields["start_date"],
+                                    self.tables["assessment"]["fields"]["start_date"],
                                 ],
                                 "month",
                             ]
@@ -661,12 +671,12 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["tool"],
+                                self.tables["assessment"]["fields"]["tool"],
                             ]
                         ],
                         "order-by": [["desc", ["aggregation", 0]]],
@@ -771,12 +781,12 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "database": self.database_id,
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["country"],
+                                self.tables["assessment"]["fields"]["country"],
                             ]
                         ],
                     },
@@ -810,9 +820,11 @@ class AssessmentsCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
-                        "breakout": [["field-id", self.fields["path"]]],
+                        "breakout": [
+                            ["field-id", self.tables["assessment"]["fields"]["path"]]
+                        ],
                         "order-by": [["desc", ["aggregation", 0]]],
                         "limit": 10,
                     },
@@ -850,14 +862,21 @@ class AssessmentsCardFactory(CardFactory):
                 "query_type": "query",
                 "dataset_query": {
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["assessment"]["id"],
                         "filter": [
                             ">",
-                            ["field-id", self.fields["completion_percentage"]],
+                            [
+                                "field-id",
+                                self.tables["assessment"]["fields"][
+                                    "completion_percentage"
+                                ],
+                            ],
                             70,
                         ],
                         "aggregation": [["count"]],
-                        "breakout": [["field-id", self.fields["country"]]],
+                        "breakout": [
+                            ["field-id", self.tables["assessment"]["fields"]["country"]]
+                        ],
                     },
                     "type": "query",
                     "database": self.database_id,
@@ -872,14 +891,27 @@ class AssessmentsCardFactory(CardFactory):
                     "database": self.database_id,
                     "query": {
                         "source-query": {
-                            "source-table": self.table_id,
+                            "source-table": self.tables["assessment"]["id"],
                             "aggregation": [
-                                ["distinct", ["field-id", self.fields["account_id"]]]
+                                [
+                                    "distinct",
+                                    [
+                                        "field-id",
+                                        self.tables["assessment"]["fields"][
+                                            "account_id"
+                                        ],
+                                    ],
+                                ]
                             ],
                             "breakout": [
                                 [
                                     "datetime-field",
-                                    ["field-id", self.fields["start_date"]],
+                                    [
+                                        "field-id",
+                                        self.tables["assessment"]["fields"][
+                                            "start_date"
+                                        ],
+                                    ],
                                     "month",
                                 ]
                             ],
@@ -909,47 +941,6 @@ class AssessmentsCardFactory(CardFactory):
                     "graph.metrics": ["count"],
                 },
             },
-        }
-
-
-class SectorAssessmentsCardFactory(AssessmentsCardFactory):
-    table_name = "assessment"
-
-    def __init__(self, sector_name, *args):
-        self.sector_name = sector_name
-        super(SectorAssessmentsCardFactory, self).__init__(*args)
-
-    @property
-    def extra_filter(self):
-        return {
-            "query": [
-                "=",
-                [
-                    "field-id",
-                    self.fields["path"],
-                ],
-            ]
-            + config.sectors[self.sector_name],
-            "native": " AND ({}) ".format(
-                " OR ".join(
-                    (
-                        "path = '{}'".format(path)
-                        for path in config.sectors[self.sector_name]
-                    )
-                )
-            ),
-        }
-
-    def transform_name(self, name):
-        return "{} ({})".format(name, self.sector_name)
-
-
-class QuestionnaireCardFactory(CardFactory):
-    table_name = "company"
-
-    @property
-    def _raw_cards(self):
-        return {
             "number_of_survey_responses": {
                 "name": "Number of Survey Responses",
                 "display": "scalar",
@@ -979,12 +970,12 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["employees"],
+                                self.tables["company"]["fields"]["employees"],
                             ]
                         ],
                     },
@@ -1027,12 +1018,12 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["conductor"],
+                                self.tables["company"]["fields"]["conductor"],
                             ]
                         ],
                     },
@@ -1070,12 +1061,12 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["referer"],
+                                self.tables["company"]["fields"]["referer"],
                             ]
                         ],
                     },
@@ -1115,12 +1106,14 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["workers_participated"],
+                                self.tables["company"]["fields"][
+                                    "workers_participated"
+                                ],
                             ]
                         ],
                     },
@@ -1157,12 +1150,12 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["needs_met"],
+                                self.tables["company"]["fields"]["needs_met"],
                             ]
                         ],
                     },
@@ -1199,12 +1192,12 @@ class QuestionnaireCardFactory(CardFactory):
                 "dataset_query": {
                     "type": "query",
                     "query": {
-                        "source-table": self.table_id,
+                        "source-table": self.tables["company"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
                             [
                                 "field-id",
-                                self.fields["recommend_tool"],
+                                self.tables["company"]["fields"]["recommend_tool"],
                             ]
                         ],
                     },
@@ -1235,3 +1228,33 @@ class QuestionnaireCardFactory(CardFactory):
                 },
             },
         }
+
+
+class SectorCardFactory(CardFactory):
+    def __init__(self, sector_name, *args):
+        self.sector_name = sector_name
+        super(SectorCardFactory, self).__init__(*args)
+
+    @property
+    def extra_filter(self):
+        return {
+            "query": [
+                "=",
+                [
+                    "field-id",
+                    self.tables["assessment"]["fields"]["path"],
+                ],
+            ]
+            + config.sectors[self.sector_name],
+            "native": " AND ({}) ".format(
+                " OR ".join(
+                    (
+                        "path = '{}'".format(path)
+                        for path in config.sectors[self.sector_name]
+                    )
+                )
+            ),
+        }
+
+    def transform_name(self, name):
+        return "{} ({})".format(name, self.sector_name)

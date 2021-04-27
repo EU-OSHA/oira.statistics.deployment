@@ -1,9 +1,6 @@
 from . import config
-from .content import AccountsCardFactory
-from .content import AssessmentsCardFactory
-from .content import QuestionnaireCardFactory
-from .content import SectorAssessmentsCardFactory
-from .content import ToolsCardFactory
+from .content import CardFactory
+from .content import SectorCardFactory
 from .metabase import OiraMetabase_API
 from pkg_resources import resource_string
 from time import sleep
@@ -484,9 +481,7 @@ class MetabaseInitializer(object):
         return dashboard_id
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
-        card_factory = AccountsCardFactory(
-            self.mb, database_id, collection_id, country=country
-        )
+        card_factory = CardFactory(self.mb, database_id, collection_id, country=country)
         cards = [
             card_factory.accumulated_users_per_type,
             card_factory.new_users_per_month,
@@ -504,7 +499,7 @@ class MetabaseInitializer(object):
         )
 
     def set_up_assessment(self, country=None, database_id=34, collection_id=3):
-        assessments_card_factory = AssessmentsCardFactory(
+        assessments_card_factory = CardFactory(
             self.mb, database_id, collection_id, country=country
         )
         cards = [
@@ -537,7 +532,7 @@ class MetabaseInitializer(object):
         )
 
     def set_up_tool(self, country=None, database_id=34, collection_id=None):
-        tools_card_factory = ToolsCardFactory(
+        tools_card_factory = CardFactory(
             self.mb, database_id, collection_id, country=country
         )
         cards = [
@@ -554,9 +549,7 @@ class MetabaseInitializer(object):
         )
 
     def set_up_questionnaire(self, country=None, database_id=34, collection_id=None):
-        card_factory = QuestionnaireCardFactory(
-            self.mb, database_id, collection_id, country=country
-        )
+        card_factory = CardFactory(self.mb, database_id, collection_id, country=country)
         cards = [
             card_factory.number_of_survey_responses,
             card_factory.employees,
@@ -588,7 +581,7 @@ class MetabaseInitializer(object):
                 },
             )
             sectors[sector_name]["collection"] = collection_id
-            card_factory = SectorAssessmentsCardFactory(
+            card_factory = SectorCardFactory(
                 sector_name, self.mb, global_database_id, collection_id
             )
             cards = {
@@ -719,9 +712,7 @@ class MetabaseInitializer(object):
             collection_position=6,
         )
 
-        card_factory = AssessmentsCardFactory(
-            self.mb, global_database_id, global_collection_id
-        )
+        card_factory = CardFactory(self.mb, global_database_id, global_collection_id)
         card = card_factory.top_assessments_by_country
         card_id = self.create("card", card["name"], extra_data=card)
         self.mb.post(
