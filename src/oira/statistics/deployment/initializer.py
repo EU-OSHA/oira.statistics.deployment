@@ -595,8 +595,9 @@ class MetabaseInitializer(object):
                 "accumulated_assessments": card_factory.accumulated_assessments,
                 "new_assessments_per_month": card_factory.new_assessments_per_month,
                 "completion_of_assessments": card_factory.completion_of_assessments,
-                "accumulated_assessments_over_time": card_factory.accumulated_assessments_over_time,
                 "top_ten_tools_by_number_of_assessments": card_factory.top_ten_tools_by_number_of_assessments,
+                "accumulated_assessments_over_time": card_factory.accumulated_assessments_over_time,
+                "accumulated_number_of_users": card_factory.accumulated_number_of_users,
             }
             for card_token, card in cards.items():
                 cards[card_token]["id"] = self.create(
@@ -604,12 +605,52 @@ class MetabaseInitializer(object):
                 )
 
             sectors[sector_name]["cards"] = cards
-            self.set_up_dashboard(
+            sector_dashboard_id = self.set_up_dashboard(
                 dashboard_name="Assessments ({})".format(sector_name),
-                cards=cards.values(),
+                cards=list(cards.values())[:-2],
                 database_id=global_database_id,
                 collection_id=collection_id,
                 collection_position=1,
+            )
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(sector_dashboard_id),
+                json={
+                    "cardId": cards["accumulated_assessments_over_time"]["id"],
+                    "col": 4,
+                    "row": 4,
+                    "sizeX": 8,
+                    "sizeY": 4,
+                    "series": [
+                        {
+                            "id": cards["accumulated_number_of_users"]["id"],
+                            "display": "line",
+                        },
+                    ],
+                    "visualization_settings": {
+                        "graph.show_trendline": False,
+                        "graph.y_axis.title_text": "Number of Assessments/Users",
+                        "graph.show_values": True,
+                        "graph.x_axis.title_text": "Date",
+                        "card.title": "Accumulated Assessments And Users ({})".format(
+                            sector_name
+                        ),
+                        "series_settings": {
+                            "count": {
+                                "display": "line",
+                                "title": "Accumulated Assessments",
+                            },
+                            "Accumulated Users Over Time ({})".format(sector_name): {
+                                "title": "Accumulated Users"
+                            },
+                        },
+                        "graph.label_value_frequency": "fit",
+                        "graph.metrics": ["count"],
+                        "graph.y_axis.auto_range": True,
+                        "graph.y_axis.auto_split": False,
+                        "graph.dimensions": ["start_date"],
+                        "stackable.stack_type": None,
+                    },
+                },
             )
 
         overview_dashboard_id = self.set_up_dashboard(

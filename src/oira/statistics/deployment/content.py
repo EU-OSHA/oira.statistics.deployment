@@ -864,6 +864,51 @@ class AssessmentsCardFactory(CardFactory):
                 },
                 "visualization_settings": {},
             },
+            "accumulated_number_of_users": {
+                "name": "Accumulated Users Over Time",
+                "display": "line",
+                "query_type": "query",
+                "dataset_query": {
+                    "database": self.database_id,
+                    "query": {
+                        "source-query": {
+                            "source-table": self.table_id,
+                            "aggregation": [
+                                ["distinct", ["field-id", self.fields["account_id"]]]
+                            ],
+                            "breakout": [
+                                [
+                                    "datetime-field",
+                                    ["field-id", self.fields["start_date"]],
+                                    "month",
+                                ]
+                            ],
+                        },
+                        "aggregation": [["cum-count"]],
+                        "breakout": [["field-literal", "start_date", "type/DateTime"]],
+                    },
+                    "type": "query",
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Date",
+                        "display_name": "Start Date",
+                        "name": "start_date",
+                        "special_type": "type/CreationTimestamp",
+                        "unit": "day",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.dimensions": ["start_date"],
+                    "graph.metrics": ["count"],
+                },
+            },
         }
 
 
