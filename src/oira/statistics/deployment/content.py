@@ -29,15 +29,21 @@ class CardFactory(object):
         if self.extra_filter:
             query_type = card["query_type"]
             if query_type == "query":
-                if "filter" in card["dataset_query"][query_type]:
-                    log.warning(
-                        "Overwriting existing filter ({})".format(
-                            card["dataset_query"][query_type]["filter"]
-                        )
-                    )
-                card["dataset_query"][query_type]["filter"] = self.extra_filter[
-                    query_type
-                ]
+                if "source-query" in card["dataset_query"][query_type]:
+                    orig_query = card["dataset_query"][query_type]["source-query"]
+                else:
+                    orig_query = card["dataset_query"][query_type]
+                if "filter" in orig_query:
+                    orig_filter = orig_query["filter"]
+                    new_filter = [
+                        "and",
+                        orig_filter,
+                        self.extra_filter[query_type],
+                    ]
+                else:
+                    new_filter = self.extra_filter[query_type]
+                orig_query["filter"] = new_filter
+
             elif query_type == "native":
                 query = card["dataset_query"][query_type]["query"]
                 if self.extra_filter[query_type] not in query:
