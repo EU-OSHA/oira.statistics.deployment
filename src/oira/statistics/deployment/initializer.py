@@ -507,7 +507,7 @@ class MetabaseInitializer(object):
             assessments_card_factory.new_assessments_per_month,
             assessments_card_factory.completion_of_assessments,
             assessments_card_factory.accumulated_assessments_over_time,
-            assessments_card_factory.top_ten_tools_by_number_of_assessments,
+            assessments_card_factory.top_tools_by_number_of_assessments,
         ]
         if country is not None:
             cards.extend(
@@ -588,7 +588,7 @@ class MetabaseInitializer(object):
                 "accumulated_assessments": card_factory.accumulated_assessments,
                 "new_assessments_per_month": card_factory.new_assessments_per_month,
                 "completion_of_assessments": card_factory.completion_of_assessments,
-                "top_ten_tools_by_number_of_assessments": card_factory.top_ten_tools_by_number_of_assessments,
+                "top_tools_by_number_of_assessments": card_factory.top_tools_by_number_of_assessments,
                 "accumulated_assessments_over_time": card_factory.accumulated_assessments_over_time,
                 "accumulated_number_of_users": card_factory.accumulated_number_of_users,
             }

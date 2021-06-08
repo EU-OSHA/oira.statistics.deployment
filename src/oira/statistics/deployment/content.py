@@ -813,8 +813,8 @@ class CardFactory(object):
                     "graph.metrics": ["count"],
                 },
             },
-            "top_ten_tools_by_number_of_assessments": {
-                "name": "Top Ten Tools by Number of Assessments",
+            "top_tools_by_number_of_assessments": {
+                "name": "Top Tools by Number of Assessments",
                 "display": "row",
                 "query_type": "query",
                 "dataset_query": {
@@ -826,7 +826,6 @@ class CardFactory(object):
                             ["field-id", self.tables["assessment"]["fields"]["path"]]
                         ],
                         "order-by": [["desc", ["aggregation", 0]]],
-                        "limit": 10,
                     },
                     "database": self.database_id,
                 },
