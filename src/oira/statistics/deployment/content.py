@@ -862,17 +862,29 @@ class CardFactory(object):
                 "dataset_query": {
                     "query": {
                         "source-table": self.tables["assessment"]["id"],
-                        "filter": [
-                            ">",
+                        "aggregation": [
                             [
-                                "field-id",
-                                self.tables["assessment"]["fields"][
-                                    "completion_percentage"
+                                "aggregation-options",
+                                [
+                                    "/",
+                                    [
+                                        "count-where",
+                                        [
+                                            ">",
+                                            [
+                                                "field-id",
+                                                self.tables["assessment"]["fields"][
+                                                    "completion_percentage"
+                                                ],
+                                            ],
+                                            70,
+                                        ],
+                                    ],
+                                    ["count"],
                                 ],
-                            ],
-                            70,
+                                {"display-name": "Top Assessments"},
+                            ]
                         ],
-                        "aggregation": [["count"]],
                         "breakout": [
                             ["field-id", self.tables["assessment"]["fields"]["country"]]
                         ],
@@ -880,7 +892,14 @@ class CardFactory(object):
                     "type": "query",
                     "database": self.database_id,
                 },
-                "visualization_settings": {},
+                "visualization_settings": {
+                    "table.pivot": False,
+                    "graph.dimensions": ["country"],
+                    "graph.metrics": ["expression"],
+                    "column_settings": {
+                        '["name","expression"]': {"number_style": "percent"}
+                    },
+                },
             },
             "accumulated_number_of_users": {
                 "name": "Accumulated Users Over Time",
