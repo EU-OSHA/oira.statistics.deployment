@@ -243,7 +243,7 @@ class MetabaseInitializer(object):
             "collection_id": None,
         }
         dashboard_id = self.create(
-            "dashboard", "-> Start here", extra_data=dashboard_data, reuse=False
+            "dashboard", "-> Start here", extra_data=dashboard_data
         )
 
         intro_card = {
@@ -445,7 +445,7 @@ class MetabaseInitializer(object):
             "collection_position": collection_position or 1,
         }
         dashboard_id = self.create(
-            "dashboard", dashboard_name, extra_data=dashboard_data, reuse=False
+            "dashboard", dashboard_name, extra_data=dashboard_data
         )
 
         log.info("Adding {} cards".format(dashboard_name))
@@ -453,6 +453,15 @@ class MetabaseInitializer(object):
         col = 0
         row = 0
         row_height = 4
+        cards_is = {
+            card["card_id"]: card["id"]
+            for card in self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
+                "ordered_cards"
+            ]
+        }
+        cards_add = []
+        cards_update = []
+        cards_should = []
         for card in cards:
             if "id" in card:
                 card_id = card["id"]
@@ -466,18 +475,44 @@ class MetabaseInitializer(object):
                 row_height = height
             else:
                 row_height = max(height, row_height)
-            self.mb.post(
-                "/api/dashboard/{}/cards".format(dashboard_id),
-                json={
-                    "cardId": card_id,
-                    "col": col,
-                    "row": row,
-                    "sizeX": width,
-                    "sizeY": height,
-                },
-            )
+            dashcard = {
+                "col": col,
+                "row": row,
+                "sizeX": width,
+                "sizeY": height,
+            }
+            cards_should.append(card_id)
+            if card_id not in cards_is:
+                dashcard["cardId"] = card_id
+                cards_add.append(dashcard)
+            else:
+                dashcard["card_id"] = card_id
+                dashcard["id"] = cards_is[card_id]
+                cards_update.append(dashcard)
 
             col += width
+
+        cards_delete = [
+            dashcard_id
+            for card_id, dashcard_id in cards_is.items()
+            if card_id not in cards_should
+        ]
+        for dashcard_id in cards_delete:
+            self.mb.delete(
+                "/api/dashboard/{}/cards?dashcardId={}".format(
+                    dashboard_id, dashcard_id
+                )
+            )
+        for dashcard in cards_add:
+            self.mb.post(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json=dashcard,
+            )
+        if cards_update:
+            self.mb.put(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json={"cards": cards_update},
+            )
         return dashboard_id
 
     def set_up_account(self, country=None, database_id=34, collection_id=4):
