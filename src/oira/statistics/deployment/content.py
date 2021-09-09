@@ -934,7 +934,12 @@ class CardFactory(object):
                                 ]
                             ],
                         },
-                        "aggregation": [["cum-count"]],
+                        "aggregation": [
+                            [
+                                "cum-sum",
+                                ["field", "count", {"base-type": "type/Integer"}],
+                            ]
+                        ],
                         "breakout": [["field-literal", "start_date", "type/DateTime"]],
                     },
                     "type": "query",
@@ -957,6 +962,9 @@ class CardFactory(object):
                 "visualization_settings": {
                     "graph.dimensions": ["start_date"],
                     "graph.metrics": ["count"],
+                    "series_settings": {
+                        "sum": {"title": "Accumulated Number of Users"}
+                    },
                 },
             },
             "number_of_survey_responses": {
