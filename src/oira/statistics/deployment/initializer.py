@@ -715,11 +715,16 @@ class MetabaseInitializer(object):
                             "graph.dimensions": card_info["graph.dimensions"],
                             "graph.metrics": ["count"],
                             "series_settings": {
-                                "count": {"color": "#A989C5", "title": sector_name},
+                                "count": {
+                                    "color": "#A989C5",
+                                    "display": "line",
+                                    "title": sector_name,
+                                },
                             },
                             "card.title": "{} Per Sector".format(
                                 card_info["base_title"]
                             ),
+                            "graph.show_trendline": False,
                         },
                     }
                 else:
