@@ -551,12 +551,6 @@ class MetabaseInitializer(object):
                     assessments_card_factory.tools_by_assessment_completion,
                 ]
             )
-        else:
-            cards.extend(
-                [
-                    assessments_card_factory.accumulated_assessments_per_country,
-                ]
-            )
         self.set_up_dashboard(
             dashboard_name="Assessments Dashboard",
             cards=cards,
@@ -761,6 +755,18 @@ class MetabaseInitializer(object):
                 "cardId": card_id,
                 "col": 0,
                 "row": 0,
+                "sizeX": 18,
+                "sizeY": 4,
+            },
+        )
+        card = card_factory.accumulated_assessments_per_country
+        card_id = self.create("card", card["name"], extra_data=card)
+        self.mb.post(
+            "/api/dashboard/{}/cards".format(overview_dashboard_countryid),
+            json={
+                "cardId": card_id,
+                "col": 0,
+                "row": 4,
                 "sizeX": 18,
                 "sizeY": 4,
             },

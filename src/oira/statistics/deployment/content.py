@@ -776,7 +776,7 @@ class CardFactory(object):
             },
             "accumulated_assessments_per_country": {
                 "name": "Accumulated Assessments per Country",
-                "display": "row",
+                "display": "bar",
                 "query_type": "query",
                 "dataset_query": {
                     "database": self.database_id,
@@ -807,8 +807,6 @@ class CardFactory(object):
                     },
                 ],
                 "visualization_settings": {
-                    "map.type": "region",
-                    "map.region": "world_countries",
                     "graph.dimensions": ["country"],
                     "graph.metrics": ["count"],
                 },
