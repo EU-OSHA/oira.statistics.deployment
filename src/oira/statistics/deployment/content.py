@@ -340,7 +340,7 @@ class CardFactory(object):
                 },
             },
             "top_tools_by_number_of_users": {
-                "name": "Top Tools by Number of Users",
+                "name": "Top Tools by Number of Users / By yearly average",
                 "display": "row",
                 "query_type": "query",
                 "dataset_query": {
@@ -409,7 +409,7 @@ class CardFactory(object):
                 "width": 8,
             },
             "number_of_users_and_assessments_by_tool": {
-                "name": "Number Of Users And Assessments By Tool",
+                "name": "Number Of Users And Assessments By Tool / Since publication",
                 "display": "table",
                 "query_type": "query",
                 "dataset_query": {
