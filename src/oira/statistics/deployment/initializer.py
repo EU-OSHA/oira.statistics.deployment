@@ -90,6 +90,12 @@ class MetabaseInitializer(object):
                         database_id=countries[country]["database"],
                         collection_id=countries[country]["collection"],
                     )
+                    if country.upper() == "FR":
+                        self.set_up_inrs(
+                            country=country,
+                            database_id=countries[country]["database"],
+                            collection_id=countries[country]["collection"],
+                        )
 
             if not self.args.global_statistics:
                 self.set_up_country_permissions(countries, global_group_id)
@@ -737,6 +743,62 @@ class MetabaseInitializer(object):
                 json=combined_card,
             )
         return sectors
+
+    def set_up_inrs(self, country=None, database_id=34, collection_id=3):
+        card_factory = CardFactory(self.mb, database_id, collection_id, country=country)
+        cards = {
+            token: getattr(card_factory, token)
+            for token in [
+                "oiras_poissonerie_sessions_cumulees",
+                "oiras_boulangerie_sessions_cumulees",
+                "oiras_boucherie_charcuterie_sessions_cumulees",
+                "oiras_commerce_alimentaire_de_proximite_sessions_cumulees",
+            ]
+        }
+        for card_token, card in cards.items():
+            cards[card_token]["id"] = self.create("card", card["name"], extra_data=card)
+
+        dashboard_id = self.set_up_dashboard(
+            dashboard_name="INRS",
+            cards=list(cards.values()),
+            country=country,
+            database_id=database_id,
+            collection_id=collection_id,
+            collection_position=5,
+        )
+        combined_card = None
+        for idx, card in enumerate(cards.values()):
+            if combined_card is None:
+                combined_card = {
+                    "cardId": card["id"],
+                    "col": 0,
+                    "row": 4,
+                    "sizeX": self._total_cols,
+                    "sizeY": 8,
+                    "series": [],
+                    "visualization_settings": {
+                        "graph.dimensions": ["start_date"],
+                        "graph.metrics": ["count"],
+                        "series_settings": {
+                            "count": {
+                                "color": "#A989C5",
+                                "display": "line",
+                                "title": card["name"],
+                            },
+                        },
+                        "graph.show_trendline": False,
+                    },
+                }
+            else:
+                combined_card["series"].append(
+                    {
+                        "id": card["id"],
+                    }
+                )
+        self.mb.post(
+            "/api/dashboard/{}/cards".format(dashboard_id),
+            json=combined_card,
+        )
 
     def set_up_countries_overview(self, global_database_id, global_collection_id):
         overview_dashboard_countryid = self.set_up_dashboard(

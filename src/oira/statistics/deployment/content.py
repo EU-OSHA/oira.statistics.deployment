@@ -1251,6 +1251,65 @@ class CardFactory(object):
                     },
                 },
             },
+            "oiras_poissonerie_sessions_cumulees": self._get_inrs_card("poissonerie"),
+            "oiras_boulangerie_sessions_cumulees": self._get_inrs_card("boulangerie"),
+            "oiras_boucherie_charcuterie_sessions_cumulees": self._get_inrs_card(
+                "boucherie-charcuterie"
+            ),
+            "oiras_commerce_alimentaire_de_proximite_sessions_cumulees": self._get_inrs_card(
+                "commerce-alimentaire-de-proximite"
+            ),
+        }
+
+    def _get_inrs_card(self, tool):
+        return {
+            "name": "OiRA {} - Sessions cumulées".format(tool),
+            "display": "line",
+            "query_type": "query",
+            "dataset_query": {
+                "type": "query",
+                "query": {
+                    "source-table": self.tables["assessment"]["id"],
+                    "filter": [
+                        "=",
+                        [
+                            "field",
+                            self.tables["assessment"]["fields"]["tool"],
+                            None,
+                        ],
+                        tool,
+                    ],
+                    "aggregation": [["cum-count"]],
+                    "breakout": [
+                        [
+                            "field",
+                            self.tables["assessment"]["fields"]["start_date"],
+                            {"temporal-unit": "month"},
+                        ],
+                    ],
+                },
+                "database": self.database_id,
+            },
+            "result_metadata": [
+                {
+                    "semantic_type": "type/CreationTimestamp",
+                    "coercion_strategy": None,
+                    "unit": "month",
+                    "name": "start_date",
+                    "display_name": "Start Date",
+                    "base_type": "type/DateTime",
+                },
+                {
+                    "name": "count",
+                    "display_name": "Count",
+                    "base_type": "type/BigInteger",
+                    "semantic_type": "type/Quantity",
+                },
+            ],
+            "visualization_settings": {
+                "graph.dimensions": ["start_date"],
+                "graph.metrics": ["count"],
+            },
         }
 
 
