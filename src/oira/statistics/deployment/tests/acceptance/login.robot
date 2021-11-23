@@ -1,5 +1,6 @@
 *** Settings ***
 Library           SeleniumLibrary
+Library  DebugLibrary
 
 Test Teardown  Close Browser
 
@@ -19,6 +20,7 @@ User can log in
 *** Keywords ***
 I open the login page
     Open Browser  ${LOGIN_URL}  ${BROWSER}
+    Wait until page contains element  xpath=//button/div/div[text()='Sign in']
     Title Should Be  Login · Metabase
 
 I enter the credentials
