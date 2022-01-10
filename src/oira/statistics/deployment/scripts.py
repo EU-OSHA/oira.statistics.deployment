@@ -162,10 +162,8 @@ def bootstrap_metabase_instance(args):
         log.info("Metabase user already set up")
         return
     log.info("Setting up metabase user")
-    result = requests.get(api_url)
-    token = json.loads(
-        next((line for line in result.text.split("\n") if "setup-token" in line))
-    )["setup-token"]
+    result = requests.get(f"{api_url}/api/session/properties")
+    token = result.json()["setup-token"]
     bootstrap = {
         "token": token,
         "prefs": {

@@ -22,7 +22,7 @@ class MetabaseInitializer(object):
     def __call__(self):
         self.mb.put("/api/setting/show-homepage-xrays", json={"value": False})
         self.mb.put("/api/setting/show-homepage-data", json={"value": False})
-        for database in self.mb.get("/api/database").json():
+        for database in self.mb.get("/api/database").json()["data"]:
             if database["name"] == "Sample Dataset":
                 self.mb.delete("/api/database/{}".format(database["id"]))
 
@@ -871,7 +871,8 @@ class MetabaseInitializer(object):
                 for group in self.mb.get("/api/permissions/group").json()
             }
             self._existing_items["databases"] = {
-                db["name"]: db["id"] for db in self.mb.get("/api/database").json()
+                db["name"]: db["id"]
+                for db in self.mb.get("/api/database").json()["data"]
             }
             self._existing_items["collections"] = {
                 collection["name"]: collection["id"]
