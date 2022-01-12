@@ -252,26 +252,40 @@ class MetabaseInitializer(object):
             "dashboard", "-> Start here", extra_data=dashboard_data
         )
 
+        existing_cards = self.mb.get("/api/dashboard/1").json()["ordered_cards"]
+        if len(existing_cards) > 0:
+            card_id = existing_cards[0]["id"]
+        else:
+            new_card = self.mb.post(
+                "/api/dashboard/{}/cards".format(dashboard_id),
+                json={"cardId": None},
+            ).json()
+            card_id = new_card["id"]
+
         intro_card = {
+            "id": card_id,
             "card_id": None,
             "parameter_mappings": [],
             "series": [],
             "visualization_settings": {
                 "virtual_card": {
+                    "archived": False,
+                    "dataset_query": {},
                     "name": None,
                     "display": "text",
+                    "visualization_settings": {},
                 },
                 "text": intro_text,
             },
-            "dashboard_id": 3,
+            "dashboard_id": dashboard_id,
             "sizeX": 8,
             "sizeY": 9,
             "col": 0,
             "row": 0,
         }
-        self.mb.post(
+        self.mb.put(
             "/api/dashboard/{}/cards".format(dashboard_id),
-            json=intro_card,
+            json={"cards": [intro_card]},
         )
 
     def set_up_global_group(self):
