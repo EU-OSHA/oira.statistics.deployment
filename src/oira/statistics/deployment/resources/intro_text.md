@@ -4,6 +4,83 @@ Welcome to the OiRA statistics!
 
 Here are a few hints and explanations to help you find what you're looking for.
 
+## Getting Started
+
+### The Home Screen
+
+For the best experience with the statistics we recommend to view them in Chrome or
+Safari.
+
+After logging in you see the home screen. If you get lost at any time, you can click the
+logo in the top left corner to return here. You can also use the “Back”/“Forward”
+buttons of your browser to navigate. The home screen consists of the “-> Start here”
+dashboard and your country collection.
+
+### Collections, Dashboards, Questions
+
+You can think of collections like folders that contain statistics items. Click the
+country collection to view its contents. At the top of the list you will find the
+available dashboards. Dashboards allow viewing a set of questions together. A question
+shows an aspect of the statistical data. Click one of the dashboards, e.g. the
+Assessments Dashboard, to view its questions. Usually you can click the title of a
+question card to expand the question to its full view. This allows you to examine it in
+more detail. Try clicking the title of the card “Accumulated Assessments Over Time”.
+This takes you to the full view of the question.
+
+### Switching Between Table and Chart
+
+In the full view of the question, at the bottom center of the screen, there are two
+buttons representing a table and a graph. Click the table to switch to a tabular
+representation of the question, and the graph to switch back to the bar chart.
+
+### Zooming In
+
+Still in the full view of the question, hover the mouse cursor over a data point, in
+this case one of the bars in the bar chart (it could also be e.g. a segment in a pie
+chart). A tooltip will show more information (i.e. the exact number of assessments that
+were started and what time range they were started in).
+
+In the blank area above the bars the mouse cursor will turn to a cross. Click and drag
+here to select a time range that you are especially interested in. The view will zoom in
+to the range you selected and hide the rest of the data. Alternatively you can use the
+two select boxes below the chart (above the table/chart switches) to choose a date range
+and a granularity (month, week, quarter etc.).
+
+**Important:** This functionality allows zooming in on the data, not on the chart. This
+makes a difference especially when you have accumulated data over time like in
+*Accumulated Assessments Over Time*. When zooming in to a date range starting in January
+2015, for example, the new chart only takes assessments into account that were started
+after that date. It does not accumulate the assessments that were started before 2015
+but starts at 0, so that the first bar will only count the assessments started **in**
+January 2015 rather than **until** January 2015.
+
+When zoomed in you will see the phrase “Started from *Accumulated Assessments Over
+Time*” next to the page title, which links back to the original question. (Remember that
+you can also click “Back” in your browser, or return to the home screen at any time by
+clicking the logo in the top left corner.)
+
+### Filtering
+
+Zooming in is a special case of filtering. Filters are shown near the top left (below
+the phrase “Started from *Accumulated Assessments Over Time*”). When zoomed in you will
+see a bubble stating that a filter on the “Start Date” has been applied and what date
+range the filter limits to (something like “between January, 2015 December, 2015”).
+Clicking the “x” on the bubble removes this filter.
+
+You can also filter by other criteria than time. Click the “Filter” button at the top
+right. A side bar opens to show the available options. Choose “Sector”, then select one
+of the listed sectors and click “Add filter” at the bottom of the side bar. The view
+will update to show only assessments started with tools in this sector. A bubble is
+shown in the top left that describes the filter (“Sector is ...”). Click the “x” on the
+bubble to remove the filter. The view updates again to show the unfiltered data.
+
+**Important:** There currently is a known issue in the statistics software that causes
+certain questions to lose some configuration when using the filter side bar. The result
+will likely not make sense. When in doubt return to the original question and click the
+“Show editor” icon at the top right (next to the “Filter” and “Summarize” buttons). If
+there are two blocks with the heading “Summarize” then this question is affected and you
+can't use the filter side bar. The developers are working on resolving this issue.
+
 ## Terminology
 
 -   **Accumulated** - Whenever this term is used, we have summed up
@@ -37,23 +114,3 @@ Here are a few hints and explanations to help you find what you're looking for.
     starting an assessment as a guest.
 -   **Top Assessment** - An assessment in which more than 70% of risks have been
     answered.
-
-## Available Dashboards
-
-Data for each country is shown in 3 different dashboards:
-
-1. **Users dashboard**: Shows all data in relation to users (registered users and guest
-   users)
-2. **Assessments dashboard:** Shows data in relation to the assessments done with the
-   tools in one country, such as new assessments per month, accumulated assessments,
-   qualitative indicators (how many of the questions in a tool have been answered) as
-   well as the number of assessments by tool. Remember to use the filter options if you
-   want to have more detailed information about a tool (e.g. for accumulated assessments
-   per month you can filter by tool/sector and by completion percentage). Filter options
-   are also useful if you have many tools published and the “tools by accumulated
-   assessments overview” doesn´t show you all tools in the table.
-3. **Questionnaire dashboard:** Gives information about the answers to the voluntary
-   questionnaire in the OiRA tool. This includes e.g. number of employees in the
-   company, needs were met by the tool, etc. From April 2021 on this data can be
-   filtered for certain time periods. Before April 2021 this information is not
-   available.

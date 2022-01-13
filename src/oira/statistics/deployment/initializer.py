@@ -451,6 +451,7 @@ class MetabaseInitializer(object):
     def set_up_dashboard(
         self,
         dashboard_name=None,
+        description=None,
         cards=[],
         country=None,
         database_id=None,
@@ -473,15 +474,49 @@ class MetabaseInitializer(object):
         col = 0
         row = 0
         row_height = 4
-        cards_is = {
-            card["card_id"]: card["id"]
-            for card in self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
-                "ordered_cards"
-            ]
-        }
+        ordered_cards = self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
+            "ordered_cards"
+        ]
+        cards_is = {card["card_id"]: card["id"] for card in ordered_cards}
         cards_add = []
         cards_update = []
         cards_should = []
+        # TODO: delete description if it is None but a card exists
+        if description is not None:
+            description_card = next(
+                (card for card in ordered_cards if card["card_id"] is None), None
+            )
+            if not description_card:
+                description_card = self.mb.post(
+                    "/api/dashboard/{}/cards".format(dashboard_id),
+                    json={"cardId": None},
+                ).json()
+            dashcard = {
+                "id": description_card["id"],
+                "card_id": None,
+                "parameter_mappings": [],
+                "series": [],
+                "visualization_settings": {
+                    "virtual_card": {
+                        "archived": False,
+                        "dataset_query": {},
+                        "name": None,
+                        "display": "text",
+                        "visualization_settings": {},
+                    },
+                    "text": description,
+                },
+                "dashboard_id": dashboard_id,
+                "sizeX": 4,
+                "sizeY": 4,
+                "col": col,
+                "row": row,
+            }
+            col += 4
+            row += 4
+            cards_should.append(dashcard["card_id"])
+            cards_update.append(dashcard)
+
         for card in cards:
             if "id" in card:
                 card_id = card["id"]
@@ -546,6 +581,10 @@ class MetabaseInitializer(object):
         ]
         self.set_up_dashboard(
             dashboard_name="Users Dashboard",
+            description=(
+                "## About this dashboard\n\n"
+                "Shows all data in relation to users (registered users and guest users)"
+            ),
             cards=cards,
             country=country,
             database_id=database_id,
@@ -571,8 +610,23 @@ class MetabaseInitializer(object):
                     assessments_card_factory.tools_by_assessment_completion,
                 ]
             )
+        description = (
+            "## About this dashboard\n\nThis dashboard shows data in relation to the "
+            "assessments done with the tools in {}, such as new "
+            "assessments per month, accumulated assessments, qualitative indicators "
+            "(how many of the questions in a tool have been answered) as well as the "
+            "number of assessments by tool. Remember to use the filter options if you "
+            "want to have more detailed information about a tool (e.g. for accumulated "
+            "assessments per month you can filter by tool/sector and by completion "
+            "percentage). Filter options are also useful if you have many tools "
+            "published and the “tools by accumulated assessments overview” doesn´t "
+            "show you all tools in the table.".format(
+                "the current country" if country is not None else "OiRA"
+            )
+        )
         self.set_up_dashboard(
             dashboard_name="Assessments Dashboard",
+            description=description,
             cards=cards,
             country=country,
             database_id=database_id,
@@ -588,8 +642,26 @@ class MetabaseInitializer(object):
             tools_card_factory.top_tools_by_number_of_users,
             tools_card_factory.number_of_users_and_assessments_by_tool,
         ]
+        description = (
+            "## About this dashboard\n\n"
+            "Compares tools in {} to each other using metrics like started assessments "
+            "or number of users who have used the tool.\n\n"
+            "The *number of users by yearly average* is used as a rough measure of how "
+            "popular a tool stays over time. Instead of taking the total number of "
+            "users, the time a tool has been available is taken into account. "
+            "This way a tool that was once popular but has fallen into disuse moves "
+            "down in the ranking as time passes. Please note that this can mean that a "
+            "tool with more total users can end up lower in the ranking than one with "
+            "fewer total users. The reason is that the number of years "
+            "is rounded up to the next whole number. E.g. a tool with 12 total "
+            "users that has been online for just over a year will be treated as having "
+            "run for two years and thus have 6 users per year, while a tool with 10 "
+            "total users that has been online for just under a year will have 10 users "
+            "per year.".format("the current country" if country is not None else "OiRA")
+        )
         self.set_up_dashboard(
             dashboard_name="Tools Dashboard",
+            description=description,
             cards=cards,
             country=country,
             database_id=database_id,
@@ -608,8 +680,17 @@ class MetabaseInitializer(object):
             card_factory.needs_met,
             card_factory.recommend_tool,
         ]
+        description = (
+            "## About this dashboard\n\n"
+            "Gives information about the answers to the voluntary questionnaire in the "
+            "OiRA tool. This includes e.g. number of employees in the company, needs "
+            "were met by the tool, etc. From April 2021 on this data can be filtered "
+            "for certain time periods. Before April 2021 this information is not "
+            "available."
+        )
         self.set_up_dashboard(
             dashboard_name="Questionnaire Dashboard",
+            description=description,
             cards=cards,
             country=country,
             database_id=database_id,

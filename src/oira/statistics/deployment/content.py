@@ -406,7 +406,7 @@ class CardFactory(object):
                     "graph.metrics": ["Users per Year"],
                 },
                 "height": 8,
-                "width": 8,
+                "width": 6,
             },
             "number_of_users_and_assessments_by_tool": {
                 "name": "Number Of Users And Assessments By Tool / Since publication",
@@ -479,7 +479,7 @@ class CardFactory(object):
                     "table.cell_column": "num_assessments",
                 },
                 "height": 8,
-                "width": 8,
+                "width": 6,
             },
             "accumulated_assessments": {
                 "name": "Accumulated Assessments",
