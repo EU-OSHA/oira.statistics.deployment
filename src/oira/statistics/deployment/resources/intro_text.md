@@ -6,26 +6,43 @@ Here are a few hints and explanations to help you find what you're looking for.
 
 ## Getting Started
 
+For the best experience with the statistics we recommend to view them in Chrome or
+Safari. There have been reports of display issues when using Firefox.
+
 ### The Home Screen
 
-For the best experience with the statistics we recommend to view them in Chrome or
-Safari.
+After logging in you see the home screen.
 
-After logging in you see the home screen. If you get lost at any time, you can click the
-logo in the top left corner to return here. You can also use the “Back”/“Forward”
-buttons of your browser to navigate. The home screen consists of the “-> Start here”
-dashboard and your country collection.
+If you get lost at any time, you can click the logo in the top left corner to return
+here. You can also use the “Back”/“Forward” buttons of your browser to navigate. The
+home screen consists of the “-> Start here” dashboard and your country collection.
 
 ### Collections, Dashboards, Questions
 
 You can think of collections like folders that contain statistics items. Click the
-country collection to view its contents. At the top of the list you will find the
-available dashboards. Dashboards allow viewing a set of questions together. A question
-shows an aspect of the statistical data. Click one of the dashboards, e.g. the
-Assessments Dashboard, to view its questions. Usually you can click the title of a
-question card to expand the question to its full view. This allows you to examine it in
-more detail. Try clicking the title of the card “Accumulated Assessments Over Time”.
-This takes you to the full view of the question.
+country collection to view its contents.
+
+At the top of the list you will find the available dashboards. Individual questions are
+listed below. Dashboards group a set of questions together. Clicking a dashboard allows
+you to view all its questions on one screen. It is recommended to first navigate to a
+dashboard to get an overview instead of directly picking a question, unless you already
+know the exact title of the question you want. Click the Assessments Dashboard now.
+
+Most dashboards hold a card with some descriptive text about the dashboard. The rest of
+the cards each show a question. A question displays an aspect of the statistical data.
+It can take the form of a graph or chart, a table, or just a number. Usually you can
+click the title of a question card to expand the question to its full view. This allows
+you to examine it in more detail. Click the title of the card “Accumulated Assessments
+Over Time”.
+
+This question shows how the number of assessments in your country has developed over
+time. Each bar represents the number of assessments that were started up until a
+particular time (the end of a certain month). Hover over a bar to see the month and the
+number of assessments it represents.
+
+All questions on the Assessments Dashboard deal with the number of assessments in some
+way. Other dashboards have different focusses, e.g. the number of users who have made
+assessments.
 
 ### Switching Between Table and Chart
 
@@ -33,12 +50,24 @@ In the full view of the question, at the bottom center of the screen, there are 
 buttons representing a table and a graph. Click the table to switch to a tabular
 representation of the question, and the graph to switch back to the bar chart.
 
+### Downloading Data
+
+When viewing a question there is an icon at the bottom right (a cloud with an arrow
+pointing down) that allows downloading the data that is currently displayed.
+
+The displayed data can be either the original question that you found on a dashboard or
+a modified one that is the result of applying an extra filter (see below). Anything that
+is hidden in the current chart or table will also not be present in the downloaded data.
+
+You can choose between comma separated values (csv), an Excel sheet (xlsx) or JavaScript
+Object Notation (json) for your download.
+
 ### Zooming In
 
 Still in the full view of the question, hover the mouse cursor over a data point, in
 this case one of the bars in the bar chart (it could also be e.g. a segment in a pie
 chart). A tooltip will show more information (i.e. the exact number of assessments that
-were started and what time range they were started in).
+were started and what time range they were started in, see above).
 
 In the blank area above the bars the mouse cursor will turn to a cross. Click and drag
 here to select a time range that you are especially interested in. The view will zoom in
@@ -68,11 +97,13 @@ range the filter limits to (something like “between January, 2015 December, 20
 Clicking the “x” on the bubble removes this filter.
 
 You can also filter by other criteria than time. Click the “Filter” button at the top
-right. A side bar opens to show the available options. Choose “Sector”, then select one
-of the listed sectors and click “Add filter” at the bottom of the side bar. The view
-will update to show only assessments started with tools in this sector. A bubble is
-shown in the top left that describes the filter (“Sector is ...”). Click the “x” on the
-bubble to remove the filter. The view updates again to show the unfiltered data.
+right.
+
+A side bar opens to show the available options. Choose “Sector”, then select one of the
+listed sectors and click “Add filter” at the bottom of the side bar. The view will
+update to show only assessments started with tools in this sector. A bubble is shown in
+the top left that describes the filter (“Sector is ...”). Click the “x” on the bubble to
+remove the filter. The view updates again to show the unfiltered data.
 
 **Important:** There currently is a known issue in the statistics software that causes
 certain questions to lose some configuration when using the filter side bar. The result

@@ -616,10 +616,10 @@ class MetabaseInitializer(object):
             "assessments per month, accumulated assessments, qualitative indicators "
             "(how many of the questions in a tool have been answered) as well as the "
             "number of assessments by tool. Remember to use the filter options if you "
-            "want to have more detailed information about a tool (e.g. for accumulated "
-            "assessments per month you can filter by tool/sector and by completion "
+            "want to have more detailed information about a tool (e.g. for Accumulated "
+            "Assessments Over Time you can filter by tool/sector and by completion "
             "percentage). Filter options are also useful if you have many tools "
-            "published and the “tools by accumulated assessments overview” doesn´t "
+            "published and the “Tools by Accumulated Assessments” overview doesn´t "
             "show you all tools in the table.".format(
                 "the current country" if country is not None else "OiRA"
             )
