@@ -13,27 +13,28 @@ Safari. There have been reports of display issues when using Firefox.
 
 After logging in you see the home screen.
 
-If you get lost at any time, you can click the logo in the top left corner to return
+If you get lost at any time, you can click the “M” logo in the top left corner to return
 here. You can also use the “Back”/“Forward” buttons of your browser to navigate. The
 home screen consists of the “-> Start here” dashboard and your country collection.
 
 ### Collections, Dashboards, Questions
 
-You can think of collections like folders that contain statistics items. Click the
-country collection to view its contents.
+You can think of collections like folders that contain statistics items. Each country
+has its own collection. Click the country collection to view its contents.
 
-At the top of the list you will find the available dashboards. Individual questions are
-listed below. Dashboards group a set of questions together. Clicking a dashboard allows
-you to view all its questions on one screen. It is recommended to first navigate to a
-dashboard to get an overview instead of directly picking a question, unless you already
-know the exact title of the question you want. Click the Assessments Dashboard now.
+At the top of the list in the country collection you will find the available dashboards
+(yellow icons). Individual questions are listed below. Dashboards group a set of
+questions together. Clicking a dashboard allows you to view all its questions on one
+screen. It is recommended to first navigate to a dashboard to get an overview instead of
+directly picking a question, unless you already know the exact title of the question you
+want. Click the Assessments Dashboard now.
 
-Most dashboards hold a card with some descriptive text about the dashboard. The rest of
-the cards each show a question. A question displays an aspect of the statistical data.
-It can take the form of a graph or chart, a table, or just a number. Usually you can
-click the title of a question card to expand the question to its full view. This allows
-you to examine it in more detail. Click the title of the card “Accumulated Assessments
-Over Time”.
+Most dashboards hold a general card with descriptive text about the dashboard. The rest
+of the cards each show a question. A question displays an aspect of the statistical
+data. It can take the form of a graph or chart, a table, or just a number. Usually you
+can click the title of a question card to expand the question to its full view. This
+allows you to examine it in more detail. Click the title of the card “Accumulated
+Assessments Over Time”.
 
 This question shows how the number of assessments in your country has developed over
 time. Each bar represents the number of assessments that were started up until a
@@ -46,7 +47,7 @@ assessments.
 
 ### Switching Between Table and Chart
 
-In the full view of the question, at the bottom center of the screen, there are two
+In the full view of the question, at the bottom centre of the screen, there are two
 buttons representing a table and a graph. Click the table to switch to a tabular
 representation of the question, and the graph to switch back to the bar chart.
 
@@ -60,7 +61,8 @@ a modified one that is the result of applying an extra filter (see below). Anyth
 is hidden in the current chart or table will also not be present in the downloaded data.
 
 You can choose between comma separated values (csv), an Excel sheet (xlsx) or JavaScript
-Object Notation (json) for your download.
+Object Notation (json) for your download. Both csv and xlsx downloads can be viewed in
+Excel.
 
 ### Zooming In
 
@@ -90,58 +92,66 @@ clicking the logo in the top left corner.)
 
 ### Filtering
 
-Zooming in is a special case of filtering. Filters are shown near the top left (below
-the phrase “Started from *Accumulated Assessments Over Time*”). When zoomed in you will
-see a bubble stating that a filter on the “Start Date” has been applied and what date
-range the filter limits to (something like “between January, 2015 December, 2015”).
-Clicking the “x” on the bubble removes this filter.
+Zooming in is a special case of filtering. Active filters are shown near the top left
+(below the phrase “Started from *Accumulated Assessments Over Time*”). When zoomed in
+you will see a purple bubble stating that a filter on the “Start Date” has been applied
+and what date range the filter limits to (something like “between January, 2015
+December, 2015”). Clicking the “x” on the bubble removes this filter.
 
 You can also filter by other criteria than time. Click the “Filter” button at the top
 right.
 
-A side bar opens to show the available options. Choose “Sector”, then select one of the
-listed sectors and click “Add filter” at the bottom of the side bar. The view will
-update to show only assessments started with tools in this sector. A bubble is shown in
-the top left that describes the filter (“Sector is ...”). Click the “x” on the bubble to
+A side bar opens to show the available options. Choose “Path”, then select one or more
+of the listed tool paths and click “Add filter” at the bottom of the side bar. The view
+will update to show only assessments started with the chosen tools. A bubble is shown in
+the top left that describes the filter (“Path is ...”). Click the “x” on the bubble to
 remove the filter. The view updates again to show the unfiltered data.
 
 **Important:** There currently is a known issue in the statistics software that causes
 certain questions to lose some configuration when using the filter side bar. The result
 will likely not make sense. When in doubt return to the original question and click the
 “Show editor” icon at the top right (next to the “Filter” and “Summarize” buttons). If
-there are two blocks with the heading “Summarize” then this question is affected and you
-can't use the filter side bar. The developers are working on resolving this issue.
+there are two blocks with the heading “Summarize” then this question is affected by the
+described issue and you can't use the filter side bar. The developers are working on
+resolving this issue but for the moment there is no solution available.
 
 ## Terminology
 
--   **Accumulated** - Whenever this term is used, we have summed up
-    numbers from the beginning of our records to the given date. E.g. “Number of
-    assessments” for March 2020 is the number of assessments that have been started in
-    March 2020, while “Accumulated assessments” for March 2020 is the number of
-    assessments that have been started between the beginning of records and the end of
-    March 2020. By using the filter options you can also change this time span to any
-    period you are interested in, e.g. a specific year.
--   **Assessment**- A set of answers, actions and other items related to one particular
+-   **Accumulated** - Whenever this term is used, we have summed up numbers from the
+    beginning of the current time span to the given date. E.g. when viewing all
+    available assessments, “Number of assessments” for March 2020 is the number of
+    assessments that have been started in March 2020, while “Accumulated assessments”
+    for March 2020 is the number of assessments that have been started between the
+    beginning of records and the end of March 2020. By using the filter options you can
+    also change this time span to any period you are interested in like a specific year.
+    E.g. if you are viewing assessments for 2020 only, then “Accumulated assessments”
+    for March 2020 is the number of assessments that have been started between the
+    beginning of 2020 and the end of March 2020.
+-   **Assessment** - A set of answers, actions and other items related to one particular
     use of a certain OiRA tool. Assessment refers to the different risk assessments a
     user has conducted with a tool. One user can do several risk assessments with the
     same or different tools.
--   **Card** - The representation of a Question on a Dashboard.
--   **Collection** - You can think of collections like folders that contain Dashboards,
-    Questions and other statistics items.
--   **Converted User or Converted Account** - A user who started as a guest and
+-   **Card** - The representation of a question on a dashboard.
+-   **Collection** - You can think of collections like folders that contain dashboards,
+    questions and other statistics items. Normally each country is represented by one
+    collection.
+-   **Converted User / Converted Account** - A user who started as a guest and
     subsequently registered an account from within a guest assessment.
--   **Dashboard** - Dashboards allow viewing a set of Questions together. They will be
-    displayed as cards on the dashboard.
+-   **Dashboard** - Dashboards allow viewing a set of questions together. Each question
+    is displayed as a card on the dashboard.
+-   **Guest Assessment** - An assessment started as a guest user.
 -   **Guest User** - A temporary user who has started an assessment without first
     registering a full user account. Please note: due to many automated requests the
     guest user count does not actually reflect real people going to the tools before May
-    2021, when a feature went live to prevent these machine generated test sessions.
--   **Question** - A Question shows an aspect of the statistical data. The term refers
+    2021, when a feature went live to prevent these machine generated guest assessments.
+-   **Question** - A question shows an aspect of the statistical data. The term refers
     to a query, the results of that query, and the visualization and formatting of those
     results (which could be a line graph, a pie chart or just a table of results).
-    Questions can be displayed as Cards on Dashboards.
--   **Registered User** - refers to all users having an account in OiRA. This
-    includes *converted users* and users who registered from the start, without first
-    starting an assessment as a guest.
+    questions can be displayed as cards on dashboards.
+-   **Registered User** - A user who has an account in OiRA. This includes *converted
+    users* and users who registered from the start, without first starting an assessment
+    as a guest. It does not include guest users who have not been converted.
+-   **Test Session** - Synonymous with “Guest assessment”.
+-   **Test User** - Synonymous with “Guest user”.
 -   **Top Assessment** - An assessment in which more than 70% of risks have been
     answered.

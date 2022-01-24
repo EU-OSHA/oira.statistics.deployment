@@ -584,6 +584,10 @@ class MetabaseInitializer(object):
             description=(
                 "## About this dashboard\n\n"
                 "Shows all data in relation to users (registered users and guest users)"
+                "\n\n"
+                "Note: Before May 2021 the guest user count does not "
+                "actually reflect real people using the tools (see documentation, "
+                "Terminology - Guest User)"
             ),
             cards=cards,
             country=country,
@@ -618,9 +622,10 @@ class MetabaseInitializer(object):
             "number of assessments by tool. Remember to use the filter options if you "
             "want to have more detailed information about a tool (e.g. for Accumulated "
             "Assessments Over Time you can filter by tool/sector and by completion "
-            "percentage). Filter options are also useful if you have many tools "
+            "percentage). If you have many tools "
             "published and the “Tools by Accumulated Assessments” overview doesn´t "
-            "show you all tools in the table.".format(
+            "show you all tools, try switching to the table view (see documentation, "
+            "“Switching Between Table and Chart”).".format(
                 "the current country" if country is not None else "OiRA"
             )
         )
@@ -644,8 +649,8 @@ class MetabaseInitializer(object):
         ]
         description = (
             "## About this dashboard\n\n"
-            "Compares tools in {} to each other using metrics like started assessments "
-            "or number of users who have used the tool.\n\n"
+            "Compares tools in {} to each other using the metrics started assessments "
+            "and number of users who have used the tool.\n\n"
             "The *number of users by yearly average* is used as a rough measure of how "
             "popular a tool stays over time. Instead of taking the total number of "
             "users, the time a tool has been available is taken into account. "
@@ -686,7 +691,9 @@ class MetabaseInitializer(object):
             "OiRA tool. This includes e.g. number of employees in the company, needs "
             "were met by the tool, etc. From April 2021 on this data can be filtered "
             "for certain time periods. Before April 2021 this information is not "
-            "available."
+            "available.\n\n"
+            "By using the “Path” filter you can also filter the information from "
+            "the questionnaire for specific tools."
         )
         self.set_up_dashboard(
             dashboard_name="Questionnaire Dashboard",
