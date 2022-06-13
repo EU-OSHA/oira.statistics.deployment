@@ -131,7 +131,7 @@ class MetabaseInitializer(object):
             self.set_up_ldap(countries, global_group_id)
 
         if self.args.statistics_user:
-            users = self.mb.get("/api/user").json()
+            users = self.mb.get("/api/user").json()["data"]
             user_emails = [user["email"] for user in users]
             for email, password, first_name, last_name in (
                 self.args.statistics_user or []
