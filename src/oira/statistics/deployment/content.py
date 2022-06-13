@@ -677,7 +677,7 @@ class CardFactory(object):
                         "breakout": [
                             [
                                 "field-id",
-                                self.tables["assessment"]["fields"]["tool"],
+                                self.tables["assessment"]["fields"]["tool_path"],
                             ]
                         ],
                         "order-by": [["desc", ["aggregation", 0]]],
@@ -687,8 +687,8 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
-                        "display_name": "Tool",
-                        "name": "tool",
+                        "display_name": "Tool Path",
+                        "name": "tool_path",
                         "special_type": None,
                     },
                     {
@@ -699,7 +699,7 @@ class CardFactory(object):
                     },
                 ],
                 "visualization_settings": {
-                    "graph.dimensions": ["tool"],
+                    "graph.dimensions": ["tool_path"],
                     "graph.metrics": ["count"],
                     "series_settings": {"count": {"title": "Number of Assessments"}},
                 },
@@ -712,13 +712,13 @@ class CardFactory(object):
                     "type": "native",
                     "native": {
                         "query": (
-                            "select sector || '/' || tool as tool,\n"
+                            "select tool_path,\n"
                             "    count(case when completion_percentage > 70 then 'top' end) as top_assessments,\n"
                             "    count(case when completion_percentage >= 10 and completion_percentage <= 70 then 'avg' end) as avg_assessments,\n"
                             "    count(case when completion_percentage < 10 then 'low' end) as low_assessments\n"
                             "from assessment\n"
-                            "where tool != 'preview'\n"
-                            "group by country, sector, tool\n"
+                            "where tool_path not like '%/preview'\n"
+                            "group by tool_path\n"
                             "order by top_assessments desc, avg_assessments desc, low_assessments desc;"
                         ),
                         "template-tags": {},
@@ -728,8 +728,8 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
-                        "display_name": "tool",
-                        "name": "tool",
+                        "display_name": "Tool Path",
+                        "name": "tool_path",
                         "special_type": None,
                     },
                     {
@@ -1275,13 +1275,14 @@ class CardFactory(object):
                 "query": {
                     "source-table": self.tables["assessment"]["id"],
                     "filter": [
-                        "=",
+                        "ends-with",
                         [
                             "field",
-                            self.tables["assessment"]["fields"]["tool"],
+                            self.tables["assessment"]["fields"]["tool_path"],
                             None,
                         ],
                         tool,
+                        {"case-sensitive": False}
                     ],
                     "aggregation": [["cum-count"]],
                     "breakout": [
