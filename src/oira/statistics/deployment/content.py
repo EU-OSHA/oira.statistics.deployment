@@ -787,7 +787,7 @@ class CardFactory(object):
                         "breakout": [
                             [
                                 "field-id",
-                                self.tables["assessment"]["fields"]["country"],
+                                self.tables["assessment"]["fields"].get("country", ""),
                             ]
                         ],
                     },
@@ -888,7 +888,10 @@ class CardFactory(object):
                             ]
                         ],
                         "breakout": [
-                            ["field-id", self.tables["assessment"]["fields"]["country"]]
+                            [
+                                "field-id",
+                                self.tables["assessment"]["fields"].get("country", ""),
+                            ]
                         ],
                     },
                     "type": "query",
@@ -1282,7 +1285,7 @@ class CardFactory(object):
                             None,
                         ],
                         tool,
-                        {"case-sensitive": False}
+                        {"case-sensitive": False},
                     ],
                     "aggregation": [["cum-count"]],
                     "breakout": [

@@ -196,6 +196,29 @@ class MetabaseInitializer(object):
             log.info("Waiting for database sync to finish...")
             sleep(1)
 
+        db_info = self.mb.get(
+            "/api/database/{}/metadata?include_hidden=true".format(db_id)
+        ).json()
+        for table_info in db_info["tables"]:
+            self.mb.post(
+                "/api/table/{}/rescan_values".format(table_info["id"]),
+                json={},
+            )
+            self.mb.put(
+                "/api/table/{}".format(table_info["id"]),
+                json={"field_order": "database"},
+            )
+            for field_info in table_info["fields"]:
+                if (
+                    table_info["name"] in ["assessment", "company"]
+                    and field_info["name"] == "id"
+                    or (country is not None and field_info["name"] == "country")
+                ):
+                    self.mb.put(
+                        "/api/field/{}".format(field_info["id"]),
+                        json={"visibility_type": "sensitive"},
+                    )
+
         return db_id
 
     def create(self, obj_type, obj_name, extra_data={}, reuse=True):
