@@ -101,11 +101,11 @@ December, 2015”). Clicking the “x” on the bubble removes this filter.
 You can also filter by other criteria than time. Click the “Filter” button at the top
 right.
 
-A side bar opens to show the available options. Choose “Path”, then select one or more
-of the listed tool paths and click “Add filter” at the bottom of the side bar. The view
-will update to show only assessments started with the chosen tools. A bubble is shown in
-the top left that describes the filter (“Path is ...”). Click the “x” on the bubble to
-remove the filter. The view updates again to show the unfiltered data.
+A side bar opens to show the available options. Choose “Tool Path”, then select one or
+more of the listed tool paths and click “Add filter” at the bottom of the side bar. The
+view will update to show only assessments started with the chosen tools. A bubble is
+shown in the top left that describes the filter (“Tool Path is ...”). Click the “x” on
+the bubble to remove the filter. The view updates again to show the unfiltered data.
 
 **Important:** There currently is a known issue in the statistics software that causes
 certain questions to lose some configuration when using the filter side bar. The result

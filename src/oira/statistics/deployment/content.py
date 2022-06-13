@@ -1,5 +1,6 @@
-from . import config
 import logging
+
+from . import config
 
 log = logging.getLogger(__name__)
 
@@ -371,8 +372,8 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
-                        "display_name": "Path",
-                        "name": "zodb_path",
+                        "display_name": "Tool Path",
+                        "name": "Tool_path",
                         "special_type": "type/PK",
                     },
                     {
@@ -402,7 +403,7 @@ class CardFactory(object):
                     },
                 ],
                 "visualization_settings": {
-                    "graph.dimensions": ["zodb_path"],
+                    "graph.dimensions": ["tool_path"],
                     "graph.metrics": ["Users per Year"],
                 },
                 "height": 8,
@@ -434,7 +435,7 @@ class CardFactory(object):
                             ]
                         },
                         "fields": [
-                            ["field-id", self.tables["tool"]["fields"]["zodb_path"]],
+                            ["field-id", self.tables["tool"]["fields"]["tool_path"]],
                             ["field-id", self.tables["tool"]["fields"]["num_users"]],
                             [
                                 "field-id",
@@ -456,8 +457,8 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
-                        "display_name": "Zo Db Path",
-                        "name": "zodb_path",
+                        "display_name": "Tool Path",
+                        "name": "tool_path",
                         "special_type": "type/PK",
                     },
                     {
@@ -821,7 +822,10 @@ class CardFactory(object):
                         "source-table": self.tables["assessment"]["id"],
                         "aggregation": [["count"]],
                         "breakout": [
-                            ["field-id", self.tables["assessment"]["fields"]["path"]]
+                            [
+                                "field-id",
+                                self.tables["assessment"]["fields"]["tool_path"],
+                            ]
                         ],
                         "order-by": [["desc", ["aggregation", 0]]],
                     },
@@ -830,8 +834,8 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
-                        "display_name": "Path",
-                        "name": "path",
+                        "display_name": "Tool Path",
+                        "name": "tool_path",
                         "special_type": None,
                     },
                     {
@@ -849,7 +853,7 @@ class CardFactory(object):
                     "graph.label_value_frequency": "fit",
                     "graph.metrics": ["count"],
                     "series_settings": {"count": {"display": "bar"}},
-                    "graph.dimensions": ["path"],
+                    "graph.dimensions": ["tool_path"],
                     "stackable.stack_type": None,
                 },
             },
@@ -1325,14 +1329,14 @@ class SectorCardFactory(CardFactory):
                 "=",
                 [
                     "field-id",
-                    self.tables["assessment"]["fields"]["path"],
+                    self.tables["assessment"]["fields"]["tool_path"],
                 ],
             ]
             + config.sectors[self.sector_name],
             "native": " AND ({}) ".format(
                 " OR ".join(
                     (
-                        "path = '{}'".format(path)
+                        "tool_path = '{}'".format(path)
                         for path in config.sectors[self.sector_name]
                     )
                 )

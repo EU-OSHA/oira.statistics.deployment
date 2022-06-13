@@ -692,7 +692,7 @@ class MetabaseInitializer(object):
             "were met by the tool, etc. From April 2021 on this data can be filtered "
             "for certain time periods. Before April 2021 this information is not "
             "available.\n\n"
-            "By using the “Path” filter you can also filter the information from "
+            "By using the “Tool Path” filter you can also filter the information from "
             "the questionnaire for specific tools."
         )
         self.set_up_dashboard(
