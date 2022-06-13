@@ -608,9 +608,7 @@ class MetabaseInitializer(object):
                 "## About this dashboard\n\n"
                 "Shows all data in relation to users (registered users and guest users)"
                 "\n\n"
-                "Note: Before May 2021 the guest user count does not "
-                "actually reflect real people using the tools (see documentation, "
-                "Terminology - Guest User)"
+                "Information on guest users before January 2020 is not available."
             ),
             cards=cards,
             country=country,
@@ -642,13 +640,13 @@ class MetabaseInitializer(object):
             "assessments done with the tools in {}, such as new "
             "assessments per month, accumulated assessments, qualitative indicators "
             "(how many of the questions in a tool have been answered) as well as the "
-            "number of assessments by tool. Remember to use the filter options if you "
-            "want to have more detailed information about a tool (e.g. for Accumulated "
-            "Assessments Over Time you can filter by tool/sector and by completion "
-            "percentage). If you have many tools "
-            "published and the “Tools by Accumulated Assessments” overview doesn´t "
-            "show you all tools, try switching to the table view (see documentation, "
-            "“Switching Between Table and Chart”).".format(
+            "number of assessments by tool. Remember to use the filter options (upper "
+            "right hand corner) if you want to have more detailed information about a "
+            "tool (e.g. for Accumulated Assessments Over Time you can filter by "
+            "tool/sector and by completion percentage).\n\n"
+            "In order to see the tools that are accumulated under “others” in the "
+            "cards that include tools information, you need to click on the table icon "
+            "at the bottom centre of the screen.".format(
                 "the current country" if country is not None else "OiRA"
             )
         )
@@ -672,8 +670,10 @@ class MetabaseInitializer(object):
         ]
         description = (
             "## About this dashboard\n\n"
-            "Compares tools in {} to each other using the metrics started assessments "
-            "and number of users who have used the tool.\n\n"
+            "Compares tools in {} to each other using the metrics “started "
+            "assessments” and “number of users who have used the tool”. "
+            "In order to see the tools that are accumulated under “others” you can "
+            "click on the table icon at the bottom centre of the screen. \n\n"
             "The *number of users by yearly average* is used as a rough measure of how "
             "popular a tool stays over time. Instead of taking the total number of "
             "users, the time a tool has been available is taken into account. "
@@ -716,7 +716,7 @@ class MetabaseInitializer(object):
             "for certain time periods. Before April 2021 this information is not "
             "available.\n\n"
             "By using the “Tool Path” filter you can also filter the information from "
-            "the questionnaire for specific tools."
+            "the questionnaire for different tools."
         )
         self.set_up_dashboard(
             dashboard_name="Questionnaire Dashboard",

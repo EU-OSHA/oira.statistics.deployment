@@ -13,16 +13,16 @@ Safari. There have been reports of display issues when using Firefox.
 
 After logging in you see the home screen.
 
-If you get lost at any time, you can click the “M” logo in the top left corner to return
-here. You can also use the “Back”/“Forward” buttons of your browser to navigate. The
-home screen consists of the “-> Start here” dashboard and your country collection.
+If you get lost at any time, you can click the logo (“M”) in the top left corner to
+return here. You can also use the “Back”/“Forward” buttons of your browser to navigate.
+The home screen consists of the “-> Start here” dashboard and your country collection.
 
-### Collections, Dashboards, Questions
+### Collections, Dashboards, Cards, Questions
 
 You can think of collections like folders that contain statistics items. Each country
-has its own collection. Click the country collection to view its contents.
+has its own collection. Click your country collection to view its contents.
 
-At the top of the list in the country collection you will find the available dashboards
+At the top of the list in your country collection you will find the available dashboards
 (yellow icons). Individual questions are listed below. Dashboards group a set of
 questions together. Clicking a dashboard allows you to view all its questions on one
 screen. It is recommended to first navigate to a dashboard to get an overview instead of
@@ -30,11 +30,11 @@ directly picking a question, unless you already know the exact title of the ques
 want. Click the Assessments Dashboard now.
 
 Most dashboards hold a general card with descriptive text about the dashboard. The rest
-of the cards each show a question. A question displays an aspect of the statistical
-data. It can take the form of a graph or chart, a table, or just a number. Usually you
-can click the title of a question card to expand the question to its full view. This
-allows you to examine it in more detail. Click the title of the card “Accumulated
-Assessments Over Time”.
+of the cards on each dashboard show one question. A question displays an aspect of the
+statistical data. It can take the form of a graph or chart, a table, or just a number.
+On the dashboard, usually you can click the title of a question card to expand the
+question to its full view. This allows you to examine it in more detail. Click the title
+of the card “Accumulated Assessments Over Time”.
 
 This question shows how the number of assessments in your country has developed over
 time. Each bar represents the number of assessments that were started up until a
@@ -42,7 +42,7 @@ particular time (the end of a certain month). Hover over a bar to see the month 
 number of assessments it represents.
 
 All questions on the Assessments Dashboard deal with the number of assessments in some
-way. Other dashboards have different focusses, e.g. the number of users who have made
+way. Other dashboards have a different focus, e.g. the number of users who have made
 assessments.
 
 ### Switching Between Table and Chart
@@ -92,28 +92,28 @@ clicking the logo in the top left corner.)
 
 ### Filtering
 
-Zooming in is a special case of filtering. Active filters are shown near the top left
+“Zooming in” is a special case of filtering. Active filters are shown near the top left
 (below the phrase “Started from *Accumulated Assessments Over Time*”). When zoomed in
 you will see a purple bubble stating that a filter on the “Start Date” has been applied
-and what date range the filter limits to (something like “between January, 2015
-December, 2015”). Clicking the “x” on the bubble removes this filter.
+and what date range the filter limits to (something like “Start date is after January 1,
+2022”). Clicking the “x” on the bubble removes this filter.
 
 You can also filter by other criteria than time. Click the “Filter” button at the top
 right.
 
 A side bar opens to show the available options. Choose “Tool Path”, then select one or
-more of the listed tool paths and click “Add filter” at the bottom of the side bar. The
-view will update to show only assessments started with the chosen tools. A bubble is
-shown in the top left that describes the filter (“Tool Path is ...”). Click the “x” on
-the bubble to remove the filter. The view updates again to show the unfiltered data.
+more of the listed tools and click “Add filter” at the bottom of the side bar. The view
+will update to show only assessments started with the chosen tools. A bubble is shown in
+the top left that describes the filter (“Tool Path is ...”). Click the “x” on the bubble
+to remove the filter. The view updates again to show the unfiltered data.
 
 **Important:** There currently is a known issue in the statistics software that causes
 certain questions to lose some configuration when using the filter side bar. The result
 will likely not make sense. When in doubt return to the original question and click the
 “Show editor” icon at the top right (next to the “Filter” and “Summarize” buttons). If
 there are two blocks with the heading “Summarize” then this question is affected by the
-described issue and you can't use the filter side bar. The developers are working on
-resolving this issue but for the moment there is no solution available.
+described issue and you can't use the filter side bar. The metabase developers are
+working on resolving this issue but for the moment there is no solution available.
 
 ## Terminology
 
@@ -136,7 +136,7 @@ resolving this issue but for the moment there is no solution available.
     questions and other statistics items. Normally each country is represented by one
     collection.
 -   **Converted User / Converted Account** - A user who started as a guest and
-    subsequently registered an account from within a guest assessment.
+    subsequently registered an account from within a guest assessment / test session.
 -   **Dashboard** - Dashboards allow viewing a set of questions together. Each question
     is displayed as a card on the dashboard.
 -   **Guest Assessment** - An assessment started as a guest user.
