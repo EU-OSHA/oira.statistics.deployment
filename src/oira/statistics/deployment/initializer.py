@@ -275,7 +275,9 @@ class MetabaseInitializer(object):
             "dashboard", "-> Start here", extra_data=dashboard_data
         )
 
-        existing_cards = self.mb.get("/api/dashboard/1").json()["ordered_cards"]
+        existing_cards = self.mb.get("/api/dashboard/{}".format(dashboard_id)).json()[
+            "ordered_cards"
+        ]
         if len(existing_cards) > 0:
             card_id = existing_cards[0]["id"]
         else:
