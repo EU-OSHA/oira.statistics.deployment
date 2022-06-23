@@ -4,7 +4,9 @@ from .content import SectorCardFactory
 from .metabase import OiraMetabase_API
 from pkg_resources import resource_string
 from time import sleep
+
 import logging
+
 
 log = logging.getLogger(__name__)
 
@@ -648,7 +650,9 @@ class MetabaseInitializer(object):
             "tool/sector and by completion percentage).\n\n"
             "In order to see the tools that are accumulated under “others” in the "
             "cards that include tools information, you need to click on the table icon "
-            "at the bottom centre of the screen.".format(
+            "at the bottom centre of the screen.\n\n"
+            "![Switch between table and chart]"
+            "(/statistics/images/switch_table_graph.png)".format(
                 "the current country" if country is not None else "OiRA"
             )
         )
@@ -675,7 +679,9 @@ class MetabaseInitializer(object):
             "Compares tools in {} to each other using the metrics “started "
             "assessments” and “number of users who have used the tool”. "
             "In order to see the tools that are accumulated under “others” you can "
-            "click on the table icon at the bottom centre of the screen. \n\n"
+            "click on the table icon at the bottom centre of the screen.\n\n"
+            "![Switch between table and chart]"
+            "(/statistics/images/switch_table_graph.png)\n\n"
             "The *number of users by yearly average* is used as a rough measure of how "
             "popular a tool stays over time. Instead of taking the total number of "
             "users, the time a tool has been available is taken into account. "
