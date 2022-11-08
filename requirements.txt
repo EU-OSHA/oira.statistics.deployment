@@ -1,4 +1,4 @@
-setuptools==40.4.3
-zc.buildout==2.12.2
-genshi==0.7.3
+setuptools==46.0.0
+zc.buildout==2.13.3
+genshi==0.7.7
 requests
