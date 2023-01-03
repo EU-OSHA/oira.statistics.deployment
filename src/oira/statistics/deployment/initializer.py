@@ -966,6 +966,19 @@ class MetabaseInitializer(object):
             },
         )
 
+        card = card_factory.registered_users_per_country
+        card_id = self.create("card", card["name"], extra_data=card)
+        self.mb.post(
+            "/api/dashboard/{}/cards".format(overview_dashboard_countryid),
+            json={
+                "cardId": card_id,
+                "col": 0,
+                "row": 8,
+                "sizeX": 18,
+                "sizeY": 4,
+            },
+        )
+
     def set_up_ldap(self, countries, global_group_id):
         log.info("Setting up LDAP")
         group_mappings = {

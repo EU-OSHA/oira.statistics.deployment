@@ -812,6 +812,66 @@ class CardFactory(object):
                     "graph.metrics": ["count"],
                 },
             },
+            "registered_users_per_country": {
+                "name": "Registered Users per Country",
+                "display": "bar",
+                "query_type": "query",
+                "dataset_query": {
+                    "database": self.database_id,
+                    "query": {
+                        "source-table": self.tables["assessment"]["id"],
+                        "aggregation": [
+                            [
+                                "distinct",
+                                [
+                                    "field-id",
+                                    self.tables["assessment"]["fields"].get(
+                                        "account_id", ""
+                                    ),
+                                ],
+                            ]
+                        ],
+                        "breakout": [
+                            [
+                                "field-id",
+                                self.tables["assessment"]["fields"].get("country", ""),
+                            ]
+                        ],
+                    },
+                    "type": "query",
+                },
+                "result_metadata": [
+                    {
+                        "description": None,
+                        "semantic_type": "type/Country",
+                        "coercion_strategy": None,
+                        "name": "country",
+                        "settings": None,
+                        "field_ref": ["field", 41, None],
+                        "effective_type": "type/Text",
+                        "id": 41,
+                        "display_name": "Country",
+                        "base_type": "type/Text",
+                    },
+                    {
+                        "display_name": "Distinct values of Account ID",
+                        "semantic_type": "type/Quantity",
+                        "settings": None,
+                        "field_ref": ["aggregation", 0],
+                        "name": "count",
+                        "base_type": "type/BigInteger",
+                        "effective_type": "type/BigInteger",
+                    },
+                ],
+                "visualization_settings": {
+                    "graph.y_axis.title_text": "Registered Users",
+                    "graph.dimensions": ["country"],
+                    "series_settings": {
+                        "count": {"title": "Number of Registered Users"}
+                    },
+                    "graph.metrics": ["count"],
+                },
+            },
             "top_tools_by_number_of_assessments": {
                 "name": "Top Tools by Number of Assessments",
                 "display": "row",
