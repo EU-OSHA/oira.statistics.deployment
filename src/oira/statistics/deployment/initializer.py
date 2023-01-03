@@ -1,12 +1,11 @@
-from . import config
-from .content import CardFactory
-from .content import SectorCardFactory
-from .metabase import OiraMetabase_API
-from pkg_resources import resource_string
+import logging
 from time import sleep
 
-import logging
+from pkg_resources import resource_string
 
+from . import config
+from .content import CardFactory, SectorCardFactory
+from .metabase import OiraMetabase_API
 
 log = logging.getLogger(__name__)
 
