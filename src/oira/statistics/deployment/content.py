@@ -837,6 +837,17 @@ class CardFactory(object):
                                 self.tables["assessment"]["fields"].get("country", ""),
                             ]
                         ],
+                        "filter": [
+                            "=",
+                            [
+                                "field-id",
+                                self.tables["assessment"]["fields"].get(
+                                    "account_type", ""
+                                ),
+                            ],
+                            "converted",
+                            "full",
+                        ],
                     },
                     "type": "query",
                 },
