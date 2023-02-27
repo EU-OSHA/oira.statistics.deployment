@@ -16,6 +16,7 @@ class MetabaseInitializer(object):
 
     def __init__(self, args):
         self.args = args
+        self.engine = args.database_engine
         api_url = "http://{args.metabase_host}:{args.metabase_port}".format(args=args)
         self.mb = OiraMetabase_API(api_url, args.metabase_user, args.metabase_password)
         self._existing_items = None
@@ -32,7 +33,7 @@ class MetabaseInitializer(object):
         global_group_id = self.set_up_global_group()
 
         if self.args.global_statistics:
-            global_database_id = self.set_up_database()
+            global_database_id = self.set_up_database(engine=self.engine)
             global_collection_id = self.set_up_global_collection()
             self.set_up_account(
                 database_id=global_database_id, collection_id=global_collection_id
@@ -66,7 +67,7 @@ class MetabaseInitializer(object):
                 countries[country]["group"] = self.set_up_country_group(country)
                 if not self.args.global_statistics:
                     countries[country]["database"] = self.set_up_database(
-                        country=country
+                        country=country, engine=self.engine
                     )
                     countries[country]["collection"] = self.set_up_country_collection(
                         country
@@ -167,7 +168,7 @@ class MetabaseInitializer(object):
 
         log.info("Done initializing metabase instance")
 
-    def set_up_database(self, country=None):
+    def set_up_database(self, country=None, engine="postgres"):
         if country is None:
             db_name = "statistics_global"
         else:
@@ -176,7 +177,7 @@ class MetabaseInitializer(object):
             )
         db_data = {
             "name": db_name,
-            "engine": "postgres",
+            "engine": engine,
             "details": {
                 "dbname": db_name,
                 "host": self.args.database_host,
@@ -191,7 +192,7 @@ class MetabaseInitializer(object):
         while not [
             entry["msg"]
             for entry in self.mb.get("/api/util/logs").json()
-            if "FINISHED: Sync postgres Database {} '{}'".format(db_id, db_name)
+            if "FINISHED: Sync {} Database {} '{}'".format(engine, db_id, db_name)
             in entry["msg"]
         ]:
             log.info("Waiting for database sync to finish...")

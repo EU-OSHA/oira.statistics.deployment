@@ -11,6 +11,7 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     --metabase-port='${parts[instance]['metabase-port']}' \\
     --metabase-user='${parts[instance]['metabase-user']}' \\
     --metabase-password='${escape(parts[instance]['metabase-password'])}' \\
+    --database-engine='${parts[instance]['database-engine']}' \\
     --database-name='${parts[instance]['database-name']}' \\
     --database-host='${parts[instance]['database-host']}' \\
     --database-port='${parts[instance]['database-port']}' \\

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from .initializer import MetabaseInitializer
 import argparse
 import json
 import logging
-import requests
 import sys
+
+import requests
+
+from .initializer import MetabaseInitializer
 
 log = logging.getLogger(__name__)
 
@@ -44,6 +46,13 @@ def get_metabase_args():
     )
     parser.add_argument(
         "--database-name", type=str, help=("Name of the internal metabase database")
+    )
+    parser.add_argument(
+        "--database-engine",
+        type=str,
+        required=False,
+        default="postgres",
+        help=("Database engine that the statistics database is running on"),
     )
     parser.add_argument(
         "--database-host",
