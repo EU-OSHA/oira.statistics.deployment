@@ -175,16 +175,24 @@ class MetabaseInitializer(object):
             db_name = self.args.database_pattern_statistics.format(
                 country=country.lower()
             )
+        details = {
+            "dbname": db_name,
+        }
+        if engine == "sqlite":
+            details["db"] = f"/home/oira/statistics/var/{db_name}.sqlite"
+        else:
+            details.update(
+                {
+                    "host": self.args.database_host,
+                    "port": self.args.database_port,
+                    "user": self.args.database_user,
+                    "password": self.args.database_password,
+                }
+            )
         db_data = {
             "name": db_name,
             "engine": engine,
-            "details": {
-                "dbname": db_name,
-                "host": self.args.database_host,
-                "port": self.args.database_port,
-                "user": self.args.database_user,
-                "password": self.args.database_password,
-            },
+            "details": details,
         }
         db_id = self.create("database", db_name, extra_data=db_data)
 
@@ -357,7 +365,7 @@ class MetabaseInitializer(object):
                         str(global_database_id): {"schemas": "all"},
                     }
                     for country_info in countries.values()
-                }
+                },
             )
         )
 
@@ -375,7 +383,7 @@ class MetabaseInitializer(object):
                         **{
                             str(sector["collection"]): "none"
                             for sector in sectors.values()
-                        }
+                        },
                     ),
                     str(global_group_id): dict(
                         {
@@ -384,7 +392,7 @@ class MetabaseInitializer(object):
                         **{
                             str(sector["collection"]): "read"
                             for sector in sectors.values()
-                        }
+                        },
                     ),
                 },
                 **{
@@ -399,10 +407,10 @@ class MetabaseInitializer(object):
                             }
                             if country_id == "eu"
                             else {}
-                        )
+                        ),
                     )
                     for country_id, country_info in countries.items()
-                }
+                },
             )
         )
 
@@ -435,10 +443,10 @@ class MetabaseInitializer(object):
                             str(country_other["database"]): {"schemas": "none"}
                             for country_other in countries.values()
                             if country_info["group"] != country_other["group"]
-                        }
+                        },
                     )
                     for country_info in countries.values()
-                }
+                },
             )
         )
         self.mb.put("/api/permissions/graph", json=permissions)
@@ -466,10 +474,10 @@ class MetabaseInitializer(object):
                             str(country_other["collection"]): "none"
                             for country_other in countries.values()
                             if country_info["group"] != country_other["group"]
-                        }
+                        },
                     )
                     for country_info in countries.values()
-                }
+                },
             )
         )
 
