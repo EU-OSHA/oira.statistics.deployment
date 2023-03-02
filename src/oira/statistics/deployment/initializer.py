@@ -613,6 +613,7 @@ class MetabaseInitializer(object):
             card_factory.user_conversions_per_month,
             card_factory.accumulated_registered_users_per_type,
             card_factory.accumulated_registered_users_over_time,
+            card_factory.newsletter_subscriptions,
         ]
         self.set_up_dashboard(
             dashboard_name="Users Dashboard",
