@@ -354,15 +354,15 @@ class MetabaseInitializer(object):
             dict(
                 {
                     str(all_users_id): {
-                        str(global_database_id): {"schemas": "none"},
+                        str(global_database_id): {"data": {"schemas": "none"}},
                     },
                     str(global_group_id): {
-                        str(global_database_id): {"schemas": "all"},
+                        str(global_database_id): {"data": {"schemas": "all"}},
                     },
                 },
                 **{
                     str(country_info["group"]): {
-                        str(global_database_id): {"schemas": "all"},
+                        str(global_database_id): {"data": {"schemas": "all"}},
                     }
                     for country_info in countries.values()
                 },
@@ -426,21 +426,23 @@ class MetabaseInitializer(object):
             dict(
                 {
                     str(all_users_id): {
-                        str(country_info["database"]): {"schemas": "none"}
+                        str(country_info["database"]): {"data": {"schemas": "none"}}
                         for country_info in countries.values()
                     },
                     str(global_group_id): {
-                        str(country_info["database"]): {"schemas": "all"}
+                        str(country_info["database"]): {"data": {"schemas": "all"}}
                         for country_info in countries.values()
                     },
                 },
                 **{
                     str(country_info["group"]): dict(
                         {
-                            str(country_info["database"]): {"schemas": "all"},
+                            str(country_info["database"]): {"data": {"schemas": "all"}},
                         },
                         **{
-                            str(country_other["database"]): {"schemas": "none"}
+                            str(country_other["database"]): {
+                                "data": {"schemas": "none"}
+                            }
                             for country_other in countries.values()
                             if country_info["group"] != country_other["group"]
                         },
