@@ -641,12 +641,10 @@ class MetabaseInitializer(object):
             assessments_card_factory.new_assessments_per_month,
             assessments_card_factory.completion_of_assessments,
             assessments_card_factory.accumulated_assessments_over_time,
-            assessments_card_factory.top_tools_by_number_of_assessments,
         ]
         if country is not None:
             cards.extend(
                 [
-                    assessments_card_factory.tools_by_accumulated_assessments,
                     assessments_card_factory.tools_by_assessment_completion,
                 ]
             )
