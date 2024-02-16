@@ -9,6 +9,7 @@ bin/pip:
 	./bin/python3 -m pip install --upgrade pip
 
 bin/buildout: bin/pip requirements.txt
+	./bin/pip uninstall -y setuptools
 	./bin/pip install -IUr requirements.txt
 
 secrets.cfg: secrets.cfg.gpg
