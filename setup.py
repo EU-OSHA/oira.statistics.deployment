@@ -1,5 +1,4 @@
-from setuptools import setup, find_packages
-import os
+from setuptools import find_packages, setup
 
 version = "1.0.0"
 
@@ -7,9 +6,7 @@ setup(
     name="oira.statistics.deployment",
     version=version,
     description="Deployment helpers for the statistics of the OSHA-OiRA site.",
-    long_description=open("README.md").read()
-    + "\n"
-    + open(os.path.join("CHANGES.txt")).read(),
+    long_description=open("README.md").read() + "\n" + open("CHANGES.txt").read(),
     long_description_content_type="text/markdown",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -27,6 +24,7 @@ setup(
     package_dir={"": "src"},
     namespace_packages=["oira", "oira.statistics"],
     include_package_data=True,
+    python_requires="~= 3.8",
     install_requires=["metabase-api", "setuptools"],
     entry_points="""
     [console_scripts]
