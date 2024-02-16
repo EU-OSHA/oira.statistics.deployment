@@ -105,6 +105,7 @@ sectors = {
         "eu/live-performance/ue-representaciones-en-vivo-producciones",
         "eu/live-performance/live-performance-oira-tool_venues",
         "eu/live-performance/live-performance-oira-tool_productions",
+        "is/live-performance/lifandi-flutningur-svidslistir",
     ],
     "Private security": [
         "es/seguretatprivada/seguridad-privada",
