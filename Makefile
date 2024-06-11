@@ -31,7 +31,7 @@ clean: .installed.cfg
 	./bin/clear-metabase
 
 restart:
-	./bin/supervisord || ( ./bin/supervisorctl reread && ./bin/supervisorctl restart all)
+	./bin/supervisord || ( ./bin/supervisorctl reload)
 
 wait:
 	./bin/wait-metabase
