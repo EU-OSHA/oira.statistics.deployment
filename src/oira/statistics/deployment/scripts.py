@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
+from . import model
+from .initializer import MetabaseInitializer
+from sqlalchemy import create_engine
+from sqlalchemy.exc import SQLAlchemyError
+
 import argparse
-import json
 import logging
+import requests
 import sys
 
-import requests
-
-from .initializer import MetabaseInitializer
 
 log = logging.getLogger(__name__)
 
@@ -194,11 +196,37 @@ def bootstrap_metabase_instance(args):
         log.warn("Bootstrap returned %r: %r!", result.status_code, result.text)
 
 
+def init_statistics_databases(args):
+    names = []
+    if args.global_statistics:
+        names.append("global")
+    if args.countries:
+        names.extend([country.strip() for country in args.countries.split(",")])
+
+    for country in names:
+        log.info("Initializing %s database", country)
+        database_name = args.database_pattern_statistics.format(country=country)
+        # metabase expects "postgres", sqlalchemy "postgresql"
+        database_engine = (
+            "postgresql" if args.database_engine == "postgres" else args.database_engine
+        )
+        database_url = (
+            f"{database_engine}://{args.database_user}:{args.database_password}@"
+            f"{args.database_host}:{args.database_port}/{database_name}"
+        )
+        engine = create_engine(database_url)
+        try:
+            model.Base.metadata.create_all(bind=engine, checkfirst=True)
+        except SQLAlchemyError as e:
+            log.warning(f"Could not set up {database_name}: {e}")
+
+
 def init_metabase_instance():
     logging.basicConfig(stream=sys.stderr, level=20)
     args = get_metabase_args()
 
     log.info("Initializing metabase instance")
+    init_statistics_databases(args)
     bootstrap_metabase_instance(args)
     initializer = MetabaseInitializer(args)
     initializer()
