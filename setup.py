@@ -28,6 +28,7 @@ setup(
     include_package_data=True,
     python_requires="~= 3.8",
     install_requires=[
+        "alembic",
         "metabase-api",
         "setuptools",
         "SQLAlchemy[postgresql] >=1.2.999999",

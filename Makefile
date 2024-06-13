@@ -1,6 +1,6 @@
 PSQL_USER = postgres
 
-.PHONY: all buildout clean create-databases init-metabase restart
+.PHONY: all buildout clean create-databases init-metabase restart upgrade wait
 
 all: init-metabase
 
@@ -32,6 +32,9 @@ clean: .installed.cfg
 
 restart:
 	./bin/supervisord || ( ./bin/supervisorctl reload)
+
+upgrade:
+	./bin/alembic -c ./etc/alembic.ini upgrade head
 
 wait:
 	./bin/wait-metabase
