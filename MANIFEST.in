@@ -1,0 +1,16 @@
+exclude *.gpg
+exclude .isort.cfg
+exclude Makefile
+prune keys
+prune templates
+prune src
+graft src/oira
+include *.txt
+include base.cfg
+include devel.cfg
+include picked-versions.cfg
+recursive-include src *.mako
+recursive-include src *.md
+recursive-include src *.py
+recursive-include src *.robot
+recursive-include static *.png
