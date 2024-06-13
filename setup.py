@@ -1,4 +1,6 @@
-from setuptools import find_packages, setup
+from setuptools import find_packages
+from setuptools import setup
+
 
 version = "1.0.0"
 
@@ -25,7 +27,12 @@ setup(
     namespace_packages=["oira", "oira.statistics"],
     include_package_data=True,
     python_requires="~= 3.8",
-    install_requires=["metabase-api", "setuptools"],
+    install_requires=[
+        "alembic",
+        "metabase-api",
+        "setuptools",
+        "SQLAlchemy[postgresql] >=1.2.999999",
+    ],
     entry_points="""
     [console_scripts]
     init-metabase-instance = oira.statistics.deployment.scripts:init_metabase_instance
