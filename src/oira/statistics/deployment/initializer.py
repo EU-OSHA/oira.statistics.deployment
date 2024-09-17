@@ -313,8 +313,8 @@ class MetabaseInitializer(object):
                 "text": intro_text,
             },
             "dashboard_id": dashboard_id,
-            "sizeX": 8,
-            "sizeY": 9,
+            "size_x": 8,
+            "size_y": 9,
             "col": 0,
             "row": 0,
         }
@@ -544,8 +544,8 @@ class MetabaseInitializer(object):
                     "text": description,
                 },
                 "dashboard_id": dashboard_id,
-                "sizeX": 4,
-                "sizeY": 4,
+                "size_x": 4,
+                "size_y": 4,
                 "col": col,
                 "row": row,
             }
@@ -570,8 +570,8 @@ class MetabaseInitializer(object):
             dashcard = {
                 "col": col,
                 "row": row,
-                "sizeX": width,
-                "sizeY": height,
+                "size_x": width,
+                "size_y": height,
             }
             cards_should.append(card_id)
             if card_id not in cards_is:
@@ -788,8 +788,8 @@ class MetabaseInitializer(object):
                     "cardId": cards["accumulated_assessments_over_time"]["id"],
                     "col": 4,
                     "row": 4,
-                    "sizeX": 8,
-                    "sizeY": 4,
+                    "size_x": 8,
+                    "size_y": 4,
                     "series": [
                         {
                             "id": cards["accumulated_number_of_users"]["id"],
@@ -850,8 +850,8 @@ class MetabaseInitializer(object):
                         "cardId": next_card["id"],
                         "col": 0,
                         "row": idx * 8,
-                        "sizeX": self._total_cols,
-                        "sizeY": 8,
+                        "size_x": self._total_cols,
+                        "size_y": 8,
                         "series": [],
                         "visualization_settings": {
                             "graph.dimensions": card_info["graph.dimensions"],
@@ -915,8 +915,8 @@ class MetabaseInitializer(object):
                     "cardId": card["id"],
                     "col": 0,
                     "row": 4,
-                    "sizeX": self._total_cols,
-                    "sizeY": 8,
+                    "size_x": self._total_cols,
+                    "size_y": 8,
                     "series": [],
                     "visualization_settings": {
                         "graph.dimensions": ["start_date"],
@@ -959,8 +959,8 @@ class MetabaseInitializer(object):
                 "cardId": card_id,
                 "col": 0,
                 "row": 0,
-                "sizeX": 18,
-                "sizeY": 4,
+                "size_x": 18,
+                "size_y": 4,
             },
         )
         card = card_factory.accumulated_assessments_per_country
@@ -971,8 +971,8 @@ class MetabaseInitializer(object):
                 "cardId": card_id,
                 "col": 0,
                 "row": 4,
-                "sizeX": 18,
-                "sizeY": 4,
+                "size_x": 18,
+                "size_y": 4,
             },
         )
 
@@ -984,8 +984,8 @@ class MetabaseInitializer(object):
                 "cardId": card_id,
                 "col": 0,
                 "row": 8,
-                "sizeX": 18,
-                "sizeY": 4,
+                "size_x": 18,
+                "size_y": 4,
             },
         )
 
