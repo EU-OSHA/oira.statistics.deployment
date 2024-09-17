@@ -1,17 +1,17 @@
-import logging
+from . import config
+from .content import CardFactory
+from .content import SectorCardFactory
+from .metabase import OiraMetabase_API
+from pkg_resources import resource_string
 from time import sleep
 
-from pkg_resources import resource_string
+import logging
 
-from . import config
-from .content import CardFactory, SectorCardFactory
-from .metabase import OiraMetabase_API
 
 log = logging.getLogger(__name__)
 
 
 class MetabaseInitializer(object):
-
     _total_cols = 16
 
     def __init__(self, args):

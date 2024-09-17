@@ -1,7 +1,9 @@
 from metabase_api import Metabase_API
+
 import json
 import logging
 import requests
+
 
 log = logging.getLogger(__name__)
 
