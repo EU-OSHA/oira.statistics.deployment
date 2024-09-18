@@ -6,6 +6,7 @@ from pkg_resources import resource_string
 from time import sleep
 
 import logging
+import os
 
 
 log = logging.getLogger(__name__)
@@ -179,7 +180,7 @@ class MetabaseInitializer(object):
             "dbname": db_name,
         }
         if engine == "sqlite":
-            details["db"] = f"/home/oira/statistics/var/{db_name}.sqlite"
+            details["db"] = os.path.join(self.args.database_path, f"{db_name}.sqlite")
         else:
             details.update(
                 {
