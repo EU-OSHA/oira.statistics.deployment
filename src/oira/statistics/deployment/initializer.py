@@ -720,7 +720,7 @@ class MetabaseInitializer(object):
             card_factory.number_of_survey_responses,
             card_factory.employees,
             card_factory.conductor,
-            card_factory.referer,
+            card_factory.referer if country != "fr" else card_factory.referer_france,
             card_factory.workers_participated,
             card_factory.needs_met,
             card_factory.recommend_tool,

@@ -1226,9 +1226,69 @@ class CardFactory(object):
                 "result_metadata": [
                     {
                         "base_type": "type/Text",
+                        "display_name": "Referer",
+                        "name": "referer",
+                        "special_type": "type/Category",
+                    },
+                    {
+                        "base_type": "type/BigInteger",
+                        "display_name": "Count",
+                        "name": "count",
+                        "special_type": "type/Quantity",
+                    },
+                ],
+                "visualization_settings": {
+                    "pie.slice_threshold": 0,
+                    "pie.colors": {
+                        "employers-organisation": "#88BF4D",
+                        "eu-institution": "#F2A86F",
+                        "null": "#74838f",
+                        "other": "#509EE3",
+                        "health-safety-experts": "#A989C5",
+                        "national-public-institution": "#EF8C8C",
+                    },
+                    "pie.show_legend": True,
+                },
+            },
+            "referer_france": {
+                "name": "Learned about OiRA",
+                "display": "pie",
+                "query_type": "query",
+                "dataset_query": {
+                    "type": "query",
+                    "query": {
+                        "source-table": self.tables["company"]["id"],
+                        "aggregation": [["count"]],
+                        "expressions": {
+                            "France referer": [
+                                "replace",
+                                [
+                                    "field",
+                                    self.tables["company"]["fields"]["referer"],
+                                    None,
+                                ],
+                                "trade-union",
+                                "social-security",
+                            ]
+                        },
+                        "breakout": [["expression", "France referer", None]],
+                    },
+                    "database": self.database_id,
+                },
+                "result_metadata": [
+                    {
+                        "base_type": "type/Text",
                         "display_name": "Refer Er",
                         "name": "referer",
                         "special_type": "type/Category",
+                    },
+                    {
+                        "display_name": "Referer",
+                        "field_ref": ["expression", "France referer"],
+                        "name": "France referer",
+                        "base_type": "type/Text",
+                        "effective_type": "type/Text",
+                        "semantic_type": None,
                     },
                     {
                         "base_type": "type/BigInteger",

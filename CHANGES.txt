@@ -4,7 +4,8 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Custom “Learned about OiRA” display for France
+  https://github.com/syslabcom/scrum/issues/2375
 
 
 1.0.0 (2024-06-13)
