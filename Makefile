@@ -4,20 +4,20 @@ PSQL_USER = postgres
 
 all: init-metabase
 
-bin/pip:
-	python3 -m venv . || virtualenv -p python3 --no-site-packages --no-setuptools . || virtualenv -p python3 --no-setuptools .
-	./bin/python3 -m pip install --upgrade pip
+.venv/bin/pip:
+	python3 -m venv .venv || virtualenv -p python3 --no-site-packages --no-setuptools .venv || virtualenv -p python3 --no-setuptools .venv
+	.venv/bin/python3 -m pip install --upgrade pip
 
-bin/buildout: bin/pip requirements.txt
-	./bin/pip uninstall -y setuptools
-	./bin/pip install -IUr requirements.txt
+.venv/bin/buildout: .venv/bin/pip requirements.txt
+	.venv/bin/pip uninstall -y setuptools
+	.venv/bin/pip install -IUr requirements.txt
 
 secrets.cfg: secrets.cfg.gpg
 	gpg -d ./secrets.cfg.gpg > secrets.cfg
 	chmod 600 secrets.cfg
 
-.installed.cfg: bin/buildout buildout.cfg base.cfg picked-versions.cfg secrets.cfg templates/*
-	./bin/buildout
+.installed.cfg: .venv/bin/buildout buildout.cfg base.cfg picked-versions.cfg secrets.cfg templates/*
+	.venv/bin/buildout
 
 buildout: .installed.cfg
 
