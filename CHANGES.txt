@@ -6,6 +6,8 @@ Changelog
 
 - Custom “Learned about OiRA” display for France
   https://github.com/syslabcom/scrum/issues/2375
+- New sector: Agriculture
+  https://github.com/syslabcom/scrum/issues/3312
 
 
 1.0.0 (2024-06-13)
