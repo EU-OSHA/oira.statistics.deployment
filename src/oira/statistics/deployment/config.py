@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 sectors = {
     "Agriculture": [
-        "/be/agriculture/agriculture",
-        "/be/landbouw/landbouw-1",
-        "/gr/georgia/georgia",
-        "/es/agricultura/agricultura-c",
-        "/es/agricultura/agricultura-e",
-        "/is/agriculture/agriculture",
-        "/pt/agricultura/agricultura",
-        "/lt/lt-test-sector/zemes-ukis",
-        "/lv/latvia-test/lauksaimnieciba",
-        "/eu/eu-agriculture/oira-agriculture",
+        "be/agriculture/agriculture",
+        "be/landbouw/landbouw-1",
+        "gr/georgia/georgia",
+        "es/agricultura/agricultura-c",
+        "es/agricultura/agricultura-e",
+        "is/agriculture/agriculture",
+        "pt/agricultura/agricultura",
+        "lt/lt-test-sector/zemes-ukis",
+        "lv/latvia-test/lauksaimnieciba",
+        "eu/eu-agriculture/oira-agriculture",
     ],
     "COVID": [
         "si/covid-19/covid-19",
