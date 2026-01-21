@@ -689,8 +689,9 @@ class MetabaseInitializer(object):
             "In order to see the tools that are accumulated under “others” you can "
             "click on the table icon at the bottom centre of the screen.\n\n"
             "![Switch between table and chart]"
-            "(/statistics/images/switch_table_graph.png)\n\n"
-            .format("the current country" if country is not None else "OiRA")
+            "(/statistics/images/switch_table_graph.png)\n\n".format(
+                "the current country" if country is not None else "OiRA"
+            )
         )
         self.set_up_dashboard(
             dashboard_name="Tools Dashboard",
