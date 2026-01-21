@@ -680,7 +680,6 @@ class MetabaseInitializer(object):
             self.mb, database_id, collection_id, country=country
         )
         cards = [
-            tools_card_factory.top_tools_by_number_of_users,
             tools_card_factory.number_of_users_and_assessments_by_tool,
         ]
         description = (
@@ -690,19 +689,9 @@ class MetabaseInitializer(object):
             "In order to see the tools that are accumulated under “others” you can "
             "click on the table icon at the bottom centre of the screen.\n\n"
             "![Switch between table and chart]"
-            "(/statistics/images/switch_table_graph.png)\n\n"
-            "The *number of users by yearly average* is used as a rough measure of how "
-            "popular a tool stays over time. Instead of taking the total number of "
-            "users, the time a tool has been available is taken into account. "
-            "This way a tool that was once popular but has fallen into disuse moves "
-            "down in the ranking as time passes. Please note that this can mean that a "
-            "tool with more total users can end up lower in the ranking than one with "
-            "fewer total users. The reason is that the number of years "
-            "is rounded up to the next whole number. E.g. a tool with 12 total "
-            "users that has been online for just over a year will be treated as having "
-            "run for two years and thus have 6 users per year, while a tool with 10 "
-            "total users that has been online for just under a year will have 10 users "
-            "per year.".format("the current country" if country is not None else "OiRA")
+            "(/statistics/images/switch_table_graph.png)\n\n".format(
+                "the current country" if country is not None else "OiRA"
+            )
         )
         self.set_up_dashboard(
             dashboard_name="Tools Dashboard",
