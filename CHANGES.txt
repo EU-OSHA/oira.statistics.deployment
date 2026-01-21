@@ -4,8 +4,11 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Removed trailing slashes from URIs
+  Refs. https://github.com/syslabcom/scrum/issues/4181
 
+- Removed obsolete chart
+  Refs. https://github.com/syslabcom/scrum/issues/4389
 
 1.1.1 (2025-12-09)
 ------------------
