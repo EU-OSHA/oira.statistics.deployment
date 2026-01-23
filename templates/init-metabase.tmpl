@@ -14,6 +14,9 @@ ${parts.buildout['bin-directory']}/init-metabase-instance \\
     {% if parts[instance].get('database-engine') %} \\
     --database-engine='${parts[instance]['database-engine']}' \\
     {% end %} \\
+    {% if parts[instance].get('database-path') %} \\
+    --database-path='${parts[instance]['database-path']}' \\
+    {% end %} \\
     --database-name='${parts[instance]['database-name']}' \\
     --database-host='${parts[instance]['database-host']}' \\
     --database-port='${parts[instance]['database-port']}' \\

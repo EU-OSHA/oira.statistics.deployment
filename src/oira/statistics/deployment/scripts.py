@@ -6,6 +6,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 import argparse
 import logging
+import os
 import requests
 import sys
 
@@ -81,6 +82,13 @@ def get_metabase_args():
         type=str,
         required=True,
         help=("Password for connecting to the postgresql server"),
+    )
+    parser.add_argument(
+        "--database-path",
+        type=str,
+        required=False,
+        default="/home/oira/statistics",
+        help=("Path to the statisitics databases (sqlite)"),
     )
     parser.add_argument(
         "--database-name-statistics",
@@ -210,10 +218,15 @@ def init_statistics_databases(args):
         database_engine = (
             "postgresql" if args.database_engine == "postgres" else args.database_engine
         )
-        database_url = (
-            f"{database_engine}://{args.database_user}:{args.database_password}@"
-            f"{args.database_host}:{args.database_port}/{database_name}"
-        )
+        if database_engine != "sqlite":
+            database_url = (
+                f"{database_engine}://{args.database_user}:{args.database_password}@"
+                f"{args.database_host}:{args.database_port}/{database_name}"
+            )
+        else:
+            db_path = os.path.join(args.database_path, f"{database_name}.sqlite")
+            database_url = f"{database_engine}://{db_path}"
+
         engine = create_engine(database_url)
         try:
             model.Base.metadata.create_all(bind=engine, checkfirst=True)
