@@ -5,7 +5,7 @@ PSQL_USER = postgres
 all: init-metabase
 
 .venv/bin/pip:
-	python3 -m venv .venv || virtualenv -p python3 --no-site-packages --no-setuptools .venv || virtualenv -p python3 --no-setuptools .venv
+	pipx run uv venv .venv --seed -p 3.13 || python3 -m venv .venv || virtualenv -p python3 --no-site-packages --no-setuptools .venv || virtualenv -p python3 --no-setuptools .venv
 	.venv/bin/python3 -m pip install --upgrade pip
 
 .venv/bin/buildout: .venv/bin/pip requirements.txt
