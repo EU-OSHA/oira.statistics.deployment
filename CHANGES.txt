@@ -4,7 +4,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Update for Python 3.13
+  Refs. https://github.com/syslabcom/scrum/issues/4800
 
 
 1.1.2 (2026-01-21)
